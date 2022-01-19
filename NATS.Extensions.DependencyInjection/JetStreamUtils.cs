@@ -138,12 +138,12 @@
         // PUBLISH
         // ----------------------------------------------------------------------------------------------------
         public static void Publish(IConnection c, string subject, int count) =>
-            Publish(c.CreateJetStreamContext(), subject, "data", count, false);
+            Publish(c.CreateJetStreamContext(), subject, "data", count);
 
         public static void Publish(IJetStream js, string subject, int count) =>
-            Publish(js, subject, "data", count, false);
+            Publish(js, subject, "data", count);
 
-        public static void Publish(IJetStream js, string subject, string prefix, int count, bool verbose = true)
+        public static void Publish(IJetStream js, string subject, string prefix, int count)
         {
             for (int x = 1; x <= count; x++)
             {
@@ -174,7 +174,7 @@
         // ----------------------------------------------------------------------------------------------------
         // READ MESSAGES
         // ----------------------------------------------------------------------------------------------------
-        public static IList<Msg> ReadMessagesAck(ISyncSubscription sub, bool verbose = true, int timeout = 1000)
+        public static IList<Msg> ReadMessagesAck(ISyncSubscription sub, int timeout = 1000)
         {
             IList<Msg> messages = new List<Msg>();
             bool keepGoing = true;

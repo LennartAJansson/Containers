@@ -3,14 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkloadsApi", "WorkloadsApi\WorkloadsApi.csproj", "{4520B340-8D80-4E8E-9270-F8165073E4E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsApi", "WorkloadsApi\WorkloadsApi.csproj", "{4520B340-8D80-4E8E-9270-F8165073E4E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkloadsProjector", "WorkloadsProjector\WorkloadsProjector.csproj", "{BF6396A0-75D7-47F2-BDD4-28E0FD71C196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsProjector", "WorkloadsProjector\WorkloadsProjector.csproj", "{BF6396A0-75D7-47F2-BDD4-28E0FD71C196}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NATS.Extensions.DependencyInjection", "NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj", "{B348380D-A697-4123-B141-20B11C466F3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NATS.Extensions.DependencyInjection", "NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj", "{B348380D-A697-4123-B141-20B11C466F3E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Various docs", "6. Various docs", "{72BF22B4-6E32-4CC6-812A-C123E9406C20}"
 	ProjectSection(SolutionItems) = preProject
+		Links.md = Links.md
 		Nats.md = Nats.md
 		Readme.md = Readme.md
 	EndProjectSection
@@ -19,12 +20,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Kubernetes", "4. Kuberne
 	ProjectSection(SolutionItems) = preProject
 		AddKubernetesToDocker.ps1 = AddKubernetesToDocker.ps1
 		AddNatsToKubernetes.ps1 = AddNatsToKubernetes.ps1
+		build.ps1 = build.ps1
+		deploy.ps1 = deploy.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Docker", "3. Docker", "{C2EDF5C0-618A-4589-9464-E33170F71CA3}"
 	ProjectSection(SolutionItems) = preProject
 		AddNatsToDocker.ps1 = AddNatsToDocker.ps1
+		AddToApiForDocker.md = AddToApiForDocker.md
 		AddToDockerCompose.md = AddToDockerCompose.md
+		AddToProjectorForDocker.md = AddToProjectorForDocker.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Base", "2. Base", "{8029553E-4C8D-4199-9B85-A26C16CB21DC}"

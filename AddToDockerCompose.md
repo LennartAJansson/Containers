@@ -1,21 +1,7 @@
 Docker-Compose.yml:
 -------------------
 ```
-version: '3.4'
-
 services:
-  workloadsapi:
-    image: ${DOCKER_REGISTRY-}workloadsapi
-    build:
-      context: .
-      dockerfile: WorkloadsApi/Dockerfile
-
-  workloadsprojector:
-    image: ${DOCKER_REGISTRY-}workloadsprojector
-    build:
-      context: .
-      dockerfile: WorkloadsProjector/Dockerfile
-
   nats:
     container_name: nats
     image: nats:latest
@@ -24,29 +10,27 @@ services:
 Docker-Compose.override.yml:
 ----------------------------
 ```
-version: '3.4'
-
 services:
   workloadsapi:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-    ports:
-      - "80"
-      - "443"
+      - NATS__Servers__0=nats://nats:4222
+      - NATS__Url=nats://nats:4222
     volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - C:/Data/Docker:/data/persisted/workloadsapi:rw
 
   workloadsprojector:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - NATS__Servers__0=nats://nats:4222
+      - NATS__Url=nats://nats:4222
     ports:
       - "80"
       - "443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - C:/Data/Docker:/data/persisted/workloadsapi:rw
 
   nats:
     ports:

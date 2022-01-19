@@ -10,4 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj" />
+  </ItemGroup>
 </Project>
