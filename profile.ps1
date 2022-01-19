@@ -9,7 +9,7 @@ function GoToFolder{
     Get-ChildItem -Force
 }
 function reposfunc{
-    GoToFolder("D:\ReposAuto\Sogeti")
+    GoToFolder("D:\ReposAuto")
 }
 Set-Alias repos reposfunc
 
