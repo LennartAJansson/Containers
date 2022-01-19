@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkloadsApi", "WorkloadsApi\WorkloadsApi.csproj", "{4520B340-8D80-4E8E-9270-F8165073E4E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkloadsProjector", "WorkloadsProjector\WorkloadsProjector.csproj", "{BF6396A0-75D7-47F2-BDD4-28E0FD71C196}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NATS.Extensions.DependencyInjection", "NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj", "{B348380D-A697-4123-B141-20B11C466F3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Various docs", "6. Various docs", "{72BF22B4-6E32-4CC6-812A-C123E9406C20}"
+	ProjectSection(SolutionItems) = preProject
+		Nats.md = Nats.md
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Kubernetes", "4. Kubernetes", "{159C70B8-FA38-4D5A-A966-04D7AA45DA2E}"
+	ProjectSection(SolutionItems) = preProject
+		AddKubernetesToDocker.ps1 = AddKubernetesToDocker.ps1
+		AddNatsToKubernetes.ps1 = AddNatsToKubernetes.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Docker", "3. Docker", "{C2EDF5C0-618A-4589-9464-E33170F71CA3}"
+	ProjectSection(SolutionItems) = preProject
+		AddNatsToDocker.ps1 = AddNatsToDocker.ps1
+		AddToDockerCompose.md = AddToDockerCompose.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Base", "2. Base", "{8029553E-4C8D-4199-9B85-A26C16CB21DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{58195862-762D-493A-961D-1291BE9DD2A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nats", "nats", "{47EA1589-D8BD-4894-8131-4E9D27029E70}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\nats\configmap.yaml = deploy\nats\configmap.yaml
+		deploy\nats\ingress.yaml = deploy\nats\ingress.yaml
+		deploy\nats\kustomization.yaml = deploy\nats\kustomization.yaml
+		deploy\nats\namespace.yaml = deploy\nats\namespace.yaml
+		deploy\nats\nats.conf = deploy\nats\nats.conf
+		deploy\nats\service.yaml = deploy\nats\service.yaml
+		deploy\nats\statefulset.yaml = deploy\nats\statefulset.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Initial", "1. Initial", "{1A541D86-B533-438C-AFD3-7407123D3E7B}"
+	ProjectSection(SolutionItems) = preProject
+		ContainerTools.ps1 = ContainerTools.ps1
+		profile.ps1 = profile.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Prometheus, Grafana", "5. Prometheus, Grafana", "{B6CD6348-74D7-47B3-BE3A-E251238F1DB5}"
+	ProjectSection(SolutionItems) = preProject
+		AddMonitoring.ps1 = AddMonitoring.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana", "grafana", "{50784FDE-A68B-4370-8E0A-6570451CDD43}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\grafana\configmap.yaml = deploy\grafana\configmap.yaml
+		deploy\grafana\deployment.yaml = deploy\grafana\deployment.yaml
+		deploy\grafana\ingress.yaml = deploy\grafana\ingress.yaml
+		deploy\grafana\kustomization.yaml = deploy\grafana\kustomization.yaml
+		deploy\grafana\namespace.yaml = deploy\grafana\namespace.yaml
+		deploy\grafana\service.yaml = deploy\grafana\service.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", "{4F223D75-E9ED-45AD-AECB-C55195AAC448}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\prometheus\clusterrole.yaml = deploy\prometheus\clusterrole.yaml
+		deploy\prometheus\configmap.yaml = deploy\prometheus\configmap.yaml
+		deploy\prometheus\deployment.yaml = deploy\prometheus\deployment.yaml
+		deploy\prometheus\ingress.yaml = deploy\prometheus\ingress.yaml
+		deploy\prometheus\kustomization.yaml = deploy\prometheus\kustomization.yaml
+		deploy\prometheus\namespace.yaml = deploy\prometheus\namespace.yaml
+		deploy\prometheus\service.yaml = deploy\prometheus\service.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E3F3872D-C89B-4305-91A3-6ABAF09482E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4520B340-8D80-4E8E-9270-F8165073E4E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4520B340-8D80-4E8E-9270-F8165073E4E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4520B340-8D80-4E8E-9270-F8165073E4E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4520B340-8D80-4E8E-9270-F8165073E4E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6396A0-75D7-47F2-BDD4-28E0FD71C196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6396A0-75D7-47F2-BDD4-28E0FD71C196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6396A0-75D7-47F2-BDD4-28E0FD71C196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6396A0-75D7-47F2-BDD4-28E0FD71C196}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B348380D-A697-4123-B141-20B11C466F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B348380D-A697-4123-B141-20B11C466F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B348380D-A697-4123-B141-20B11C466F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B348380D-A697-4123-B141-20B11C466F3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4520B340-8D80-4E8E-9270-F8165073E4E0} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
+		{BF6396A0-75D7-47F2-BDD4-28E0FD71C196} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
+		{B348380D-A697-4123-B141-20B11C466F3E} = {C2EDF5C0-618A-4589-9464-E33170F71CA3}
+		{58195862-762D-493A-961D-1291BE9DD2A9} = {159C70B8-FA38-4D5A-A966-04D7AA45DA2E}
+		{47EA1589-D8BD-4894-8131-4E9D27029E70} = {58195862-762D-493A-961D-1291BE9DD2A9}
+		{50784FDE-A68B-4370-8E0A-6570451CDD43} = {E3F3872D-C89B-4305-91A3-6ABAF09482E1}
+		{4F223D75-E9ED-45AD-AECB-C55195AAC448} = {E3F3872D-C89B-4305-91A3-6ABAF09482E1}
+		{E3F3872D-C89B-4305-91A3-6ABAF09482E1} = {B6CD6348-74D7-47B3-BE3A-E251238F1DB5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
+	EndGlobalSection
+EndGlobal

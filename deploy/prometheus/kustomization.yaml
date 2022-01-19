@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+#https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+
+namespace: monitoring
+
+bases:
+  - ../common
+
+resources:
+  - namespace.yaml
+  - clusterrole.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
