@@ -81,6 +81,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E3F3872D-C89B-4305-91A3-6ABAF09482E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workloadsapi", "workloadsapi", "{D428CE4C-2DA8-47F2-BEB7-9D77E865B70D}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsapi\deployment.yaml = deploy\workloadsapi\deployment.yaml
+		deploy\workloadsapi\ingress.yaml = deploy\workloadsapi\ingress.yaml
+		deploy\workloadsapi\kustomization.yaml = deploy\workloadsapi\kustomization.yaml
+		deploy\workloadsapi\namespace.yaml = deploy\workloadsapi\namespace.yaml
+		deploy\workloadsapi\service.yaml = deploy\workloadsapi\service.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,6 +121,7 @@ Global
 		{50784FDE-A68B-4370-8E0A-6570451CDD43} = {E3F3872D-C89B-4305-91A3-6ABAF09482E1}
 		{4F223D75-E9ED-45AD-AECB-C55195AAC448} = {E3F3872D-C89B-4305-91A3-6ABAF09482E1}
 		{E3F3872D-C89B-4305-91A3-6ABAF09482E1} = {B6CD6348-74D7-47B3-BE3A-E251238F1DB5}
+		{D428CE4C-2DA8-47F2-BEB7-9D77E865B70D} = {58195862-762D-493A-961D-1291BE9DD2A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
