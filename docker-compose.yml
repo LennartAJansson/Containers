@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  workloadsprojector:
+    container_name: workloadsprojector
+    image: ${DOCKER_REGISTRY-}workloadsprojector
+    build:
+      context: .
+      dockerfile: WorkloadsProjector/Dockerfile
+
+  workloadsapi:
+    container_name: workloadsapi
+    image: ${DOCKER_REGISTRY-}workloadsapi
+    build:
+      context: .
+      dockerfile: WorkloadsApi/Dockerfile
+
+  nats:
+    container_name: nats
+    image: nats:latest
+    command: -js -m 8222

@@ -115,6 +115,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{F9EA42
 		deploy\common\kustomization.yaml = deploy\common\kustomization.yaml
 	EndProjectSection
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0A33DEC3-A505-414B-9997-19EB98E35C4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{B348380D-A697-4123-B141-20B11C466F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B348380D-A697-4123-B141-20B11C466F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B348380D-A697-4123-B141-20B11C466F3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A33DEC3-A505-414B-9997-19EB98E35C4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A33DEC3-A505-414B-9997-19EB98E35C4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A33DEC3-A505-414B-9997-19EB98E35C4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A33DEC3-A505-414B-9997-19EB98E35C4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

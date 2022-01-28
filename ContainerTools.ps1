@@ -26,3 +26,9 @@ choco install -force kubernetes-cli
 choco install -force kubernetes-helm
 choco install -force kustomize
 choco install -force k9s
+
+openshift Redhat Kubernetes
+k8s fullscale kubernetes server
+k3s minimal k8s
+k3d docker hosting of k3s
+k9s tool to work against all kubernets variants
