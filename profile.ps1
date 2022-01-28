@@ -2,7 +2,7 @@
 
 # Alias for nats cli tool
 # Downloaded from https://github.com/nats-io/natscli/releases/
-Set-Alias nats "c:\apps\natsjetstream\nats.exe
+Set-Alias nats "c:\apps\natsjetstream\nats.exe"
 
 function GoToFolder{
     Set-Location $args

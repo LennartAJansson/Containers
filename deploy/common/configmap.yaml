@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workloads-configmap
+data:
+# Put environment variables here that everyone should have
+  NATS_URL: nats://nats-0.nats.nats.svc:4222
