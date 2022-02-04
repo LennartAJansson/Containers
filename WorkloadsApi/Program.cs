@@ -5,7 +5,7 @@ using WorkloadsApi.Mediators;
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddMediators();
+builder.Services.AddApiMediators();
 
 builder.Services.Configure<NatsProducer>(options => builder.Configuration.GetSection("NATS").Bind(options));
 NatsProducer natsProducer = builder.Configuration.GetSection("NATS").Get<NatsProducer>();

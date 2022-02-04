@@ -8,7 +8,7 @@
 
     public static class MediatorExtensions
     {
-        public static IServiceCollection AddMediators(this IServiceCollection services)
+        public static IServiceCollection AddApiMediators(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetAssembly(typeof(MediatorExtensions)) ?? throw new NullReferenceException());
 
