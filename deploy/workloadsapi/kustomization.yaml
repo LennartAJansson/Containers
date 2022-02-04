@@ -3,8 +3,8 @@ kind: Kustomization
 
 namespace: workloadsapi
 
-#bases:
-#  - ../common
+bases:
+  - ../common
 
 resources:
   - namespace.yaml

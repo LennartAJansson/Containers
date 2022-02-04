@@ -4,4 +4,5 @@ metadata:
   name: workloads-configmap
 data:
 # Put environment variables here that everyone should have
-  NATS_URL: nats://nats-0.nats.nats.svc:4222
+  NATS__Url: nats://nats.nats.svc:4222
+  NATS__Servers__0: nats://nats.nats.svc:4222

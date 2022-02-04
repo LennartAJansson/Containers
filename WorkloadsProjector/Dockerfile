@@ -6,6 +6,9 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["WorkloadsProjector/WorkloadsProjector.csproj", "WorkloadsProjector/"]
+COPY ["Workloads.Model/Workloads.Model.csproj", "Workloads.Model/"]
+COPY ["WorkloadsProjector.Mediators/WorkloadsProjector.Mediators.csproj", "WorkloadsProjector.Mediators/"]
+COPY ["Workloads.Contract/Workloads.Contract.csproj", "Workloads.Contract/"]
 COPY ["NATS.Extensions.DependencyInjection/NATS.Extensions.DependencyInjection.csproj", "NATS.Extensions.DependencyInjection/"]
 RUN dotnet restore "WorkloadsProjector/WorkloadsProjector.csproj"
 COPY . .

@@ -125,7 +125,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workloads.Contract", "Workl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsApi.Mediators", "WorkloadsApi.Mediators\WorkloadsApi.Mediators.csproj", "{A4DEA09C-C01C-4095-999A-0F216D26F9EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkloadsProjector.Mediators", "WorkloadsProjector.Mediators\WorkloadsProjector.Mediators.csproj", "{161116A8-25AB-4E40-984D-85732A0C049B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkloadsProjector.Mediators", "..\WorkloadsProjector.Mediators\WorkloadsProjector.Mediators.csproj", "{161116A8-25AB-4E40-984D-85732A0C049B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

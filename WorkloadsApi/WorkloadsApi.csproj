@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Workloads.Contract\Workloads.Contract.csproj" />
+    <ProjectReference Include="..\WorkloadsApi.Mediators\WorkloadsApi.Mediators.csproj" />
     <ProjectReference Include="..\NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj" />
   </ItemGroup>
 </Project>

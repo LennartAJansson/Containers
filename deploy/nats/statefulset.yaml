@@ -65,9 +65,11 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: CLUSTER_ADVERTISE
-          value: $(POD_NAME).nats.$(POD_NAMESPACE).svc
+          value: nats.$(POD_NAMESPACE).svc
+          #value: $(POD_NAME).nats.$(POD_NAMESPACE).svc
         - name: NATS_URL
-          value: $(POD_NAME).nats.$(POD_NAMESPACE).svc:4222
+          value: nats.$(POD_NAMESPACE).svc:4222
+          #value: $(POD_NAME).nats.$(POD_NAMESPACE).svc:4222
         volumeMounts:
           - name: config-volume
             mountPath: /etc/nats-config
