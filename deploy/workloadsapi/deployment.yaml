@@ -65,12 +65,12 @@ spec:
           name: http
         - containerPort: 443
           name: https
-#        livenessProbe:
-#          httpGet:
-#            path: /healthy
-#            port: http
-#          initialDelaySeconds: 10
-#          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /healthy
+            port: http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
         resources:
           requests:
             memory: "32Mi"

@@ -22,5 +22,4 @@
             return Task.FromResult(new CommandPersonResponse(1, $"{request}"));
         }
     }
-
 }

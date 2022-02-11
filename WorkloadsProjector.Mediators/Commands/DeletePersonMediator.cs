@@ -21,5 +21,4 @@
             return Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request.ToString()}"));
         }
     }
-
 }

@@ -8,7 +8,6 @@
     using Microsoft.Extensions.Logging;
 
     using Workloads.Contract;
-
     public class UpdatePersonMediator : IRequestHandler<CommandUpdatePerson, CommandPersonResponse>
     {
         private readonly ILogger<UpdatePersonMediator> logger;
@@ -22,5 +21,4 @@
             return Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request.ToString()}"));
         }
     }
-
 }

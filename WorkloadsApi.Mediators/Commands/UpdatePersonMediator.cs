@@ -34,5 +34,4 @@
         public Task<CommandPersonResponse> Handle(CommandUpdatePerson request, CancellationToken cancellationToken) =>
             Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request.ToString()}"));
     }
-
 }

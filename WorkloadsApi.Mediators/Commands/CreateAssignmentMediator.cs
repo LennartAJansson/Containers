@@ -18,14 +18,14 @@
 
     using Workloads.Contract;
 
-    public class CreatePersonMediator : IRequestHandler<CommandCreatePerson, CommandPersonResponse>
+    public class CreateAssignmentMediator : IRequestHandler<CommandCreateAssignment, CommandAssignmentResponse>
     {
-        private readonly ILogger<CreatePersonMediator> logger;
+        private readonly ILogger<CreateAssignmentMediator> logger;
         private readonly IConnection connection;
         private readonly NatsProducer natsProducer;
         private readonly IJetStream? jetStream = null;
 
-        public CreatePersonMediator(ILogger<CreatePersonMediator> logger, IConnection connection, IOptions<NatsProducer> options)
+        public CreateAssignmentMediator(ILogger<CreateAssignmentMediator> logger, IConnection connection, IOptions<NatsProducer> options)
         {
             this.logger = logger;
             connection = connection;
@@ -35,7 +35,7 @@
             jetStream = connection.CreateJetStreamContext();
         }
 
-        public async Task<CommandPersonResponse> Handle(CommandCreatePerson request, CancellationToken cancellationToken)
+        public async Task<CommandAssignmentResponse> Handle(CommandCreateAssignment request, CancellationToken cancellationToken)
         {
             CloudEvent evt = new CloudEvent()
             {
@@ -46,7 +46,7 @@
                 Source = new Uri(GetType().FullName),
                 Subject = natsProducer.Subject
             };
-            //TODO Handle Correlation, make PersonId's to Guid and create them in advance
+            //TODO Handle Correlation, make AssignmentId's to Guid and create them in advance
             JsonSerializerOptions? options = new JsonSerializerOptions();
             options.Converters.Add(new CustomJsonConverterForType());
 
@@ -64,7 +64,8 @@
                 logger.LogInformation(responseText);
             }
 
-            return new CommandPersonResponse(1, responseText);
+            return new CommandAssignmentResponse(1, responseText);
         }
     }
+
 }

@@ -1,11 +1,16 @@
 using NATS.Extensions.DependencyInjection;
 
+using Prometheus;
+
+using WorkloadsApi.Health;
 using WorkloadsApi.Mediators;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApiMediators();
+
+builder.Services.AddHealthChecks().AddCheck<ApiHealthCheck>("Api Health Check").ForwardToPrometheus();
 
 builder.Services.Configure<NatsProducer>(options => builder.Configuration.GetSection("NATS").Bind(options));
 NatsProducer natsProducer = builder.Configuration.GetSection("NATS").Get<NatsProducer>();
@@ -34,6 +39,10 @@ WebApplication? app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 }
+
+app.UseHealthChecks("/healthy");
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 app.UseSwagger();
 app.UseSwaggerUI();

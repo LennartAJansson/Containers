@@ -14,14 +14,14 @@
 
     using Workloads.Contract;
 
-    public class DeletePersonMediator : IRequestHandler<CommandDeletePerson, CommandPersonResponse>
+    public class DeleteWorkloadMediator : IRequestHandler<CommandDeleteWorkload, CommandWorkloadResponse>
     {
-        private readonly ILogger<DeletePersonMediator> logger;
+        private readonly ILogger<DeleteWorkloadMediator> logger;
         private readonly IConnection connection;
         private readonly NatsProducer natsProducer;
         private readonly IJetStream? jetStream = null;
 
-        public DeletePersonMediator(ILogger<DeletePersonMediator> logger, IConnection connection, IOptions<NatsProducer> options)
+        public DeleteWorkloadMediator(ILogger<DeleteWorkloadMediator> logger, IConnection connection, IOptions<NatsProducer> options)
         {
             this.logger = logger;
             connection = connection;
@@ -30,7 +30,8 @@
             JetStreamUtils.CreateStreamOrUpdateSubjects(connection, natsProducer.Stream, natsProducer.Subject);
             jetStream = connection.CreateJetStreamContext();
         }
-        public Task<CommandPersonResponse> Handle(CommandDeletePerson request, CancellationToken cancellationToken) =>
-            Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request.ToString()}"));
+
+        public Task<CommandWorkloadResponse> Handle(CommandDeleteWorkload request, CancellationToken cancellationToken) =>
+            Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request.ToString()}"));
     }
 }
