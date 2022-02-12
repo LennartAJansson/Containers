@@ -1,5 +1,7 @@
 apiVersion: v1
 kind: Service
+#This will make nats available on nats.nats.svc
+#according to namespace.svcname.svc
 metadata:
   name: nats
   labels:
