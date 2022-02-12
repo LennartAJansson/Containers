@@ -4,27 +4,26 @@
     using System.Text;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
 
-    public class HttpHealthcheck : BackgroundService
+    public class HttpHealthcheckListener : BackgroundService
     {
         private readonly ILogger<Worker> logger;
         private readonly HttpListener httpListener;
-        //private readonly IConfiguration configuration;
+        private readonly HealthConfiguration healthConfiguration;
 
 
-        public HttpHealthcheck(ILogger<Worker> logger/*, IConfiguration configuration*/)
+        public HttpHealthcheckListener(ILogger<Worker> logger, IOptions<HealthConfiguration> options)
         {
             this.logger = logger;
-            //this.configuration = configuration;
+            healthConfiguration = options.Value;
             httpListener = new HttpListener();
         }
 
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
-            httpListener.Prefixes.Add($"http://*:5001/healthz/live/");
-            httpListener.Prefixes.Add($"http://*:5001/healthz/ready/");
+            httpListener.Prefixes.Add(healthConfiguration.ProbeUrl);
 
             httpListener.Start();
             logger.LogInformation($"Healthcheck listening...");
@@ -62,4 +61,11 @@
             }
         }
     }
+
+
+    public class HealthConfiguration
+    {
+        public string ProbeUrl { get; set; }
+    }
+
 }

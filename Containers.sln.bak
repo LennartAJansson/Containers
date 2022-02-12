@@ -21,6 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Kubernetes", "4. Kuberne
 		AddKubernetesToDocker.ps1 = AddKubernetesToDocker.ps1
 		AddNatsToKubernetes.ps1 = AddNatsToKubernetes.ps1
 		build.ps1 = build.ps1
+		buildapi.ps1 = buildapi.ps1
+		buildnats.ps1 = buildnats.ps1
+		buildprojector.ps1 = buildprojector.ps1
 		deploy.ps1 = deploy.ps1
 	EndProjectSection
 EndProject
@@ -125,7 +128,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workloads.Contract", "Workl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsApi.Mediators", "WorkloadsApi.Mediators\WorkloadsApi.Mediators.csproj", "{A4DEA09C-C01C-4095-999A-0F216D26F9EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkloadsProjector.Mediators", "..\WorkloadsProjector.Mediators\WorkloadsProjector.Mediators.csproj", "{161116A8-25AB-4E40-984D-85732A0C049B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsProjector.Mediators", "WorkloadsProjector.Mediators\WorkloadsProjector.Mediators.csproj", "{161116A8-25AB-4E40-984D-85732A0C049B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workloads.Db", "..\Workloads.Db\Workloads.Db.csproj", "{912EEF6C-33D5-489A-B161-69D51450ADB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +170,10 @@ Global
 		{161116A8-25AB-4E40-984D-85732A0C049B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{161116A8-25AB-4E40-984D-85732A0C049B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{161116A8-25AB-4E40-984D-85732A0C049B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{912EEF6C-33D5-489A-B161-69D51450ADB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{912EEF6C-33D5-489A-B161-69D51450ADB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{912EEF6C-33D5-489A-B161-69D51450ADB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{912EEF6C-33D5-489A-B161-69D51450ADB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -188,6 +197,7 @@ Global
 		{F173BD85-5C2D-451A-AA6E-EBDFF8CDB545} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{A4DEA09C-C01C-4095-999A-0F216D26F9EE} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{161116A8-25AB-4E40-984D-85732A0C049B} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
+		{912EEF6C-33D5-489A-B161-69D51450ADB9} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}

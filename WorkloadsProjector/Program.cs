@@ -7,7 +7,11 @@ using WorkloadsProjector.Mediators;
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
+        services.Configure<HealthConfiguration>(h => context.Configuration.GetSection("Health").Bind(h));
+        services.AddHostedService<HttpHealthcheckListener>();
+
         services.AddProjectorMediators();
+        services.AddWorkloadsDb(context.Configuration);
 
         services.Configure<NatsConsumer>(options => context.Configuration.GetSection("NATS").Bind(options));
         NatsConsumer natsConsumer = context.Configuration.GetSection("NATS").Get<NatsConsumer>();
@@ -19,9 +23,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         });
 
         services.AddHostedService<Worker>();
-        services.AddHostedService<HttpHealthcheck>();
     })
-    //.ConfigureWebHostDefaults(webHostBuilder => webHostBuilder.UseStartup<Startup>())
     .Build();
 
-await host.RunAsync();
+await host.UpdateDb().RunAsync();

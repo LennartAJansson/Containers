@@ -130,7 +130,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsApi.Mediators", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsProjector.Mediators", "WorkloadsProjector.Mediators\WorkloadsProjector.Mediators.csproj", "{161116A8-25AB-4E40-984D-85732A0C049B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workloads.Db", "..\Workloads.Db\Workloads.Db.csproj", "{912EEF6C-33D5-489A-B161-69D51450ADB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workloads.Db", "Workloads.Db\Workloads.Db.csproj", "{912EEF6C-33D5-489A-B161-69D51450ADB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

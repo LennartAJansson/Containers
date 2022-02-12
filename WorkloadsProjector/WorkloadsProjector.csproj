@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Workloads.Contract\Workloads.Contract.csproj" />
+    <ProjectReference Include="..\Workloads.Db\Workloads.Db.csproj" />
     <ProjectReference Include="..\Workloads.Model\Workloads.Model.csproj" />
     <ProjectReference Include="..\NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj" />
     <ProjectReference Include="..\WorkloadsProjector.Mediators\WorkloadsProjector.Mediators.csproj" />
