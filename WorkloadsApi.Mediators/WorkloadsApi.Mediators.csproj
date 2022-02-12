@@ -10,15 +10,15 @@
     <PackageReference Include="CloudNative.CloudEvents.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-    <ProjectReference Include="..\Workloads.Contract\Workloads.Contract.csproj" />
-    <ProjectReference Include="..\NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj" />
-    <ProjectReference Include="..\Workloads.Model\Workloads.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Workloads.Contract\Workloads.Contract.csproj" />
+    <ProjectReference Include="..\NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Workloads.Model\Workloads.Model.csproj" />
   </ItemGroup>
 
 </Project>

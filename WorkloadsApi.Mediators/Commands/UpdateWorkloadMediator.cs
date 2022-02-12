@@ -9,29 +9,22 @@
     using Microsoft.Extensions.Options;
 
     using NATS.Client;
-    using NATS.Client.JetStream;
     using NATS.Extensions.DependencyInjection;
 
     using Workloads.Contract;
 
-    public class UpdateWorkloadMediator : IRequestHandler<CommandUpdateWorkload, CommandWorkloadResponse>
+    public class UpdateWorkloadMediator : NatsCommandMediatorBase, IRequestHandler<CommandUpdateWorkload, CommandWorkloadResponse>
     {
         private readonly ILogger<UpdateWorkloadMediator> logger;
-        private readonly IConnection connection;
-        private readonly NatsProducer natsProducer;
-        private readonly IJetStream? jetStream = null;
 
         public UpdateWorkloadMediator(ILogger<UpdateWorkloadMediator> logger, IConnection connection, IOptions<NatsProducer> options)
+            : base(connection, options.Value)
+            => this.logger = logger;
+
+        public Task<CommandWorkloadResponse> Handle(CommandUpdateWorkload request, CancellationToken cancellationToken)
         {
-            this.logger = logger;
-            connection = connection;
-            natsProducer = options.Value;
-
-            JetStreamUtils.CreateStreamOrUpdateSubjects(connection, natsProducer.Stream, natsProducer.Subject);
-            jetStream = connection.CreateJetStreamContext();
+            logger.LogDebug("");
+            return Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request}"));
         }
-
-        public Task<CommandWorkloadResponse> Handle(CommandUpdateWorkload request, CancellationToken cancellationToken) =>
-            Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request.ToString()}"));
     }
 }

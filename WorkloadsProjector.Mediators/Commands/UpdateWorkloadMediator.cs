@@ -17,9 +17,9 @@
 
         public Task<CommandWorkloadResponse> Handle(CommandUpdateWorkload request, CancellationToken cancellationToken)
         {
-            logger.LogInformation(request.ToString());
+            logger.LogInformation("{request}", request.ToString());
             //TODO Update db
-            return Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request.ToString()}"));
+            return Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request}"));
         }
     }
 }

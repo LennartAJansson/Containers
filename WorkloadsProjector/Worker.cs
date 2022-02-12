@@ -35,7 +35,7 @@ namespace WorkloadsProjector
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            JetStreamUtils.CreateStreamWhenDoesNotExist(connection, natsConsumer.Stream, natsConsumer.Subject);
+            JetStreamUtils.CreateStreamWhenDoesNotExist(connection, natsConsumer!.Stream!, natsConsumer!.Subject!);
 
             ConsumerConfiguration cc = ConsumerConfiguration.Builder()
                                     .WithDurable(natsConsumer.Consumer)
@@ -68,21 +68,21 @@ namespace WorkloadsProjector
 
             msg.Ack();
 
-            CloudEvent evt = JsonSerializer.Deserialize<CloudEvent>(Encoding.UTF8.GetString(msg.Data));
+            CloudEvent? evt = JsonSerializer.Deserialize<CloudEvent>(Encoding.UTF8.GetString(msg!.Data!));
 
-            switch (evt.Type)
+            switch (evt!.Type)
             {
                 case "Workloads.Contract.CommandCreatePerson":
-                    CommandCreatePerson? personToCreate = JsonSerializer.Deserialize<CommandCreatePerson>(evt.Data.ToString());
-                    mediator.Send(personToCreate);
+                    CommandCreatePerson? personToCreate = JsonSerializer.Deserialize<CommandCreatePerson>(evt.Data!.ToString()!);
+                    mediator.Send(personToCreate!);
                     break;
                 case "Workloads.Contract.CommandUpdatePerson":
-                    CommandUpdatePerson? personToUpdate = JsonSerializer.Deserialize<CommandUpdatePerson>(evt.Data.ToString());
-                    mediator.Send(personToUpdate);
+                    CommandUpdatePerson? personToUpdate = JsonSerializer.Deserialize<CommandUpdatePerson>(evt.Data!.ToString()!);
+                    mediator.Send(personToUpdate!);
                     break;
                 case "Workloads.Contract.CommandDeletePerson":
-                    CommandDeletePerson? personToDelete = JsonSerializer.Deserialize<CommandDeletePerson>(evt.Data.ToString());
-                    mediator.Send(personToDelete);
+                    CommandDeletePerson? personToDelete = JsonSerializer.Deserialize<CommandDeletePerson>(evt.Data!.ToString()!);
+                    mediator.Send(personToDelete!);
                     break;
             }
 

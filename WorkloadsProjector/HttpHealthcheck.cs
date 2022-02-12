@@ -9,13 +9,13 @@
     {
         private readonly ILogger<Worker> logger;
         private readonly HttpListener httpListener;
-        private readonly IConfiguration configuration;
+        //private readonly IConfiguration configuration;
 
 
-        public HttpHealthcheck(ILogger<Worker> logger, IConfiguration configuration)
+        public HttpHealthcheck(ILogger<Worker> logger/*, IConfiguration configuration*/)
         {
             this.logger = logger;
-            this.configuration = configuration;
+            //this.configuration = configuration;
             httpListener = new HttpListener();
         }
 
@@ -31,7 +31,7 @@
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                HttpListenerContext ctx = null;
+                HttpListenerContext? ctx = null;
                 try
                 {
                     ctx = await httpListener.GetContextAsync();
@@ -56,7 +56,7 @@
 
                 byte[]? messageBytes = Encoding.UTF8.GetBytes("Healthy");
                 response.ContentLength64 = messageBytes.Length;
-                await response.OutputStream.WriteAsync(messageBytes, 0, messageBytes.Length);
+                await response.OutputStream.WriteAsync(messageBytes, stoppingToken);
                 response.OutputStream.Close();
                 response.Close();
             }

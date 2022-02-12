@@ -1,79 +1,159 @@
-﻿// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿namespace WorkloadsApi.Controllers;
 
-namespace WorkloadsApi.Controllers
+using MediatR;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using Prometheus;
+
+using Workloads.Contract;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class CommandController : MetricsControllerBase
 {
+    private readonly ILogger<CommandController> logger;
 
-    using MediatR;
+    public CommandController(ILogger<CommandController> logger, IMediator mediator)
+        : base(mediator)
+        => this.logger = logger;
 
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-
-    using Prometheus;
-
-    using Workloads.Contract;
-
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class CommandController : ControllerBase
+    //People
+    [HttpPost]
+    public async Task<IActionResult> CreatePersonAsync([FromBody] CommandCreatePerson person)
     {
-        public static Gauge requestExecuteTime = Metrics.CreateGauge("createperson_executiontime", "Counts total execution time for sending requests",
-            new GaugeConfiguration
-            {
-                LabelNames = new[] { "time" }
-            });
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandPersonResponse? result = await mediator.Send(person);
+        DateTime endDateTime = DateTime.Now;
 
-        public static Counter counter = Metrics.CreateCounter("createperson_counter", "",
-            new CounterConfiguration
-            {
-                LabelNames = new[] { "requests" }
-            });
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
 
-        private readonly ILogger<CommandController> logger;
-        private readonly IMediator mediator;
+        return Ok(result);
+    }
 
-        public CommandController(ILogger<CommandController> logger, IMediator mediator)
-        {
-            this.logger = logger;
-            this.mediator = mediator;
-        }
+    [HttpPut]
+    public async Task<IActionResult> UpdatePersonAsync([FromBody] CommandUpdatePerson person)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandPersonResponse? result = await mediator.Send(person);
+        DateTime endDateTime = DateTime.Now;
 
-        [HttpPost]
-        public async Task<IActionResult> CreatePersonAsync([FromBody] CommandCreatePerson person)
-        {
-            DateTime startDateTime = DateTime.Now;
-            CommandPersonResponse? result = await mediator.Send(person);
-            DateTime endDateTime = DateTime.Now;
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
 
-            requestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-            counter.Inc();
+        return Ok(result);
+    }
 
-            return Ok(result);
-        }
+    [HttpDelete("{personId}")]
+    public async Task<IActionResult> DeletePersonAsync(Guid personId)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandPersonResponse? result = await mediator.Send(new CommandDeletePerson(personId));
+        DateTime endDateTime = DateTime.Now;
 
-        [HttpPut("{personId}")]
-        public async Task<IActionResult> UpdatePersonAsync(int personId, [FromBody] CommandUpdatePerson person) => Ok(await mediator.Send(person));
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
 
-        [HttpDelete("{personId}")]
-        public async Task<IActionResult> DeletePersonAsync(int personId) => Ok(await mediator.Send(new CommandDeletePerson(personId)));
+        return Ok(result);
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAssignmentAsync([FromBody] CommandCreateAssignment assignment)
-        {
-            DateTime startDateTime = DateTime.Now;
-            CommandAssignmentResponse? result = await mediator.Send(assignment);
-            DateTime endDateTime = DateTime.Now;
+    //Assignments
+    [HttpPost]
+    public async Task<IActionResult> CreateAssignmentAsync([FromBody] CommandCreateAssignment assignment)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandAssignmentResponse? result = await mediator.Send(assignment);
+        DateTime endDateTime = DateTime.Now;
 
-            requestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-            counter.Inc();
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
 
-            return Ok(result);
-        }
+        return Ok(result);
+    }
 
-        [HttpPut("{assignmentId}")]
-        public async Task<IActionResult> UpdateAssignmentAsync(int assignmentId, [FromBody] CommandUpdateAssignment assignment) => Ok(await mediator.Send(assignment));
+    [HttpPut]
+    public async Task<IActionResult> UpdateAssignmentAsync([FromBody] CommandUpdateAssignment assignment)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandAssignmentResponse? result = await mediator.Send(assignment);
+        DateTime endDateTime = DateTime.Now;
 
-        [HttpDelete("{assignmentId}")]
-        public async Task<IActionResult> DeleteAssignmentAsync(int assignmentId) => Ok(await mediator.Send(new CommandDeleteAssignment(assignmentId)));
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
 
+        return Ok(result);
+    }
+
+    [HttpDelete("{assignmentId}")]
+    public async Task<IActionResult> DeleteAssignmentAsync(Guid assignmentId)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandAssignmentResponse? result = await mediator.Send(new CommandDeleteAssignment(assignmentId));
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
+    }
+
+    //Workloads
+    [HttpPost]
+    public async Task<IActionResult> CreateWorkloadAsync([FromBody] CommandCreateWorkload workload)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandWorkloadResponse? result = await mediator.Send(workload);
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateWorkloadAsync([FromBody] CommandUpdateWorkload workload)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandWorkloadResponse? result = await mediator.Send(workload);
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{workloadId}")]
+    public async Task<IActionResult> DeleteWorkloadAsync(Guid workloadId)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        CommandWorkloadResponse? result = await mediator.Send(new CommandDeleteWorkload(workloadId));
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
     }
 }

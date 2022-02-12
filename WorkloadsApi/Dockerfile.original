@@ -11,7 +11,6 @@ COPY ["WorkloadsApi/WorkloadsApi.csproj", "WorkloadsApi/"]
 COPY ["NATS.Extensions.DependencyInjection/NATS.Extensions.DependencyInjection.csproj", "NATS.Extensions.DependencyInjection/"]
 COPY ["Workloads.Contract/Workloads.Contract.csproj", "Workloads.Contract/"]
 COPY ["WorkloadsApi.Mediators/WorkloadsApi.Mediators.csproj", "WorkloadsApi.Mediators/"]
-COPY ["Workloads.Model/Workloads.Model.csproj", "Workloads.Model/"]
 RUN dotnet restore "WorkloadsApi/WorkloadsApi.csproj"
 COPY . .
 WORKDIR "/src/WorkloadsApi"

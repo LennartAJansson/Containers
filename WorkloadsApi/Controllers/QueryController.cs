@@ -1,27 +1,112 @@
-﻿// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿namespace WorkloadsApi.Controllers;
 
-namespace WorkloadsApi.Controllers
+using MediatR;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using Workloads.Contract;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class QueryController : MetricsControllerBase
 {
-    using MediatR;
+    private readonly ILogger<QueryController> logger;
 
-    using Microsoft.AspNetCore.Mvc;
+    public QueryController(ILogger<QueryController> logger, IMediator mediator)
+        : base(mediator)
+        => this.logger = logger;
 
-    using Workloads.Contract;
-
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class QueryController : ControllerBase
+    //People
+    [HttpGet]
+    public async Task<IActionResult> GetPeopleAsync()
     {
-        private readonly IMediator mediator;
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        IEnumerable<QueryPersonResponse>? result = await mediator.Send(new QueryPeople());
+        DateTime endDateTime = DateTime.Now;
 
-        public QueryController(IMediator mediator) => this.mediator = mediator;
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
 
-        [HttpGet]
-        //[Route("people")]
-        public async Task<IActionResult> GetPeopleAsync() => Ok(await mediator.Send(new QueryPeople()));
+        return Ok(result);
+    }
 
-        [HttpGet("{personId}")]
-        //[Route("people")]
-        public async Task<IActionResult> GetPersonAsync(int personId) => Ok(await mediator.Send(new QueryPerson(personId)));
+    [HttpGet("{personId}")]
+    public async Task<IActionResult> GetPersonAsync(Guid personId)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        QueryPersonResponse? result = await mediator.Send(new QueryPerson(personId));
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
+    }
+
+    //Assignments
+    [HttpGet]
+    public async Task<IActionResult> GetAssignmentsAsync()
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        IEnumerable<QueryAssignmentResponse>? result = await mediator.Send(new QueryAssignments());
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
+    }
+
+    [HttpGet("{assignmentId}")]
+    public async Task<IActionResult> GetAssignmentAsync(Guid assignmentId)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        QueryAssignmentResponse? result = await mediator.Send(new QueryAssignment(assignmentId));
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
+    }
+
+    //Workloads
+    [HttpGet]
+    public async Task<IActionResult> GetWorkloadsAsync()
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        IEnumerable<QueryWorkloadResponse>? result = await mediator.Send(new QueryWorkloads());
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
+    }
+
+    [HttpGet("{workloadId}")]
+    public async Task<IActionResult> GetWorkloadAsync(Guid workloadId)
+    {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+        DateTime startDateTime = DateTime.Now;
+        QueryWorkloadResponse? result = await mediator.Send(new QueryWorkload(workloadId));
+        DateTime endDateTime = DateTime.Now;
+
+        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Inc();
+
+        return Ok(result);
     }
 }

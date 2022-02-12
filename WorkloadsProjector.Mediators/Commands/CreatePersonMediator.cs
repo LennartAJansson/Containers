@@ -9,17 +9,17 @@
 
     using Workloads.Contract;
 
-    public class CreatePersonMediator : IRequestHandler<CommandCreatePerson, CommandPersonResponse>
+    public class CreatePersonMediator : IRequestHandler<CommandCreatePersonWithId, CommandPersonResponse>
     {
         private readonly ILogger<CreatePersonMediator> logger;
 
         public CreatePersonMediator(ILogger<CreatePersonMediator> logger) => this.logger = logger;
 
-        public Task<CommandPersonResponse> Handle(CommandCreatePerson request, CancellationToken cancellationToken)
+        public Task<CommandPersonResponse> Handle(CommandCreatePersonWithId request, CancellationToken cancellationToken)
         {
-            logger.LogInformation(request.ToString());
+            logger.LogInformation("{request}", request.ToString());
             //TODO Update db
-            return Task.FromResult(new CommandPersonResponse(1, $"{request}"));
+            return Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request}"));
         }
     }
 }

@@ -16,9 +16,9 @@
         public DeletePersonMediator(ILogger<DeletePersonMediator> logger) => this.logger = logger;
         public Task<CommandPersonResponse> Handle(CommandDeletePerson request, CancellationToken cancellationToken)
         {
-            logger.LogInformation(request.ToString());
+            logger.LogInformation("{request}", request.ToString());
             //TODO Update db
-            return Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request.ToString()}"));
+            return Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request}"));
         }
     }
 }

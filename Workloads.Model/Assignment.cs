@@ -1,9 +1,11 @@
-﻿namespace Workloads.Model
+﻿namespace Workloads.Model;
+
+public class Assignment
 {
-    public class Assignment
-    {
-        public int AssignmentId { get; set; }
-        public string Customer { get; set; }
-        public string Description { get; set; }
-    }
+    public Guid AssignmentId { get; set; }
+    public string? CustomerName { get; set; }
+    public string? Description { get; set; }
+
+    //Browsing property:
+    public virtual ICollection<Workload> Workloads { get; set; } = new HashSet<Workload>();
 }

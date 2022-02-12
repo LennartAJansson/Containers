@@ -17,9 +17,9 @@
 
         public Task<CommandAssignmentResponse> Handle(CommandUpdateAssignment request, CancellationToken cancellationToken)
         {
-            logger.LogInformation(request.ToString());
+            logger.LogInformation("{request}", request.ToString());
             //TODO Update db
-            return Task.FromResult(new CommandAssignmentResponse(request.AssignmentId, $"{request.ToString()}"));
+            return Task.FromResult(new CommandAssignmentResponse(request.AssignmentId, $"{request}"));
         }
     }
 }

@@ -16,9 +16,9 @@
 
         public Task<CommandPersonResponse> Handle(CommandUpdatePerson request, CancellationToken cancellationToken)
         {
-            logger.LogInformation(request.ToString());
+            logger.LogInformation("{request}", request.ToString());
             //TODO Update db
-            return Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request.ToString()}"));
+            return Task.FromResult(new CommandPersonResponse(request.PersonId, $"{request}"));
         }
     }
 }
