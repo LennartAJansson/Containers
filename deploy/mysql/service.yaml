@@ -3,8 +3,9 @@ kind: Service
 metadata:
   name: mysql
 spec:
-  ports:
-  - port: 3306
   selector:
     app: mysql
-  clusterIP: None
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306

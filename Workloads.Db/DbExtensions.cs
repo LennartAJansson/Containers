@@ -11,11 +11,17 @@ public static class DbExtensions
 {
     public static IServiceCollection AddWorkloadsDb(this IServiceCollection services, IConfiguration configuration)
     {
+        MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));//5.6.51
+
         services.Configure<ConnectionStrings>(c => configuration.GetSection("ConnectionStrings").Bind(c));
         ConnectionStrings connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
 
         services.AddDbContext<WorkloadsDbContext>(options =>
-            options.UseSqlServer(connectionStrings.WorkloadsDb), ServiceLifetime.Transient, ServiceLifetime.Transient);
+            //options.UseSqlServer(connectionStrings.WorkloadsDb),
+            options.UseMySql(connectionStrings.WorkloadsDb, serverVersion)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors(),
+            ServiceLifetime.Transient, ServiceLifetime.Transient);
 
         return services;
     }
