@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mysqlS
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: "mysql.local"
+    mysql:
+      backend:
+        service:
+          name: mysql
+          port:
+            number: 3306

@@ -130,7 +130,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsApi.Mediators", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsProjector.Mediators", "WorkloadsProjector.Mediators\WorkloadsProjector.Mediators.csproj", "{161116A8-25AB-4E40-984D-85732A0C049B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workloads.Db", "Workloads.Db\Workloads.Db.csproj", "{912EEF6C-33D5-489A-B161-69D51450ADB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workloads.Db", "Workloads.Db\Workloads.Db.csproj", "{912EEF6C-33D5-489A-B161-69D51450ADB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{C0A8FB02-EB7C-4546-986B-585A204EEFE3}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\mysql\deployment.yaml = deploy\mysql\deployment.yaml
+		deploy\mysql\ingress.yaml = deploy\mysql\ingress.yaml
+		deploy\mysql\kustomization.yaml = deploy\mysql\kustomization.yaml
+		deploy\mysql\namespace.yaml = deploy\mysql\namespace.yaml
+		deploy\mysql\persistentvolume.yaml = deploy\mysql\persistentvolume.yaml
+		deploy\mysql\service.yaml = deploy\mysql\service.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -198,6 +208,7 @@ Global
 		{A4DEA09C-C01C-4095-999A-0F216D26F9EE} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{161116A8-25AB-4E40-984D-85732A0C049B} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{912EEF6C-33D5-489A-B161-69D51450ADB9} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
+		{C0A8FB02-EB7C-4546-986B-585A204EEFE3} = {58195862-762D-493A-961D-1291BE9DD2A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
