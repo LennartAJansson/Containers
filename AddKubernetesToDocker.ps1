@@ -1,5 +1,5 @@
 # K3d is a tool to generate a K3s environment in Docker.
-k3d cluster create k3slocal --volume C:\Data\K8s:/tmp/shared@server:0 --kubeconfig-update-default --kubeconfig-switch-context --registry-create registry:5000 -p 8081:80@loadbalancer -p 4222:4222@server:0 -p 8222:8222@server:0 --api-port=16443 --wait --timeout=60s
+k3d cluster create k3s --volume C:\Data\K8s:/tmp/shared@server:0 --kubeconfig-update-default --kubeconfig-switch-context --registry-create registry:5000 -p 8081:80@loadbalancer -p 4222:4222@server:0 -p 8222:8222@server:0 --api-port=16443 --wait --timeout=60s
 
 # Check what host port your registry publish and save it in environment:
 # From Powershell you can access it as $env:REGISTRYHOST
