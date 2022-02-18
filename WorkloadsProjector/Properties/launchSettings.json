@@ -2,6 +2,8 @@
   "profiles": {
     "WorkloadsProjector": {
       "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "healthz",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development",
         "ASPNETCORE_ENVIRONMENT": "Development"

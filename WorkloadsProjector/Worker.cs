@@ -22,15 +22,17 @@ namespace WorkloadsProjector
         private readonly NatsConsumer natsConsumer;
         private readonly IConnection connection;
         private readonly IMediator mediator;
+        private readonly WorkerWitness witness;
         private IJetStream? jetStream = null;
         private IJetStreamPushAsyncSubscription? subscription = null;
 
-        public Worker(ILogger<Worker> logger, IOptions<NatsConsumer> options, IConnection connection, IMediator mediator)
+        public Worker(ILogger<Worker> logger, IOptions<NatsConsumer> options, IConnection connection, IMediator mediator, WorkerWitness witness)
         {
             this.logger = logger;
             natsConsumer = options.Value;
             this.connection = connection;
             this.mediator = mediator;
+            this.witness = witness;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -57,8 +59,8 @@ namespace WorkloadsProjector
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                logger.LogInformation("Worker running at: {time} - {server}", DateTimeOffset.Now, natsConsumer.Url);
-                await Task.Delay(60000, stoppingToken);
+                witness.LastExecution = DateTime.Now;
+                await Task.Delay(1000, stoppingToken);
             }
         }
 
@@ -69,6 +71,9 @@ namespace WorkloadsProjector
             msg.Ack();
 
             CloudEvent? evt = JsonSerializer.Deserialize<CloudEvent>(Encoding.UTF8.GetString(msg!.Data!));
+
+            logger.LogInformation("Received message {data} on subject {subject}, stream {stream}, seqno {seqno}.",
+                            Encoding.UTF8.GetString(msg.Data), natsConsumer.Subject, msg.MetaData.Stream, msg.MetaData.StreamSequence);
 
             switch (evt!.Type)
             {
@@ -84,10 +89,31 @@ namespace WorkloadsProjector
                     CommandDeletePerson? personToDelete = JsonSerializer.Deserialize<CommandDeletePerson>(evt.Data!.ToString()!);
                     mediator.Send(personToDelete!);
                     break;
+                case "Workloads.Contract.CommandCreateAssignment":
+                    CommandCreateAssignment? assignmentToCreate = JsonSerializer.Deserialize<CommandCreateAssignment>(evt.Data!.ToString()!);
+                    mediator.Send(assignmentToCreate!);
+                    break;
+                case "Workloads.Contract.CommandUpdateAssignment":
+                    CommandUpdateAssignment? assignmentToUpdate = JsonSerializer.Deserialize<CommandUpdateAssignment>(evt.Data!.ToString()!);
+                    mediator.Send(assignmentToUpdate!);
+                    break;
+                case "Workloads.Contract.CommandDeleteAssignment":
+                    CommandDeleteAssignment? assignmentToDelete = JsonSerializer.Deserialize<CommandDeleteAssignment>(evt.Data!.ToString()!);
+                    mediator.Send(assignmentToDelete!);
+                    break;
+                case "Workloads.Contract.CommandCreateWorkload":
+                    CommandCreateWorkload? workloadToCreate = JsonSerializer.Deserialize<CommandCreateWorkload>(evt.Data!.ToString()!);
+                    mediator.Send(workloadToCreate!);
+                    break;
+                case "Workloads.Contract.CommandUpdateWorkload":
+                    CommandUpdateWorkload? workloadToUpdate = JsonSerializer.Deserialize<CommandUpdateWorkload>(evt.Data!.ToString()!);
+                    mediator.Send(workloadToUpdate!);
+                    break;
+                case "Workloads.Contract.CommandDeleteWorkload":
+                    CommandDeleteWorkload? workloadToDelete = JsonSerializer.Deserialize<CommandDeleteWorkload>(evt.Data!.ToString()!);
+                    mediator.Send(workloadToDelete!);
+                    break;
             }
-
-            logger.LogInformation("Received message {data} on subject {subject}, stream {stream}, seqno {seqno}.",
-                            Encoding.UTF8.GetString(msg.Data), natsConsumer.Subject, msg.MetaData.Stream, msg.MetaData.StreamSequence);
         }
     }
 }

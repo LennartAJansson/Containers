@@ -2,13 +2,17 @@
 using NATS.Extensions.DependencyInjection;
 
 using WorkloadsProjector;
+using WorkloadsProjector.Health;
 using WorkloadsProjector.Mediators;
+
+WorkerWitness? witness = new WorkerWitness();
+
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
-        services.Configure<HealthConfiguration>(h => context.Configuration.GetSection("Health").Bind(h));
-        services.AddHostedService<HttpHealthcheckListener>();
+        services.AddSingleton(sp => witness);
+        services.AddHealthChecks().AddCheck<ProjectorHealthCheck>("workloadsprojector");
 
         services.AddProjectorMediators();
         services.AddWorkloadsDb(context.Configuration);
@@ -24,6 +28,8 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddHostedService<Worker>();
     })
+    .UseHealth()
     .Build();
 
 await host.UpdateDb().RunAsync();
+
