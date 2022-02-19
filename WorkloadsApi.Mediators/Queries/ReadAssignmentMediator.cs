@@ -1,6 +1,5 @@
 ﻿namespace WorkloadsApi.Mediators.Queries
 {
-    using System.Data.SqlClient;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -10,6 +9,8 @@
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+
+    using MySql.Data.MySqlClient;
 
     using Workloads.Contract;
     using Workloads.Model;
@@ -25,7 +26,7 @@
         public async Task<QueryAssignmentResponse> Handle(QueryAssignment request, CancellationToken cancellationToken)
         {
             logger.LogDebug("");
-            using (SqlConnection connection = new SqlConnection(connectionStrings.WorkloadsDb))
+            using (MySqlConnection connection = new MySqlConnection(connectionStrings.WorkloadsDb))
             {
                 connection.Open();
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -22,10 +21,7 @@ namespace Workloads.Db.Migrations
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Assignments", x => x.AssignmentId);
-                })
+                constraints: table => table.PrimaryKey("PK_Assignments", x => x.AssignmentId))
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -36,10 +32,7 @@ namespace Workloads.Db.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_People", x => x.PersonId);
-                })
+                constraints: table => table.PrimaryKey("PK_People", x => x.PersonId))
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(

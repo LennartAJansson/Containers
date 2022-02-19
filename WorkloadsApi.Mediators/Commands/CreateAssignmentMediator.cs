@@ -28,16 +28,19 @@ public class CreateAssignmentMediator : NatsCommandMediatorBase, IRequestHandler
 
     public async Task<CommandAssignmentResponse> Handle(CommandCreateAssignment request, CancellationToken cancellationToken)
     {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+
         CommandCreateAssignmentWithId parsed = new(Guid.NewGuid(), request.CustomerName, request.Description);
 
         CloudEvent evt = new CloudEvent()
         {
-            Id = parsed.AssignmentId.ToString(),//This will be the Guid for the Assignment, to enable tracking
+            Id = parsed.AssignmentId.ToString(),
             Data = parsed,
             DataContentType = "application/json",
             Type = parsed.GetType().FullName,
-            Source = new Uri(GetType().FullName!),
-            Subject = natsProducer.Subject //Add evt.Id to Subject?
+            //Source = new Uri(GetType().FullName!),
+            Subject = natsProducer.Subject //TODO Add evt.Id/parsedRequest.AssignmentId to Subject?
         };
 
         JsonSerializerOptions? options = new JsonSerializerOptions();

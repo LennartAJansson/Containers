@@ -29,8 +29,8 @@ public class CommandController : MetricsControllerBase
         CommandPersonResponse? result = await mediator.Send(person);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -44,8 +44,8 @@ public class CommandController : MetricsControllerBase
         CommandPersonResponse? result = await mediator.Send(person);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -59,8 +59,8 @@ public class CommandController : MetricsControllerBase
         CommandPersonResponse? result = await mediator.Send(new CommandDeletePerson(personId));
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -75,8 +75,8 @@ public class CommandController : MetricsControllerBase
         CommandAssignmentResponse? result = await mediator.Send(assignment);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -90,8 +90,8 @@ public class CommandController : MetricsControllerBase
         CommandAssignmentResponse? result = await mediator.Send(assignment);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -105,8 +105,8 @@ public class CommandController : MetricsControllerBase
         CommandAssignmentResponse? result = await mediator.Send(new CommandDeleteAssignment(assignmentId));
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -121,8 +121,8 @@ public class CommandController : MetricsControllerBase
         CommandWorkloadResponse? result = await mediator.Send(workload);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -136,8 +136,8 @@ public class CommandController : MetricsControllerBase
         CommandWorkloadResponse? result = await mediator.Send(workload);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }
@@ -151,8 +151,8 @@ public class CommandController : MetricsControllerBase
         CommandWorkloadResponse? result = await mediator.Send(new CommandDeleteWorkload(workloadId));
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime./*Labels(DateTime.Now.ToString("hh:mm:ss:ffff")).*/Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Inc();
+        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
+        Counter.Labels(Request.Path).Inc();
 
         return Ok(result);
     }

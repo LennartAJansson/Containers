@@ -28,16 +28,19 @@ public class CreatePersonMediator : NatsCommandMediatorBase, IRequestHandler<Com
 
     public async Task<CommandPersonResponse> Handle(CommandCreatePerson request, CancellationToken cancellationToken)
     {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+
         CommandCreatePersonWithId parsed = new(Guid.NewGuid(), request.Name);
 
         CloudEvent evt = new CloudEvent()
         {
-            Id = parsed.PersonId.ToString(),//This will be the Guid for the Person, to enable tracking
+            Id = parsed.PersonId.ToString(),
             Data = parsed,
             DataContentType = "application/json",
             Type = parsed.GetType().FullName,
-            Source = new Uri(GetType().FullName!),
-            Subject = natsProducer.Subject //Add evt.Id to Subject?
+            //Source = new Uri(GetType().FullName!),
+            Subject = natsProducer.Subject //TODO Add evt.Id/parsedRequest.PersonId to Subject?
         };
 
         JsonSerializerOptions? options = new JsonSerializerOptions();

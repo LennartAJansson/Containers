@@ -17,7 +17,6 @@ public static class DbExtensions
         ConnectionStrings connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
 
         services.AddDbContext<WorkloadsDbContext>(options =>
-            //options.UseSqlServer(connectionStrings.WorkloadsDb),
             options.UseMySql(connectionStrings.WorkloadsDb, serverVersion)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors(),

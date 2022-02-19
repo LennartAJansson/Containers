@@ -6,29 +6,27 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
+    using Prometheus;
+
     public static class HealthExtensions
     {
         public static IHostBuilder UseHealth(this IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureWebHostDefaults(builder =>
+            hostBuilder.ConfigureWebHostDefaults(builder => builder.Configure(app =>
             {
-                builder.Configure(app =>
+                app.UseRouting().UseEndpoints(config => config.MapHealthChecks("/healthz", new HealthCheckOptions
                 {
-                    app.UseRouting().UseEndpoints(config =>
-                    {
-                        config.MapHealthChecks("/healthz", new HealthCheckOptions
-                        {
-                            AllowCachingResponses = false,
-                            ResponseWriter = WriteResponse
-                        });
-                    });
-                });
-            });
+                    AllowCachingResponses = false,
+                    ResponseWriter = WriteResponse
+                }));
+                app.UseMetricServer();
+                app.UseHttpMetrics();
+            }));
 
             return hostBuilder;
         }
 
-        static Task WriteResponse(HttpContext context, HealthReport report)
+        private static Task WriteResponse(HttpContext context, HealthReport report)
         {
             context.Response.ContentType = "application/json";
             JObject? json = new JObject(

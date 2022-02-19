@@ -8,16 +8,16 @@ using Prometheus;
 
 public class MetricsControllerBase : ControllerBase
 {
-    private static Gauge requestExecuteTime = Metrics.CreateGauge("createperson_executiontime", "Counts total execution time for sending requests",
+    private static Gauge requestExecuteTime = Metrics.CreateGauge("workloadsapi_controllers_executiontime", "Counts total execution time for handling requests",
         new GaugeConfiguration
         {
-            LabelNames = new[] { "time" }
+            LabelNames = new[] { "path" }
         });
 
-    private static Counter counter = Metrics.CreateCounter("createperson_counter", "",
+    private static Counter counter = Metrics.CreateCounter("workloadsapi_controllers_counter", "Counts total calls for handling requests",
         new CounterConfiguration
         {
-            LabelNames = new[] { "requests" }
+            LabelNames = new[] { "path" }
         });
     protected IMediator mediator;
 

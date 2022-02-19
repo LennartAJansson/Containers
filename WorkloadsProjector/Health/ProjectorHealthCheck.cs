@@ -14,8 +14,12 @@ namespace WorkloadsProjector.Health
         }
 
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
-            => DateTime.Now.Subtract(witness.LastExecution).TotalSeconds < 120 ?
-                Task.FromResult(HealthCheckResult.Healthy("I'm working my butt off")) :
-                Task.FromResult(HealthCheckResult.Unhealthy("I feel a bit exhausted"));
+        {
+            //TODO Add meaningful logging
+            logger.LogDebug("");
+            return DateTime.Now.Subtract(witness.LastExecution).TotalSeconds < 120 ?
+                           Task.FromResult(HealthCheckResult.Healthy("I'm working my butt off")) :
+                           Task.FromResult(HealthCheckResult.Unhealthy("I feel a bit exhausted"));
+        }
     }
 }

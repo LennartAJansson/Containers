@@ -14,10 +14,26 @@ namespace WorkloadsProjector
     using NATS.Client.JetStream;
     using NATS.Extensions.DependencyInjection;
 
+    using Prometheus;
+
     using Workloads.Contract;
 
     public class Worker : BackgroundService
     {
+        private static Gauge requestExecuteTime = Metrics.CreateGauge("workloadsprojector_executiontime", "Counts total execution time for handling requests",
+            new GaugeConfiguration
+            {
+                LabelNames = new[] { "type" }
+            });
+
+        private static Counter counter = Metrics.CreateCounter("workloadprojector_counter", "Counts total calls for handling requests",
+            new CounterConfiguration
+            {
+                LabelNames = new[] { "type" }
+            });
+        protected static Gauge RequestExecuteTime { get => requestExecuteTime; set => requestExecuteTime = value; }
+        protected static Counter Counter { get => counter; set => counter = value; }
+
         private readonly ILogger<Worker> logger;
         private readonly NatsConsumer natsConsumer;
         private readonly IConnection connection;
@@ -66,6 +82,8 @@ namespace WorkloadsProjector
 
         private void MessageArrived(object? sender, MsgHandlerEventArgs args)
         {
+            DateTime startDateTime = DateTime.Now;
+
             Msg msg = args.Message;
 
             msg.Ack();
@@ -114,6 +132,10 @@ namespace WorkloadsProjector
                     mediator.Send(workloadToDelete!);
                     break;
             }
+            DateTime endDateTime = DateTime.Now;
+            string label = (evt != null && evt.Type != null) ? evt.Type : "unknown";
+            RequestExecuteTime.Labels(label).Set((endDateTime - startDateTime).TotalMilliseconds);
+            Counter.Labels(label).Inc();
         }
     }
 }

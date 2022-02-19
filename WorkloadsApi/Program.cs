@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 
 using Prometheus;
 
+using Workloads.Model;
+
 using WorkloadsApi.Health;
 using WorkloadsApi.Mediators;
 
@@ -15,6 +17,7 @@ WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApiMediators();
+builder.Services.Configure<ConnectionStrings>(c => builder.Configuration.GetSection("ConnectionStrings").Bind(c));
 
 builder.Services.AddHealthChecks().AddCheck<ApiHealthCheck>("Api Health Check").ForwardToPrometheus();
 

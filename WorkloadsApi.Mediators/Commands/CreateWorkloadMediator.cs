@@ -28,16 +28,19 @@ public class CreateWorkloadMediator : NatsCommandMediatorBase, IRequestHandler<C
 
     public async Task<CommandWorkloadResponse> Handle(CommandCreateWorkload request, CancellationToken cancellationToken)
     {
+        //TODO Add meaningful logging
+        logger.LogDebug("");
+
         CommandCreateWorkloadWithId parsed = new(Guid.NewGuid(), request.Start, request.Stop, request.PersonId, request.AssignmentId);
 
         CloudEvent evt = new CloudEvent()
         {
-            Id = parsed.WorkloadId.ToString(),//This will be the Guid for the Workload, to enable tracking
+            Id = parsed.WorkloadId.ToString(),
             Data = parsed,
             DataContentType = "application/json",
             Type = parsed.GetType().FullName,
-            Source = new Uri(GetType().FullName!),
-            Subject = natsProducer.Subject //Add evt.Id/parsedRequest.WorkloadId to Subject?
+            //Source = new Uri(GetType().FullName!),
+            Subject = natsProducer.Subject //TODO Add evt.Id/parsedRequest.WorkloadId to Subject?
         };
 
         JsonSerializerOptions? options = new JsonSerializerOptions();
