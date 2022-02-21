@@ -8,12 +8,14 @@
     using Microsoft.Extensions.Logging;
 
     using Workloads.Contract;
+    using Workloads.Db;
 
-    public class UpdateAssignmentMediator : IRequestHandler<CommandUpdateAssignment, CommandAssignmentResponse>
+    public class UpdateAssignmentMediator : ProjectorMediatorBase, IRequestHandler<CommandUpdateAssignment, CommandAssignmentResponse>
     {
         private readonly ILogger<UpdateAssignmentMediator> logger;
 
-        public UpdateAssignmentMediator(ILogger<UpdateAssignmentMediator> logger) => this.logger = logger;
+        public UpdateAssignmentMediator(ILogger<UpdateAssignmentMediator> logger, IWorkloadsService service)
+            : base(service) => this.logger = logger;
 
         public Task<CommandAssignmentResponse> Handle(CommandUpdateAssignment request, CancellationToken cancellationToken)
         {

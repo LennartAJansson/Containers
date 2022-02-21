@@ -16,11 +16,13 @@ public static class DbExtensions
         services.Configure<ConnectionStrings>(c => configuration.GetSection("ConnectionStrings").Bind(c));
         ConnectionStrings connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
 
-        services.AddDbContext<WorkloadsDbContext>(options =>
-            options.UseMySql(connectionStrings.WorkloadsDb, serverVersion)
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors(),
+        services.AddDbContext<IWorkloadsDbContext, WorkloadsDbContext>(options =>
+             options.UseMySql(connectionStrings.WorkloadsDb, serverVersion)
+                 .EnableSensitiveDataLogging()
+                 .EnableDetailedErrors(),
             ServiceLifetime.Transient, ServiceLifetime.Transient);
+
+        services.AddTransient<IWorkloadsService, WorkloadsService>();
 
         return services;
     }

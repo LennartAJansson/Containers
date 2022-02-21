@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 using Workloads.Model;
 
-public class WorkloadsDbContext : DbContext
+public class WorkloadsDbContext : DbContext, IWorkloadsDbContext
 {
     public DbSet<Assignment> Assignments { get; set; }
     public DbSet<Person> People { get; set; }

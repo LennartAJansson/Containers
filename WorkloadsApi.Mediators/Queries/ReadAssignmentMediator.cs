@@ -31,7 +31,12 @@
                 connection.Open();
 
                 Assignment assignment = await connection.QuerySingleOrDefaultAsync<Assignment>(
-                    @$"SELECT * FROM Assignment WHERE AssignmentId = {request.AssignmentId}"
+                    @$"
+SELECT `a`.*, `w`*
+FROM `Assignments` AS `a`
+LEFT JOIN `Workloads` AS `w` ON `a`.`AssignmentId` = `w`.`AssignmentId`
+WHERE `a`.`AssignmentId` = '{request.AssignmentId}'
+ORDER BY `a`.`AssignmentId`"
                 );
 
                 return new QueryAssignmentResponse(assignment.AssignmentId,

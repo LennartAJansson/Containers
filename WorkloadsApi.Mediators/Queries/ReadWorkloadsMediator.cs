@@ -30,7 +30,12 @@
                 connection.Open();
 
                 IEnumerable<Workload> workloads = await connection.QueryAsync<Workload>(
-                    @$"SELECT * FROM Workloads ORDER BY WorkloadId"
+                    @$"
+SELECT `w`.*, `a`.*, `p`.*
+FROM `Workloads` AS `w`
+INNER JOIN `Assignments` AS `a` ON `w`.`AssignmentId` = `a`.`AssignmentId`
+INNER JOIN `People` AS `p` ON `w`.`PersonId` = `p`.`PersonId`
+ORDER BY `w`.`WorkloadId`"
                 );
 
                 return workloads.Select(w => new QueryWorkloadResponse(w.WorkloadId,

@@ -30,7 +30,11 @@
                 connection.Open();
 
                 IEnumerable<Assignment> assignments = await connection.QueryAsync<Assignment>(
-                    @$"SELECT * FROM Assignments ORDER BY AssignmentId"
+                    @$"
+SELECT `a`.*, `w`.*
+FROM `Assignments` AS `a`
+LEFT JOIN `Workloads` AS `w` ON `a`.`AssignmentId` = `w`.`AssignmentId`
+ORDER BY `a`.`AssignmentId`"
                 );
 
                 return assignments.Select(a =>
