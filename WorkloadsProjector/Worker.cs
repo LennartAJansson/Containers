@@ -90,48 +90,52 @@ namespace WorkloadsProjector
 
             CloudEvent? evt = JsonSerializer.Deserialize<CloudEvent>(Encoding.UTF8.GetString(msg!.Data!));
 
-            logger.LogInformation("Received message {data} on subject {subject}, stream {stream}, seqno {seqno}.",
+            logger.LogDebug("Received message {data} on subject {subject}, stream {stream}, seqno {seqno}.",
                             Encoding.UTF8.GetString(msg.Data), natsConsumer.Subject, msg.MetaData.Stream, msg.MetaData.StreamSequence);
+
+            string status = "";
 
             switch (evt!.Type)
             {
-                case "Workloads.Contract.CommandCreatePerson":
-                    CommandCreatePerson? personToCreate = JsonSerializer.Deserialize<CommandCreatePerson>(evt.Data!.ToString()!);
-                    mediator.Send(personToCreate!);
+                case "Workloads.Contract.CommandCreatePersonWithId":
+                    CommandCreatePersonWithId? personToCreate = JsonSerializer.Deserialize<CommandCreatePersonWithId>(evt.Data!.ToString()!);
+                    status = JsonSerializer.Serialize(mediator.Send(personToCreate!));
                     break;
                 case "Workloads.Contract.CommandUpdatePerson":
                     CommandUpdatePerson? personToUpdate = JsonSerializer.Deserialize<CommandUpdatePerson>(evt.Data!.ToString()!);
-                    mediator.Send(personToUpdate!);
+                    status = JsonSerializer.Serialize(mediator.Send(personToUpdate!));
                     break;
                 case "Workloads.Contract.CommandDeletePerson":
                     CommandDeletePerson? personToDelete = JsonSerializer.Deserialize<CommandDeletePerson>(evt.Data!.ToString()!);
-                    mediator.Send(personToDelete!);
+                    status = JsonSerializer.Serialize(mediator.Send(personToDelete!));
                     break;
-                case "Workloads.Contract.CommandCreateAssignment":
-                    CommandCreateAssignment? assignmentToCreate = JsonSerializer.Deserialize<CommandCreateAssignment>(evt.Data!.ToString()!);
-                    mediator.Send(assignmentToCreate!);
+                case "Workloads.Contract.CommandCreateAssignmentWithId":
+                    CommandCreateAssignmentWithId? assignmentToCreate = JsonSerializer.Deserialize<CommandCreateAssignmentWithId>(evt.Data!.ToString()!);
+                    status = JsonSerializer.Serialize(mediator.Send(assignmentToCreate!));
                     break;
                 case "Workloads.Contract.CommandUpdateAssignment":
                     CommandUpdateAssignment? assignmentToUpdate = JsonSerializer.Deserialize<CommandUpdateAssignment>(evt.Data!.ToString()!);
                     mediator.Send(assignmentToUpdate!);
+                    status = JsonSerializer.Serialize(mediator.Send(assignmentToUpdate!));
                     break;
                 case "Workloads.Contract.CommandDeleteAssignment":
                     CommandDeleteAssignment? assignmentToDelete = JsonSerializer.Deserialize<CommandDeleteAssignment>(evt.Data!.ToString()!);
-                    mediator.Send(assignmentToDelete!);
+                    status = JsonSerializer.Serialize(mediator.Send(assignmentToDelete!));
                     break;
-                case "Workloads.Contract.CommandCreateWorkload":
-                    CommandCreateWorkload? workloadToCreate = JsonSerializer.Deserialize<CommandCreateWorkload>(evt.Data!.ToString()!);
-                    mediator.Send(workloadToCreate!);
+                case "Workloads.Contract.CommandCreateWorkloadWithId":
+                    CommandCreateWorkloadWithId? workloadToCreate = JsonSerializer.Deserialize<CommandCreateWorkloadWithId>(evt.Data!.ToString()!);
+                    status = JsonSerializer.Serialize(mediator.Send(workloadToCreate!));
                     break;
                 case "Workloads.Contract.CommandUpdateWorkload":
                     CommandUpdateWorkload? workloadToUpdate = JsonSerializer.Deserialize<CommandUpdateWorkload>(evt.Data!.ToString()!);
-                    mediator.Send(workloadToUpdate!);
+                    status = JsonSerializer.Serialize(mediator.Send(workloadToUpdate!));
                     break;
                 case "Workloads.Contract.CommandDeleteWorkload":
                     CommandDeleteWorkload? workloadToDelete = JsonSerializer.Deserialize<CommandDeleteWorkload>(evt.Data!.ToString()!);
-                    mediator.Send(workloadToDelete!);
+                    status = JsonSerializer.Serialize(mediator.Send(workloadToDelete!));
                     break;
             }
+            logger.LogDebug("{text}", status);
             DateTime endDateTime = DateTime.Now;
             string label = (evt != null && evt.Type != null) ? evt.Type : "unknown";
             RequestExecuteTime.Labels(label).Set((endDateTime - startDateTime).TotalMilliseconds);

@@ -31,7 +31,11 @@
                 connection.Open();
 
                 IEnumerable<Person> people = await connection.QueryAsync<Person>(
-                    @$"SELECT * FROM People ORDER BY PersonId"
+                    @$"
+SELECT `p`.*, `w`.*
+FROM `People` AS `p`
+LEFT JOIN `Workloads` AS `w` ON `p`.`PersonId` = `w`.`PersonId`
+ORDER BY `p`.`PersonId`"
                 );
 
                 return people.Select(p =>

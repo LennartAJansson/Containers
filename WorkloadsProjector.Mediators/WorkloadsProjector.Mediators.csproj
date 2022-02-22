@@ -12,5 +12,6 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="CloudNative.CloudEvents.AspNetCore" Version="2.2.0" />
     <ProjectReference Include="..\Workloads.Contract\Workloads.Contract.csproj" />
+    <ProjectReference Include="..\Workloads.Db\Workloads.Db.csproj" />
   </ItemGroup>
 </Project>

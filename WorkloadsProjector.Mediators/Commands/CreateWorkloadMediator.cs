@@ -1,5 +1,6 @@
 ﻿namespace WorkloadsProjector.Mediators.Commands
 {
+    using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -8,19 +9,32 @@
     using Microsoft.Extensions.Logging;
 
     using Workloads.Contract;
+    using Workloads.Db;
+    using Workloads.Model;
 
-    public class CreateWorkloadMediator : IRequestHandler<CommandCreateWorkloadWithId, CommandWorkloadResponse>
+    public class CreateWorkloadMediator : ProjectorMediatorBase, IRequestHandler<CommandCreateWorkloadWithId, CommandWorkloadResponse>
     {
         private readonly ILogger<CreateWorkloadMediator> logger;
 
-        public CreateWorkloadMediator(ILogger<CreateWorkloadMediator> logger) => this.logger = logger;
+        public CreateWorkloadMediator(ILogger<CreateWorkloadMediator> logger, IWorkloadsService service)
+            : base(service) => this.logger = logger;
 
-        public Task<CommandWorkloadResponse> Handle(CommandCreateWorkloadWithId request, CancellationToken cancellationToken)
+        public async Task<CommandWorkloadResponse> Handle(CommandCreateWorkloadWithId request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("{request}", request.ToString());
-            //TODO Update db
-            return Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request}"));
-        }
-    }
+            logger.LogDebug("{request}", request.ToString());
 
+            Workload workload = await service.CreateWorkloadAsync(
+                new Workload
+                {
+                    WorkloadId = request.WorkloadId,
+                    Start = request.Start,
+                    Stop = request.Stop,
+                    AssignmentId = request.AssignmentId,
+                    PersonId = request.PersonId
+                });
+
+            return new CommandWorkloadResponse(request.WorkloadId, $"{request} -> {JsonSerializer.Serialize(workload)}");
+        }
+
+    }
 }

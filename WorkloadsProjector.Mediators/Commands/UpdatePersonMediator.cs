@@ -8,11 +8,14 @@
     using Microsoft.Extensions.Logging;
 
     using Workloads.Contract;
-    public class UpdatePersonMediator : IRequestHandler<CommandUpdatePerson, CommandPersonResponse>
+    using Workloads.Db;
+
+    public class UpdatePersonMediator : ProjectorMediatorBase, IRequestHandler<CommandUpdatePerson, CommandPersonResponse>
     {
         private readonly ILogger<UpdatePersonMediator> logger;
 
-        public UpdatePersonMediator(ILogger<UpdatePersonMediator> logger) => this.logger = logger;
+        public UpdatePersonMediator(ILogger<UpdatePersonMediator> logger, IWorkloadsService service)
+            : base(service) => this.logger = logger;
 
         public Task<CommandPersonResponse> Handle(CommandUpdatePerson request, CancellationToken cancellationToken)
         {

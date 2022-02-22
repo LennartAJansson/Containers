@@ -30,8 +30,13 @@
                 connection.Open();
 
                 Person person = await connection.QuerySingleOrDefaultAsync<Person>(
-                    @$"SELECT * FROM People WHERE PersonId = {request.PersonId}"
-                );
+                    @$"
+SELECT `p`.*, `w`.*
+FROM `People` AS `p`
+LEFT JOIN `Workloads` AS `w` ON `p`.`PersonId` = `w`.`PersonId`
+WHERE `p`.`PersonId` = '{request.PersonId}'
+ORDER BY `p`.`PersonId`"
+);
 
                 return new QueryPersonResponse(person.PersonId,
                         person.Name!,

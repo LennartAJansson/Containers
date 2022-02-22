@@ -30,8 +30,14 @@
                 connection.Open();
 
                 Workload workload = await connection.QuerySingleOrDefaultAsync<Workload>(
-                    @$"SELECT * FROM Workloads WHERE WorkloadId = {request.WorkloadId}"
-                );
+                                       @$"
+SELECT `w`.*, `a`.*, `p`.*
+FROM `Workloads` AS `w`
+INNER JOIN `Assignments` AS `a` ON `w`.`AssignmentId` = `a`.`AssignmentId`
+INNER JOIN `People` AS `p` ON `w`.`PersonId` = `p`.`PersonId`
+WHERE `w`.`WorkloadId` = '{request.WorkloadId}'
+ORDER BY `w`.`WorkloadId`"
+);
 
                 return new QueryWorkloadResponse(workload.WorkloadId,
                         workload.Start,
