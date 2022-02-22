@@ -23,23 +23,39 @@
             : base(options.Value)
             => this.logger = logger;
 
-        public async Task<QueryAssignmentResponse> Handle(QueryAssignment request, CancellationToken cancellationToken)
+        public async Task<QueryAssignmentResponse?> Handle(QueryAssignment request, CancellationToken cancellationToken)
         {
             logger.LogDebug("");
             using (MySqlConnection connection = new MySqlConnection(connectionStrings.WorkloadsDb))
             {
+                string? sql = @$"
+SELECT w.WorkloadId, w.Start, w.Stop, w.AssignmentId, w.PersonId, a.AssignmentId, a.CustomerName, a.Description, p.PersonId, p.Name
+FROM Workloads AS w
+JOIN Assignments AS a ON w.AssignmentId = a.AssignmentId
+JOIN People AS p ON w.PersonId = p.PersonId
+WHERE w.AssignmentId = '{request.AssignmentId}'";
+
                 connection.Open();
 
-                Assignment assignment = await connection.QuerySingleOrDefaultAsync<Assignment>(
-                    @$"
-SELECT `a`.*, `w`*
-FROM `Assignments` AS `a`
-LEFT JOIN `Workloads` AS `w` ON `a`.`AssignmentId` = `w`.`AssignmentId`
-WHERE `a`.`AssignmentId` = '{request.AssignmentId}'
-ORDER BY `a`.`AssignmentId`"
-                );
+                //Assignment? assignment = await connection.QuerySingleOrDefaultAsync<Assignment>(sql);
+                IEnumerable<Assignment> assignments = await connection.QueryAsync<Workload, Assignment, Person, Assignment>(sql,
+                    (w, a, p) =>
+                {
+                    w.Person = p;
+                    w.Assignment = a;
+                    a.Workloads.Add(w);
+                    return a;
+                }, splitOn: "AssignmentId, PersonId");
 
-                return new QueryAssignmentResponse(assignment.AssignmentId,
+                Assignment? assignment = assignments.FirstOrDefault();
+
+                if (assignment == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new QueryAssignmentResponse(assignment.AssignmentId,
                         assignment.CustomerName!,
                         assignment.Description!,
                         assignment.Workloads.Select(w =>
@@ -48,6 +64,7 @@ ORDER BY `a`.`AssignmentId`"
                             w.Stop,
                             w.Person!.ToUnJoinedQueryPersonResponse(),
                             w.Assignment!.ToUnJoinedQueryAssignmentResponse())));
+                }
             }
 
         }
