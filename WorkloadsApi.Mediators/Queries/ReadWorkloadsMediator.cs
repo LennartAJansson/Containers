@@ -29,14 +29,16 @@
             {
                 connection.Open();
 
-                IEnumerable<Workload> workloads = await connection.QueryAsync<Workload>(
-                    @$"
-SELECT `w`.*, `a`.*, `p`.*
-FROM `Workloads` AS `w`
-INNER JOIN `Assignments` AS `a` ON `w`.`AssignmentId` = `a`.`AssignmentId`
-INNER JOIN `People` AS `p` ON `w`.`PersonId` = `p`.`PersonId`
-ORDER BY `w`.`WorkloadId`"
-                );
+                IEnumerable<Workload> workloads = await connection.QueryAsync<Workload, Assignment, Person, Workload>(
+                    QueryStrings.SelectAllJoined,
+                    (w, a, p) =>
+                    {
+                        w.Assignment = a;
+                        w.Person = p;
+                        a.Workloads.Add(w);
+                        p.Workloads.Add(w);
+                        return w;
+                    }, splitOn: "AssignmentId, PersonId");
 
                 return workloads.Select(w => new QueryWorkloadResponse(w.WorkloadId,
                         w.Start,

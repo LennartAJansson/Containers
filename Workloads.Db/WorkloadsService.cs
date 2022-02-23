@@ -2,7 +2,6 @@
 {
     using System.Threading.Tasks;
 
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
     using Workloads.Model;
@@ -12,7 +11,16 @@
         Task<Assignment> CreateAssignmentAsync(Assignment assignment);
         Task<Person> CreatePersonAsync(Person person);
         Task<Workload> CreateWorkloadAsync(Workload workload);
+
+        Task<Assignment> UpdateAssignmentAsync(Assignment assignment);
+        Task<Person> UpdatePersonAsync(Person person);
+        Task<Workload> UpdateWorkloadAsync(Workload workload);
+
+        Task<Assignment> DeleteAssignmentAsync(Guid assignmentId);
+        Task<Person> DeletePersonAsync(Guid personId);
+        Task<Workload> DeleteWorkloadAsync(Guid workloadId);
     }
+
     public class WorkloadsService : IWorkloadsService
     {
         private readonly ILogger<WorkloadsService> logger;
@@ -40,12 +48,55 @@
 
         public async Task<Workload> CreateWorkloadAsync(Workload workload)
         {
-            IEnumerable<Assignment> assignments = context.Assignments.Include("Workloads").Where(a => a.AssignmentId == Guid.Empty).ToList();
-            IEnumerable<Person> people = context.People.Include("Workloads").Where(p => p.PersonId == Guid.Empty).ToList();
-            IEnumerable<Workload> workloads = context.Workloads.Where(w => w.WorkloadId == Guid.Empty).Include("Assignment").Include("Person").ToList();
             context.Workloads.Add(workload);
             await context.SaveChangesAsync();
             return workload;
         }
+
+        public async Task<Assignment> UpdateAssignmentAsync(Assignment assignment)
+        {
+            context.Assignments.Update(assignment);
+            await context.SaveChangesAsync();
+            return assignment;
+        }
+
+        public async Task<Person> UpdatePersonAsync(Person person)
+        {
+            context.People.Update(person);
+            await context.SaveChangesAsync();
+            return person;
+        }
+
+        public async Task<Workload> UpdateWorkloadAsync(Workload workload)
+        {
+            context.Workloads.Update(workload);
+            await context.SaveChangesAsync();
+            return workload;
+        }
+
+        public async Task<Assignment> DeleteAssignmentAsync(Guid assignmentId)
+        {
+            Assignment? assignment = await context.Assignments.FindAsync(assignmentId);
+            context.Assignments.Remove(assignment);
+            await context.SaveChangesAsync();
+            return assignment;
+        }
+
+        public async Task<Person> DeletePersonAsync(Guid personId)
+        {
+            Person? person = await context.People.FindAsync(personId);
+            context.People.Remove(person);
+            await context.SaveChangesAsync();
+            return person;
+        }
+
+        public async Task<Workload> DeleteWorkloadAsync(Guid workloadId)
+        {
+            Workload? workload = await context.Workloads.FindAsync(workloadId);
+            context.Workloads.Remove(workload);
+            await context.SaveChangesAsync();
+            return workload;
+        }
+
     }
 }

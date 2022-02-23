@@ -1,5 +1,6 @@
 ﻿namespace WorkloadsProjector.Mediators.Commands
 {
+    using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@
 
     using Workloads.Contract;
     using Workloads.Db;
+    using Workloads.Model;
 
     public class DeleteAssignmentMediator : ProjectorMediatorBase, IRequestHandler<CommandDeleteAssignment, CommandAssignmentResponse>
     {
@@ -17,11 +19,13 @@
         public DeleteAssignmentMediator(ILogger<DeleteAssignmentMediator> logger, IWorkloadsService service)
             : base(service) => this.logger = logger;
 
-        public Task<CommandAssignmentResponse> Handle(CommandDeleteAssignment request, CancellationToken cancellationToken)
+        public async Task<CommandAssignmentResponse> Handle(CommandDeleteAssignment request, CancellationToken cancellationToken)
         {
             logger.LogInformation("{request}", request.ToString());
-            //TODO Update db
-            return Task.FromResult(new CommandAssignmentResponse(request.AssignmentId, $"{request}"));
+
+            Assignment assignment = await service.DeleteAssignmentAsync(request.AssignmentId);
+
+            return new CommandAssignmentResponse(request.AssignmentId, $"{request} -> {JsonSerializer.Serialize(assignment)}");
         }
     }
 

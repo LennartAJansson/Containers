@@ -1,5 +1,6 @@
 ﻿namespace WorkloadsProjector.Mediators.Commands
 {
+    using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -17,11 +18,13 @@
         public DeleteWorkloadMediator(ILogger<DeleteWorkloadMediator> logger, IWorkloadsService service)
             : base(service) => this.logger = logger;
 
-        public Task<CommandWorkloadResponse> Handle(CommandDeleteWorkload request, CancellationToken cancellationToken)
+        public async Task<CommandWorkloadResponse> Handle(CommandDeleteWorkload request, CancellationToken cancellationToken)
         {
             logger.LogInformation("{request}", request.ToString());
-            //TODO Update db
-            return Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request}"));
+
+            Workloads.Model.Workload? workload = await service.DeleteWorkloadAsync(request.WorkloadId);
+
+            return new CommandWorkloadResponse(request.WorkloadId, $"{request} -> {JsonSerializer.Serialize(workload)}");
         }
     }
 

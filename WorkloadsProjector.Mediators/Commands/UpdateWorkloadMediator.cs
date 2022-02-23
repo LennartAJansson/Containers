@@ -1,5 +1,6 @@
 ﻿namespace WorkloadsProjector.Mediators.Commands
 {
+    using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@
 
     using Workloads.Contract;
     using Workloads.Db;
+    using Workloads.Model;
 
     public class UpdateWorkloadMediator : ProjectorMediatorBase, IRequestHandler<CommandUpdateWorkload, CommandWorkloadResponse>
     {
@@ -17,11 +19,21 @@
         public UpdateWorkloadMediator(ILogger<UpdateWorkloadMediator> logger, IWorkloadsService service)
             : base(service) => this.logger = logger;
 
-        public Task<CommandWorkloadResponse> Handle(CommandUpdateWorkload request, CancellationToken cancellationToken)
+        public async Task<CommandWorkloadResponse> Handle(CommandUpdateWorkload request, CancellationToken cancellationToken)
         {
             logger.LogInformation("{request}", request.ToString());
-            //TODO Update db
-            return Task.FromResult(new CommandWorkloadResponse(request.WorkloadId, $"{request}"));
+
+            Workload workload = await service.UpdateWorkloadAsync(new Workload
+            {
+                WorkloadId = request.WorkloadId,
+                AssignmentId = request.AssignmentId,
+                PersonId = request.PersonId,
+                Start = request.Start,
+                Stop = request.Stop
+            });
+
+            return new CommandWorkloadResponse(request.WorkloadId, $"{request} -> {JsonSerializer.Serialize(workload)}");
+
         }
     }
 }

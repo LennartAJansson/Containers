@@ -15,7 +15,7 @@
     using Workloads.Contract;
     using Workloads.Model;
 
-    public class ReadAssignmentMediator : SqlQueryMediatorBase, IRequestHandler<QueryAssignment, QueryAssignmentResponse>
+    public class ReadAssignmentMediator : SqlQueryMediatorBase, IRequestHandler<QueryAssignment, QueryAssignmentResponse?>
     {
         private readonly ILogger<ReadAssignmentMediator> logger;
 
@@ -28,24 +28,18 @@
             logger.LogDebug("");
             using (MySqlConnection connection = new MySqlConnection(connectionStrings.WorkloadsDb))
             {
-                string? sql = @$"
-SELECT w.WorkloadId, w.Start, w.Stop, w.AssignmentId, w.PersonId, a.AssignmentId, a.CustomerName, a.Description, p.PersonId, p.Name
-FROM Workloads AS w
-JOIN Assignments AS a ON w.AssignmentId = a.AssignmentId
-JOIN People AS p ON w.PersonId = p.PersonId
-WHERE w.AssignmentId = '{request.AssignmentId}'";
-
                 connection.Open();
 
-                //Assignment? assignment = await connection.QuerySingleOrDefaultAsync<Assignment>(sql);
-                IEnumerable<Assignment> assignments = await connection.QueryAsync<Workload, Assignment, Person, Assignment>(sql,
+                IEnumerable<Assignment> assignments = await connection.QueryAsync<Workload, Assignment, Person, Assignment>(
+                    QueryStrings.SelectAllJoinedWhereAssignment,
                     (w, a, p) =>
-                {
-                    w.Person = p;
-                    w.Assignment = a;
-                    a.Workloads.Add(w);
-                    return a;
-                }, splitOn: "AssignmentId, PersonId");
+                    {
+                        w.Assignment = a;
+                        w.Person = p;
+                        a.Workloads.Add(w);
+                        p.Workloads.Add(w);
+                        return a;
+                    }, new { p1 = request.AssignmentId }, splitOn: "AssignmentId, PersonId");
 
                 Assignment? assignment = assignments.FirstOrDefault();
 
@@ -66,7 +60,6 @@ WHERE w.AssignmentId = '{request.AssignmentId}'";
                             w.Assignment!.ToUnJoinedQueryAssignmentResponse())));
                 }
             }
-
         }
     }
 }
