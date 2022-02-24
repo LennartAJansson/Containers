@@ -21,9 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Kubernetes", "4. Kuberne
 		AddKubernetesToDocker.ps1 = AddKubernetesToDocker.ps1
 		AddNatsToKubernetes.ps1 = AddNatsToKubernetes.ps1
 		build.ps1 = build.ps1
-		buildapi.ps1 = buildapi.ps1
 		buildnats.ps1 = buildnats.ps1
-		buildprojector.ps1 = buildprojector.ps1
 		deploy.ps1 = deploy.ps1
 		RegClean.ps1 = RegClean.ps1
 	EndProjectSection
