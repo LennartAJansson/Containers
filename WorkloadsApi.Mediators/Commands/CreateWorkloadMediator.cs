@@ -28,8 +28,7 @@ public class CreateWorkloadMediator : NatsCommandMediatorBase, IRequestHandler<C
 
     public async Task<CommandWorkloadResponse> Handle(CommandCreateWorkload request, CancellationToken cancellationToken)
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        logger.LogDebug("Creating and sending message NATS for {type}", request.GetType().Name);
 
         CommandCreateWorkloadWithId parsed = new(Guid.NewGuid(), request.Start, request.Stop, request.PersonId, request.AssignmentId);
 

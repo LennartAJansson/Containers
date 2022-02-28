@@ -52,10 +52,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Initial", "1. Initial", "{1A541D86-B533-438C-AFD3-7407123D3E7B}"
 	ProjectSection(SolutionItems) = preProject
 		ContainerTools.ps1 = ContainerTools.ps1
+		InitialSetup.md = InitialSetup.md
 		profile.ps1 = profile.ps1
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Prometheus, Grafana", "5. Prometheus, Grafana", "{B6CD6348-74D7-47B3-BE3A-E251238F1DB5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Prometheus, Grafana", "6. Prometheus, Grafana", "{B6CD6348-74D7-47B3-BE3A-E251238F1DB5}"
 	ProjectSection(SolutionItems) = preProject
 		AddMonitoring.ps1 = AddMonitoring.ps1
 	EndProjectSection
@@ -139,6 +140,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{C0A8FB02
 		deploy\mysql\namespace.yaml = deploy\mysql\namespace.yaml
 		deploy\mysql\persistentvolume.yaml = deploy\mysql\persistentvolume.yaml
 		deploy\mysql\service.yaml = deploy\mysql\service.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. BuildVersion", "5. BuildVersion", "{5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}"
+	ProjectSection(SolutionItems) = preProject
+		buildwithversion.ps1 = buildwithversion.ps1
+		deploywithversion.ps1 = deploywithversion.ps1
 	EndProjectSection
 EndProject
 Global

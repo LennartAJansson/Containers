@@ -28,8 +28,7 @@
 
         public async Task<CommandWorkloadResponse> Handle(CommandDeleteWorkload request, CancellationToken cancellationToken)
         {
-            //TODO Add meaningful logging
-            logger.LogDebug("");
+            logger.LogDebug("Creating and sending message to NATS for {type}", request.GetType().Name);
 
             CloudEvent evt = new CloudEvent()
             {

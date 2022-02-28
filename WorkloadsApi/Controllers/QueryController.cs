@@ -21,10 +21,11 @@ public class QueryController : MetricsControllerBase
     [HttpGet]
     public async Task<IActionResult> GetPeopleAsync()
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        QueryPeople? request = new QueryPeople();
+        logger.LogDebug("Received {type}", request.GetType().Name);
+
         DateTime startDateTime = DateTime.Now;
-        IEnumerable<QueryPersonResponse>? result = await mediator.Send(new QueryPeople());
+        IEnumerable<QueryPersonResponse>? result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -36,10 +37,11 @@ public class QueryController : MetricsControllerBase
     [HttpGet("{personId}")]
     public async Task<IActionResult> GetPersonAsync(Guid personId)
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        QueryPerson? request = new QueryPerson(personId);
+        logger.LogDebug("Received {type}", request.GetType().Name);
+
         DateTime startDateTime = DateTime.Now;
-        QueryPersonResponse? result = await mediator.Send(new QueryPerson(personId));
+        QueryPersonResponse? result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -52,10 +54,11 @@ public class QueryController : MetricsControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAssignmentsAsync()
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        QueryAssignments? request = new QueryAssignments();
+        logger.LogDebug("Received {type}", request.GetType().Name);
+
         DateTime startDateTime = DateTime.Now;
-        IEnumerable<QueryAssignmentResponse>? result = await mediator.Send(new QueryAssignments());
+        IEnumerable<QueryAssignmentResponse>? result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -67,10 +70,11 @@ public class QueryController : MetricsControllerBase
     [HttpGet("{assignmentId}")]
     public async Task<IActionResult> GetAssignmentAsync(Guid assignmentId)
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        QueryAssignment? request = new QueryAssignment(assignmentId);
+        logger.LogDebug("Received {type}", request.GetType().Name);
+
         DateTime startDateTime = DateTime.Now;
-        QueryAssignmentResponse? result = await mediator.Send(new QueryAssignment(assignmentId));
+        QueryAssignmentResponse? result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -83,10 +87,11 @@ public class QueryController : MetricsControllerBase
     [HttpGet]
     public async Task<IActionResult> GetWorkloadsAsync()
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        QueryWorkloads? request = new QueryWorkloads();
+        logger.LogDebug("Received {type}", request.GetType().Name);
+
         DateTime startDateTime = DateTime.Now;
-        IEnumerable<QueryWorkloadResponse>? result = await mediator.Send(new QueryWorkloads());
+        IEnumerable<QueryWorkloadResponse>? result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -98,10 +103,11 @@ public class QueryController : MetricsControllerBase
     [HttpGet("{workloadId}")]
     public async Task<IActionResult> GetWorkloadAsync(Guid workloadId)
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        QueryWorkload? request = new QueryWorkload(workloadId);
+        logger.LogDebug("Received {type}", request.GetType().Name);
+
         DateTime startDateTime = DateTime.Now;
-        QueryWorkloadResponse? result = await mediator.Send(new QueryWorkload(workloadId));
+        QueryWorkloadResponse? result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);

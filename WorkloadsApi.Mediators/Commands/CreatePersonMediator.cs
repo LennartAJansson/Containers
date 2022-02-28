@@ -28,8 +28,7 @@ public class CreatePersonMediator : NatsCommandMediatorBase, IRequestHandler<Com
 
     public async Task<CommandPersonResponse> Handle(CommandCreatePerson request, CancellationToken cancellationToken)
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        logger.LogDebug("Creating and sending message NATS for {type}", request.GetType().Name);
 
         CommandCreatePersonWithId parsed = new(Guid.NewGuid(), request.Name);
 

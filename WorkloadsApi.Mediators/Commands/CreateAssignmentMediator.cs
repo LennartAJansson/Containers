@@ -28,8 +28,7 @@ public class CreateAssignmentMediator : NatsCommandMediatorBase, IRequestHandler
 
     public async Task<CommandAssignmentResponse> Handle(CommandCreateAssignment request, CancellationToken cancellationToken)
     {
-        //TODO Add meaningful logging
-        logger.LogDebug("");
+        logger.LogDebug("Creating and sending message NATS for {type}", request.GetType().Name);
 
         CommandCreateAssignmentWithId parsed = new(Guid.NewGuid(), request.CustomerName, request.Description);
 
