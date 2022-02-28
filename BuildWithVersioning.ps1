@@ -5,7 +5,7 @@
 foreach($name in @("workloadsapi","workloadsprojector"))
 {
 	"Current build: " + $name
-	$buildVersion = curl.exe -s "http://localhost:9000/api/Binaries/RevisionInc/$name"  | ConvertFrom-Json
+	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/RevisionInc/$name"  | ConvertFrom-Json
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{

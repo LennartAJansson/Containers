@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: workloadsapi-volume
+  name: buildversion-volume
   labels:
     type: local
 spec:
@@ -11,12 +11,12 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/shared/workloadsapi"
+    path: "/tmp/shared/buildversion"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: workloadsapi-claim
+  name: buildversion-claim
 spec:
   storageClassName: manual
   accessModes:
@@ -31,54 +31,52 @@ kind: Deployment
 #https://dzone.com/articles/health-checks-with-aspnet-core-and-kubernetes
 
 metadata:
-  name: workloadsapi
+  name: buildversion
   labels:
-    app: workloadsapi
+    app: buildversion
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: workloadsapi
-  strategy:
-    type: Recreate
+      app: buildversion
   template:
     metadata:
       labels:
-        app: workloadsapi
+        app: buildversion
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "80"
     spec:
       volumes:
-        - name: workloadsapi-storage
+        - name: buildversion-storage
           persistentVolumeClaim:
-            claimName: workloadsapi-claim
+            claimName: buildversion-claim
       containers:
-      - name: workloadsapi
-        image: registry:5000/workloadsapi:latest
+      - name: buildversion
+        image: registry:5000/buildversion:latest
         imagePullPolicy: Always
-        env:
-        - name: NATS__Url
-          value: nats://nats.nats.svc:4222
-        - name: NATS__Servers__0
-          value: nats://nats.nats.svc:4222
+        #env:
+        #- name: NATS__Url
+        #  value: nats://nats.nats.svc:4222
+        #- name: NATS__Servers__0
+        #  value: nats://nats.nats.svc:4222
         ports:
         - containerPort: 80
           name: http
-        - containerPort: 443
-          name: https
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: http
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: http
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+        #- containerPort: 443
+        #  name: https
+        #livenessProbe:
+        #  httpGet:
+        #    path: /healthz
+        #    port: http
+        #  initialDelaySeconds: 10
+        #  timeoutSeconds: 5
+        #readinessProbe:
+        #  httpGet:
+        #    path: /healthz
+        #    port: http
+        #  initialDelaySeconds: 10
+        #  timeoutSeconds: 5
         resources:
           requests:
             memory: "32Mi"
@@ -88,4 +86,4 @@ spec:
           #  cpu: "512m"
         volumeMounts:
           - mountPath: "/data"
-            name: workloadsapi-storage
+            name: buildversion-storage

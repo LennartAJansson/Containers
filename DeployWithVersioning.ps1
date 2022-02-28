@@ -6,7 +6,7 @@ foreach($name in @("workloadsapi","workloadsprojector"))
 {
 	"Current deploy: " + $name
 	kubectl delete -k ./deploy/$name
-	$buildVersion = curl.exe -s "http://localhost:9000/api/Binaries/GetByName/$name"  | ConvertFrom-Json
+	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/$name"  | ConvertFrom-Json
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{

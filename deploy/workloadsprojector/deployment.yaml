@@ -39,6 +39,8 @@ spec:
   selector:
     matchLabels:
       app: workloadsprojector
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:

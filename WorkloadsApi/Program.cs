@@ -68,7 +68,7 @@ app.MapControllers();
 
 app.Run();
 
-Task WriteResponse(HttpContext context, HealthReport report)
+static Task WriteResponse(HttpContext context, HealthReport report)
 {
     context.Response.ContentType = "application/json";
     JObject? json = new JObject(
