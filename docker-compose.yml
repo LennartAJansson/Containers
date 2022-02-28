@@ -19,3 +19,7 @@ services:
     container_name: nats
     image: nats:latest
     command: -js -m 8222
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.6

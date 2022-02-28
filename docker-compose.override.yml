@@ -34,3 +34,11 @@ services:
       - "4222:4222"
       - "6222:6222"
       - "8222:8222"
+
+  mysql:
+    ports:
+      - "3306:5306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - C:/Data/Docker/mysql:/data:rw

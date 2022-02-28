@@ -29,7 +29,7 @@ apiVersion: apps/v1
 kind: Deployment
 #https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-6-adding-health-checks-with-liveness-readiness-and-startup-probes/
 #https://dzone.com/articles/health-checks-with-aspnet-core-and-kubernetes
-
+#https://medium.com/codex/kubernetes-deployment-rolling-updates-and-rollbacks-explained-e3efa6557368
 metadata:
   name: workloadsapi
   labels:
