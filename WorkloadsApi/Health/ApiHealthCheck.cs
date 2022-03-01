@@ -4,24 +4,35 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 internal class ApiHealthCheck : IHealthCheck
 {
+    //TODO Implement WorkerWitness somehow
     private readonly ILogger<ApiHealthCheck> logger;
+    private readonly WorkerWitness witness;
 
-    public ApiHealthCheck(ILogger<ApiHealthCheck> logger) => this.logger = logger;
+    public ApiHealthCheck(ILogger<ApiHealthCheck> logger, WorkerWitness witness)
+    {
+        this.logger = logger;
+        this.witness = witness;
+    }
 
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        bool healthCheckResultHealthy = true;//Change to some class that tests health on all systems
+        logger.LogDebug("Checking Health...");
+        return DateTime.Now.Subtract(witness.LastExecution).TotalSeconds < 120 ?
+                       Task.FromResult(HealthCheckResult.Healthy("I'm working my butt off")) :
+                       Task.FromResult(HealthCheckResult.Unhealthy("I feel a bit exhausted"));
 
-        if (healthCheckResultHealthy)
-        {
-            logger.LogDebug("Healthy");
-            return Task.FromResult(HealthCheckResult.Healthy("The check indicates a healthy result."));
-        }
+        //bool healthCheckResultHealthy = true;//Change to some class that tests health on all systems
 
-        //Also supports HealthCheckResult.Degraded
+        //if (healthCheckResultHealthy)
+        //{
+        //    logger.LogDebug("Healthy");
+        //    return Task.FromResult(HealthCheckResult.Healthy("The check indicates a healthy result."));
+        //}
 
-        logger.LogWarning("The check indicates an unhealthy result.");
+        ////Also supports HealthCheckResult.Degraded
 
-        return Task.FromResult(HealthCheckResult.Unhealthy("The check indicates an unhealthy result."));
+        //logger.LogWarning("The check indicates an unhealthy result.");
+
+        //return Task.FromResult(HealthCheckResult.Unhealthy("The check indicates an unhealthy result."));
     }
 }

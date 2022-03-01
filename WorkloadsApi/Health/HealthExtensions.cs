@@ -1,4 +1,4 @@
-﻿namespace WorkloadsProjector.Health
+﻿namespace WorkloadsApi.Health
 {
     using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -13,25 +13,20 @@
         public static IServiceCollection AddHealth(this IServiceCollection services)
         {
             services.AddSingleton(sp => new WorkerWitness());
-            services.AddHealthChecks().AddCheck<ProjectorHealthCheck>("Projector Health Check").ForwardToPrometheus();
+            services.AddHealthChecks().AddCheck<ApiHealthCheck>("Api Health Check").ForwardToPrometheus();
 
             return services;
         }
 
-        public static IHostBuilder UseHealth(this IHostBuilder hostBuilder)
+        public static WebApplication UseHealth(this WebApplication app)
         {
-            hostBuilder.ConfigureWebHostDefaults(builder => builder.Configure(app =>
+            app.UseHealthChecks("/healthz", new HealthCheckOptions
             {
-                app.UseRouting().UseEndpoints(config => config.MapHealthChecks("/healthz", new HealthCheckOptions
-                {
-                    AllowCachingResponses = false,
-                    ResponseWriter = WriteResponse
-                }));
-                app.UseMetricServer();
-                app.UseHttpMetrics();
-            }));
+                AllowCachingResponses = false,
+                ResponseWriter = WriteResponse
+            });
 
-            return hostBuilder;
+            return app;
         }
 
         private static Task WriteResponse(HttpContext context, HealthReport report)
