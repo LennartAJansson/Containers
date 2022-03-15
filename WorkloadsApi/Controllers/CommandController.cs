@@ -24,7 +24,6 @@ public class CommandController : MetricsControllerBase
     public async Task<IActionResult> CreatePersonAsync([FromBody] CommandCreatePerson request)
     {
         logger.LogDebug("Received {type}", request.GetType().Name);
-
         DateTime startDateTime = DateTime.Now;
         CommandPersonResponse? result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;

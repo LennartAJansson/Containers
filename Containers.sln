@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkloadsProjector", "Workl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NATS.Extensions.DependencyInjection", "NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj", "{B348380D-A697-4123-B141-20B11C466F3E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Various docs", "7. Various docs", "{72BF22B4-6E32-4CC6-812A-C123E9406C20}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "8. Various docs", "8. Various docs", "{72BF22B4-6E32-4CC6-812A-C123E9406C20}"
 	ProjectSection(SolutionItems) = preProject
 		Links.md = Links.md
 		Nats.md = Nats.md
@@ -56,7 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Initial", "1. Initial", 
 		profile.ps1 = profile.ps1
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Prometheus, Grafana", "6. Prometheus, Grafana", "{B6CD6348-74D7-47B3-BE3A-E251238F1DB5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Prometheus, Grafana", "7. Prometheus, Grafana", "{B6CD6348-74D7-47B3-BE3A-E251238F1DB5}"
 	ProjectSection(SolutionItems) = preProject
 		AddMonitoring.ps1 = AddMonitoring.ps1
 	EndProjectSection
@@ -86,19 +86,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E3F387
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workloadsapi", "workloadsapi", "{D428CE4C-2DA8-47F2-BEB7-9D77E865B70D}"
 	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsapi\create-sealed-secret.sh = deploy\workloadsapi\create-sealed-secret.sh
 		deploy\workloadsapi\deployment.yaml = deploy\workloadsapi\deployment.yaml
 		deploy\workloadsapi\ingress.yaml = deploy\workloadsapi\ingress.yaml
 		deploy\workloadsapi\kustomization.yaml = deploy\workloadsapi\kustomization.yaml
 		deploy\workloadsapi\namespace.yaml = deploy\workloadsapi\namespace.yaml
+		deploy\workloadsapi\secret.yaml = deploy\workloadsapi\secret.yaml
 		deploy\workloadsapi\service.yaml = deploy\workloadsapi\service.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workloadsprojector", "workloadsprojector", "{8800C8D5-061E-4913-B611-6F6B13DCDCEB}"
 	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsprojector\create-sealed-secret.sh = deploy\workloadsprojector\create-sealed-secret.sh
 		deploy\workloadsprojector\deployment.yaml = deploy\workloadsprojector\deployment.yaml
 		deploy\workloadsprojector\ingress.yaml = deploy\workloadsprojector\ingress.yaml
 		deploy\workloadsprojector\kustomization.yaml = deploy\workloadsprojector\kustomization.yaml
 		deploy\workloadsprojector\namespace.yaml = deploy\workloadsprojector\namespace.yaml
+		deploy\workloadsprojector\secret.yaml = deploy\workloadsprojector\secret.yaml
 		deploy\workloadsprojector\service.yaml = deploy\workloadsprojector\service.yaml
 	EndProjectSection
 EndProject
@@ -142,7 +146,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{C0A8FB02
 		deploy\mysql\service.yaml = deploy\mysql\service.yaml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. BuildVersion", "5. BuildVersion", "{5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. BuildVersion", "6. BuildVersion", "{5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}"
 	ProjectSection(SolutionItems) = preProject
 		BuildWithVersioning.ps1 = BuildWithVersioning.ps1
 		DeployWithVersioning.ps1 = DeployWithVersioning.ps1
@@ -161,6 +165,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildversion", "buildversio
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildVersion", "BuildVersion\BuildVersion.csproj", "{76E89909-B60E-4710-A66C-801358789054}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sealedsecrets", "sealedsecrets", "{AB84CA66-B153-4171-8E67-FFDD68FC9D05}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\sealedsecrets\controller.yaml = deploy\sealedsecrets\controller.yaml
+		deploy\sealedsecrets\kustomization.yaml = deploy\sealedsecrets\kustomization.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{6745FD7C-A93B-4B2E-9AF5-B32E44ADD46F}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsapi\secrets\NATS__Servers__0 = deploy\workloadsapi\secrets\NATS__Servers__0
+		deploy\workloadsapi\secrets\NATS__Url = deploy\workloadsapi\secrets\NATS__Url
+		deploy\workloadsapi\secrets\section__key = deploy\workloadsapi\secrets\section__key
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{5EA31188-6BBA-471B-8944-3FA2E961344A}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsprojector\secrets\NATS__Servers__0 = deploy\workloadsprojector\secrets\NATS__Servers__0
+		deploy\workloadsprojector\secrets\NATS__Url = deploy\workloadsprojector\secrets\NATS__Url
+		deploy\workloadsprojector\secrets\section__key = deploy\workloadsprojector\secrets\section__key
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -236,6 +260,9 @@ Global
 		{E52D0448-6644-4BE9-B509-7AE7E493627F} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
 		{128540BF-A1CF-4EFF-A634-446D25EF7C31} = {E52D0448-6644-4BE9-B509-7AE7E493627F}
 		{76E89909-B60E-4710-A66C-801358789054} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
+		{AB84CA66-B153-4171-8E67-FFDD68FC9D05} = {58195862-762D-493A-961D-1291BE9DD2A9}
+		{6745FD7C-A93B-4B2E-9AF5-B32E44ADD46F} = {D428CE4C-2DA8-47F2-BEB7-9D77E865B70D}
+		{5EA31188-6BBA-471B-8944-3FA2E961344A} = {8800C8D5-061E-4913-B611-6F6B13DCDCEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
