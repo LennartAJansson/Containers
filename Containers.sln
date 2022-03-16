@@ -86,19 +86,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E3F387
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workloadsapi", "workloadsapi", "{D428CE4C-2DA8-47F2-BEB7-9D77E865B70D}"
 	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsapi\create-sealed-secret.sh = deploy\workloadsapi\create-sealed-secret.sh
 		deploy\workloadsapi\deployment.yaml = deploy\workloadsapi\deployment.yaml
 		deploy\workloadsapi\ingress.yaml = deploy\workloadsapi\ingress.yaml
 		deploy\workloadsapi\kustomization.yaml = deploy\workloadsapi\kustomization.yaml
 		deploy\workloadsapi\namespace.yaml = deploy\workloadsapi\namespace.yaml
+		deploy\workloadsapi\secret.yaml = deploy\workloadsapi\secret.yaml
 		deploy\workloadsapi\service.yaml = deploy\workloadsapi\service.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workloadsprojector", "workloadsprojector", "{8800C8D5-061E-4913-B611-6F6B13DCDCEB}"
 	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsprojector\create-sealed-secret.sh = deploy\workloadsprojector\create-sealed-secret.sh
 		deploy\workloadsprojector\deployment.yaml = deploy\workloadsprojector\deployment.yaml
 		deploy\workloadsprojector\ingress.yaml = deploy\workloadsprojector\ingress.yaml
 		deploy\workloadsprojector\kustomization.yaml = deploy\workloadsprojector\kustomization.yaml
 		deploy\workloadsprojector\namespace.yaml = deploy\workloadsprojector\namespace.yaml
+		deploy\workloadsprojector\secret.yaml = deploy\workloadsprojector\secret.yaml
 		deploy\workloadsprojector\service.yaml = deploy\workloadsprojector\service.yaml
 	EndProjectSection
 EndProject
@@ -170,6 +174,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cronjob", "cronjob", "{9ED9
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronJob", "CronJob\CronJob.csproj", "{5026CB04-4BBD-481D-9E30-79E134D6C22A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{EA1F8500-F622-4285-9826-3638118DBC77}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsapi\secrets\NATS__Servers__0 = deploy\workloadsapi\secrets\NATS__Servers__0
+		deploy\workloadsapi\secrets\NATS__Url = deploy\workloadsapi\secrets\NATS__Url
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{F91FD286-A391-48D5-B2D4-895D63F555D7}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\workloadsprojector\secrets\NATS__Servers__0 = deploy\workloadsprojector\secrets\NATS__Servers__0
+		deploy\workloadsprojector\secrets\NATS__Url = deploy\workloadsprojector\secrets\NATS__Url
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -251,6 +267,8 @@ Global
 		{76E89909-B60E-4710-A66C-801358789054} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
 		{9ED934C9-0390-4B7E-B4D8-78DD5445B5E4} = {58195862-762D-493A-961D-1291BE9DD2A9}
 		{5026CB04-4BBD-481D-9E30-79E134D6C22A} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
+		{EA1F8500-F622-4285-9826-3638118DBC77} = {D428CE4C-2DA8-47F2-BEB7-9D77E865B70D}
+		{F91FD286-A391-48D5-B2D4-895D63F555D7} = {8800C8D5-061E-4913-B611-6F6B13DCDCEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
