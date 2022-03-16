@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CronJob": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

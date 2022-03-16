@@ -162,6 +162,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildversion", "buildversio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildVersion", "BuildVersion\BuildVersion.csproj", "{76E89909-B60E-4710-A66C-801358789054}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cronjob", "cronjob", "{9ED934C9-0390-4B7E-B4D8-78DD5445B5E4}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\cronjob\cronjob.yaml = deploy\cronjob\cronjob.yaml
+		deploy\cronjob\kustomization.yaml = deploy\cronjob\kustomization.yaml
+		deploy\cronjob\namespace.yaml = deploy\cronjob\namespace.yaml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronJob", "CronJob\CronJob.csproj", "{5026CB04-4BBD-481D-9E30-79E134D6C22A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -208,6 +217,10 @@ Global
 		{76E89909-B60E-4710-A66C-801358789054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76E89909-B60E-4710-A66C-801358789054}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76E89909-B60E-4710-A66C-801358789054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5026CB04-4BBD-481D-9E30-79E134D6C22A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5026CB04-4BBD-481D-9E30-79E134D6C22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5026CB04-4BBD-481D-9E30-79E134D6C22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5026CB04-4BBD-481D-9E30-79E134D6C22A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -236,6 +249,8 @@ Global
 		{E52D0448-6644-4BE9-B509-7AE7E493627F} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
 		{128540BF-A1CF-4EFF-A634-446D25EF7C31} = {E52D0448-6644-4BE9-B509-7AE7E493627F}
 		{76E89909-B60E-4710-A66C-801358789054} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
+		{9ED934C9-0390-4B7E-B4D8-78DD5445B5E4} = {58195862-762D-493A-961D-1291BE9DD2A9}
+		{5026CB04-4BBD-481D-9E30-79E134D6C22A} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}

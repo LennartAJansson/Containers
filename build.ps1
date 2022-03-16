@@ -1,4 +1,4 @@
-foreach($name in @("workloadsapi","workloadsprojector"))
+foreach($name in @("workloadsapi","workloadsprojector", "cronjob"))
 {
 	$semanticVersion = "latest"
 	"Current build: " + $name + ":" +$semantivVersion
