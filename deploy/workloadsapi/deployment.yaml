@@ -57,11 +57,13 @@ spec:
       - name: workloadsapi
         image: registry:5000/workloadsapi:latest
         imagePullPolicy: Always
-        env:
-        - name: NATS__Url
-          value: nats://nats.nats.svc:4222
-        - name: NATS__Servers__0
-          value: nats://nats.nats.svc:4222
+        envFrom:
+        - secretRef: 
+            name: workloadsapi-secret
+        - configMapRef:
+            name: workloadsapi-configmap
+        - configMapRef:
+            name: common-configmap
         ports:
         - containerPort: 80
           name: http
@@ -89,3 +91,11 @@ spec:
         volumeMounts:
           - mountPath: "/data"
             name: workloadsapi-storage
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workloadsapi-configmap
+data:
+  #NATS__Url: nats://nats.nats.svc:4222
+  #NATS__Servers__0: nats://nats.nats.svc:4222

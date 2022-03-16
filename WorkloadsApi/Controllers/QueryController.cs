@@ -14,8 +14,7 @@ public class QueryController : MetricsControllerBase
     private readonly ILogger<QueryController> logger;
 
     public QueryController(ILogger<QueryController> logger, IMediator mediator)
-        : base(mediator)
-        => this.logger = logger;
+        : base(mediator) => this.logger = logger;
 
     //People
     [HttpGet]

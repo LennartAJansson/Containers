@@ -39,7 +39,7 @@
                         p.Workloads.Add(w);
                         return a;
                     }, splitOn: "AssignmentId, PersonId");
-
+                //Lennart Fixa detta
 
                 return assignments.Select(a =>
                     new QueryAssignmentResponse(a.AssignmentId,
