@@ -2,16 +2,16 @@
 #https://github.com/LennartAJansson/BuildVersion
 #
 
-foreach($name in @("workloadsapi","workloadsprojector", "buildversion","cronjob"))
+foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob"))
 {
-	"Current build: " + ${name}
-	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/RevisionInc/${name}"  | ConvertFrom-Json
-	$semanticVersion = $buildVersion.buildVersion.semanticVersion
+	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/RevisionInc/$name"  | ConvertFrom-Json
+	$semanticVersion = ${buildVersion.buildVersion.semanticVersion}
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{
 		$semanticVersion = "latest"
 	}
 	
+	"Current build: ${name}:${semanticVersion}"
 	"${env:registryhost}/${name}:${semanticVersion}"
 
 	docker build -f .\${name}\Dockerfile --force-rm -t ${name} .

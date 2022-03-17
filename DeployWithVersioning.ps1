@@ -2,28 +2,28 @@
 #https://github.com/LennartAJansson/BuildVersion
 #
 
-foreach($name in @("workloadsapi","workloadsprojector","buildversion","cronjob"))
+foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob"))
 {
-	"Current deploy: " + $name
-	#kubectl delete -k ./deploy/$name
+	#kubectl delete -k ./deploy/${name}
 	$buildVersion = $null
 	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/$name"  | ConvertFrom-Json
 	$semanticVersion = ""
-	$semanticVersion = $buildVersion.buildVersion.semanticVersion
+	$semanticVersion = ${buildVersion.buildVersion.semanticVersion}
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{
 		$semanticVersion = "latest"
 	}
 
+	"Current deploy: ${name}:${semanticVersion}"
 	"${env:registryhost}/${name}:${semanticVersion}"
 
-	cd ./deploy/$name
+	cd ./deploy/${name}
 	kustomize edit set image "${env:registryhost}/${name}:${semanticVersion}"
 	cd ../..
-	kubectl apply -k ./deploy/$name
+	kubectl apply -k ./deploy/${name}
 
-	#kubectl set image -n ${name} deployment/${name} ${name}="${env:registryhost}/${name}:${semanticVersion}"
-	#curl.exe -X POST -g "http://prometheus.local:8081/api/v1/admin/tsdb/delete_series?match[]={app='${name}'}"
+#	#kubectl set image -n ${name} deployment/${name} ${name}="${env:registryhost}/${name}:${semanticVersion}"
+#	#curl.exe -X POST -g "http://prometheus.local:8081/api/v1/admin/tsdb/delete_series?match[]={app='${name}'}"
 }
 
 
