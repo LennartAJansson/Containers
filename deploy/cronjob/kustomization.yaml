@@ -6,4 +6,4 @@ resources:
 - namespace.yaml
 images:
 - name: registry:5000/cronjob
-  newTag: 0.1.0-dev.1
+  newTag: 0.1.0-dev.8

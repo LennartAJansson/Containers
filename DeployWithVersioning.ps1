@@ -8,7 +8,7 @@ foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjo
 	$buildVersion = $null
 	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/$name"  | ConvertFrom-Json
 	$semanticVersion = ""
-	$semanticVersion = ${buildVersion.buildVersion.semanticVersion}
+	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{
 		$semanticVersion = "latest"

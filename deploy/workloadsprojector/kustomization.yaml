@@ -10,4 +10,4 @@ resources:
 - ../common
 images:
 - name: registry:5000/workloadsprojector
-  newTag: 0.1.0-dev.6
+  newTag: 0.1.0-dev.24

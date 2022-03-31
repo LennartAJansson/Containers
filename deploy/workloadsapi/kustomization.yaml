@@ -10,4 +10,4 @@ resources:
 - ../common
 images:
 - name: registry:5000/workloadsapi
-  newTag: 0.1.0-dev.6
+  newTag: 1.1.0-pre.14

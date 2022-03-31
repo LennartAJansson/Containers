@@ -19,10 +19,9 @@ WORKDIR "/src/WorkloadsProjector"
 RUN dotnet build "WorkloadsProjector.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG VersionPrefix
-ARG VersionSuffix
+ARG Version
 ARG Description
-RUN dotnet publish "WorkloadsProjector.csproj" -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -p:Description=$Description -c Release -o /app/publish
+RUN dotnet publish "WorkloadsProjector.csproj" -p:Version="$Version" -p:Description="$Description" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
