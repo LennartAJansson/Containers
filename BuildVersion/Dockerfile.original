@@ -3,21 +3,18 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["BuildVersion/BuildVersion.csproj", "BuildVersion/"]
-COPY ["Common/Common.csproj", "Common/"]
 RUN dotnet restore "BuildVersion/BuildVersion.csproj"
 COPY . .
 WORKDIR "/src/BuildVersion"
 RUN dotnet build "BuildVersion.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG VersionPrefix
-ARG VersionSuffix
-ARG Description
-RUN dotnet publish "BuildVersion.csproj" -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -p:Description=$Description -c Release -o /app/publish
+RUN dotnet publish "BuildVersion.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

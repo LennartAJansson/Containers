@@ -6,17 +6,13 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["CronJob/CronJob.csproj", "CronJob/"]
-COPY ["Common/Common.csproj", "Common/"]
 RUN dotnet restore "CronJob/CronJob.csproj"
 COPY . .
 WORKDIR "/src/CronJob"
 RUN dotnet build "CronJob.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG VersionPrefix
-ARG VersionSuffix
-ARG Description
-RUN dotnet publish "CronJob.csproj" -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -p:Description=$Description -c Release -o /app/publish
+RUN dotnet publish "CronJob.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

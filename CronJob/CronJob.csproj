@@ -7,10 +7,20 @@
     <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\Containers</DockerfileContext>
+    <VersionPrefix>2.0</VersionPrefix>
+    <!--Format: major.minor.patch[.build]-->
+    <VersionSuffix>alpha</VersionSuffix>
+    <!--Format: Alphanumberic (+ hyphen) string: [0-9A-Za-z-]*-->
+    <Description>Fucking awesome version!</Description>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

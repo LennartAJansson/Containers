@@ -9,9 +9,8 @@ WORKDIR /src
 COPY ["WorkloadsProjector/WorkloadsProjector.csproj", "WorkloadsProjector/"]
 COPY ["Workloads.Model/Workloads.Model.csproj", "Workloads.Model/"]
 COPY ["WorkloadsProjector.Mediators/WorkloadsProjector.Mediators.csproj", "WorkloadsProjector.Mediators/"]
-COPY ["Workloads.Db/Workloads.Db.csproj", "Workloads.Db/"]
 COPY ["Workloads.Contract/Workloads.Contract.csproj", "Workloads.Contract/"]
-COPY ["Common/Common.csproj", "Common/"]
+COPY ["Workloads.Db/Workloads.Db.csproj", "Workloads.Db/"]
 COPY ["NATS.Extensions.DependencyInjection/NATS.Extensions.DependencyInjection.csproj", "NATS.Extensions.DependencyInjection/"]
 RUN dotnet restore "WorkloadsProjector/WorkloadsProjector.csproj"
 COPY . .
@@ -19,10 +18,7 @@ WORKDIR "/src/WorkloadsProjector"
 RUN dotnet build "WorkloadsProjector.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG VersionPrefix
-ARG VersionSuffix
-ARG Description
-RUN dotnet publish "WorkloadsProjector.csproj" -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix -p:Description=$Description -c Release -o /app/publish
+RUN dotnet publish "WorkloadsProjector.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

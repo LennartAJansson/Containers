@@ -1,3 +1,5 @@
+using Common;
+
 using NATS.Extensions.DependencyInjection;
 
 using WorkloadsProjector;
@@ -7,6 +9,9 @@ using WorkloadsProjector.Mediators;
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
+        ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
+        services.AddSingleton<ApplicationInfo>(appInfo);
+
         services.AddProjectorMediators();
         services.AddWorkloadsDb(context.Configuration);
         services.AddHealth();

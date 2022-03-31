@@ -6,6 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>e9d2f459-434e-4411-b968-874424d55454</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <VersionPrefix>2.0</VersionPrefix>
+    <!--Format: major.minor.patch[.build]-->
+    <VersionSuffix>alpha</VersionSuffix>
+    <!--Format: Alphanumberic (+ hyphen) string: [0-9A-Za-z-]*-->
+    <Description>Fucking awesome version!</Description>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Workloads.Contract\Workloads.Contract.csproj" />
     <ProjectReference Include="..\Workloads.Db\Workloads.Db.csproj" />
     <ProjectReference Include="..\Workloads.Model\Workloads.Model.csproj" />
