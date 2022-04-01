@@ -9,4 +9,4 @@ resources:
 - ../common
 images:
 - name: registry:5000/buildversion
-  newTag: 0.1.0-dev.9
+  newTag: 1.2.0-dev.1

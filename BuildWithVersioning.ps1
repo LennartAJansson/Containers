@@ -6,8 +6,9 @@ foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjo
 {
 	"http://buildversion.local:8081/api/Binaries/RevisionInc/$name"
 	$branch = git rev-parse --abbrev-ref HEAD
-	$commit = git log -1 --pretty=format:"%h - %an : %s"
-	$description = "Branch: ${branch}, Commit: ${commit}"
+	#$commit = git log -1 --pretty=format:"%H - %an : %s"
+	$commit = git log -1 --pretty=format:"%H"
+	$description = "${branch}: ${commit}"
 	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/RevisionInc/$name" | ConvertFrom-Json
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 	
