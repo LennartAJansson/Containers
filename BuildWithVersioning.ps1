@@ -5,20 +5,32 @@
 foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob"))
 {
 	"http://buildversion.local:8081/api/Binaries/RevisionInc/$name"
+	$branch = git rev-parse --abbrev-ref HEAD
+	$commit = git log -1 --pretty=format:"%h - %an : %s"
+	$description = "Branch: ${branch}, Commit: ${commit}"
 	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/RevisionInc/$name" | ConvertFrom-Json
-	$Description = "Local build"
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
+	
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{
 		$semanticVersion = "latest"
 	}
+	else
+	{
+		git tag $semanticVersion
+	}
+
+	if([string]::IsNullOrEmpty($description))
+	{
+		$description = "Local build"
+	}
 	
 	"Current build: ${name}:${semanticVersion}"
 	"Version: ${semanticVersion}"
-	"Description: ${Description}"
+	"Description: ${description}"
 	"${env:registryhost}/${name}:${semanticVersion}"
 
-	docker build -f .\${name}\Dockerfile --force-rm -t ${name} --build-arg Version="${semanticVersion}" --build-arg Description="${Description}" .
+	docker build -f .\${name}\Dockerfile --force-rm -t ${name} --build-arg Version="${semanticVersion}" --build-arg Description="${description}" .
 	docker tag ${name}:latest ${env:registryhost}/${name}:${semanticVersion}
 	docker push ${env:registryhost}/${name}:${semanticVersion}
 }
