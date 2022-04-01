@@ -5,7 +5,7 @@ if($alive -ne "pong!")
 {
 	"You need to do an initial deploy of BuildVersion container"
 	"Please run InitBuildVersion.ps1"
-	return
+#	return
 }
 
 foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob"))
