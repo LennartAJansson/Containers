@@ -11,7 +11,7 @@ if($alive -ne "pong!")
 foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob"))
 {
 	$buildVersion = $null
-	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/$name"  | ConvertFrom-Json
+	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/$name" | ConvertFrom-Json
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 
 	if([string]::IsNullOrEmpty($semanticVersion)) 

@@ -146,7 +146,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{C0A8FB02
 		deploy\mysql\service.yaml = deploy\mysql\service.yaml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. BuildVersion", "5. BuildVersion", "{5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Build and Deploy versioning", "5. Build and Deploy versioning", "{5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}"
 	ProjectSection(SolutionItems) = preProject
 		BuildWithVersioning.ps1 = BuildWithVersioning.ps1
 		DeployWithVersioning.ps1 = DeployWithVersioning.ps1
@@ -187,7 +187,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "secrets", "secrets", "{F91F
 		deploy\workloadsprojector\secrets\NATS__Url = deploy\workloadsprojector\secrets\NATS__Url
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{E34EE822-6B3D-4F2D-A173-4F4CCD3A6DFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{E34EE822-6B3D-4F2D-A173-4F4CCD3A6DFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
