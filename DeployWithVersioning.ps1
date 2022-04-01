@@ -3,21 +3,22 @@
 $alive = curl -s "http://buildversion.local:8081/Ping" -H "accept: text/plain"
 if($alive -ne "pong!")
 {
-	"You need to do an initial deploy of BuildVersion container"
+	"You need to do an initial deploy of BuildVersion API"
 	"Please run InitBuildVersion.ps1"
-#	return
+	return
 }
 
 foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob"))
 {
-	#kubectl delete -k ./deploy/${name}
 	$buildVersion = $null
 	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/$name"  | ConvertFrom-Json
-	$semanticVersion = ""
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
+
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{
-		$semanticVersion = "latest"
+		"Could not connect to buildversion api"
+		"Please check that BuildVersion API is working correctly in your Kubernetes"
+		return
 	}
 
 	"Current deploy: ${name}:${semanticVersion}"
