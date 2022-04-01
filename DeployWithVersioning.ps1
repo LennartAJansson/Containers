@@ -1,6 +1,12 @@
-#Assumes you have the github project buildversion running on your localhost on port 9000
-#https://github.com/LennartAJansson/BuildVersion
+#Assumes you have the project buildversion running on your localhost on port 9000
 #
+$alive = curl -s "http://buildversion.local:8081/Ping" -H "accept: text/plain"
+if($alive -ne "pong!")
+{
+	"You need to do an initial deploy of BuildVersion container"
+	"Please run InitBuildVersion.ps1"
+	return
+}
 
 foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob"))
 {
