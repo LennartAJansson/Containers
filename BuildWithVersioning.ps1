@@ -1,6 +1,6 @@
 #Assumes you have the project buildversion running on your localhost on port 9000
 #
-$alive = curl -s "http://buildversion.local:8081/Ping" -H "accept:text/plain"
+$alive = curl.exe -s "http://buildversion.local:8081/Ping" -H "accept:text/plain"
 if($alive -ne "pong!")
 {
 	"You need to do an initial deploy of BuildVersion API"
