@@ -13,3 +13,16 @@ steps:
 - task: PowerShell@2
   inputs:
     filePath: './BuildWithVersioning.ps1'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: |
+      DeployWithVersioning.ps1
+      .\deploy\**\*.*
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
