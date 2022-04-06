@@ -28,7 +28,11 @@ foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjo
 	kustomize edit set image "${env:registryhost}/${name}:${semanticVersion}"
 	cd ../..
 	kubectl apply -k ./deploy/${name}
-	git checkout deploy/${name}/kustomization.yaml
+	
+	if([string]::IsNullOrEmpty($env:AGENT_NAME))
+	{
+		git checkout deploy/${name}/kustomization.yaml
+	}
 
 #	#kubectl set image -n ${name} deployment/${name} ${name}="${env:registryhost}/${name}:${semanticVersion}"
 #	#curl.exe -X POST -g "http://prometheus.local:8081/api/v1/admin/tsdb/delete_series?match[]={app='${name}'}"
