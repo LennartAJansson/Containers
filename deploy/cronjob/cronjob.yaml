@@ -6,7 +6,8 @@ spec:
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   concurrencyPolicy: Forbid
-  schedule: "* */10 * * *"
+  schedule: "0 * * * *"
+  #https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
   jobTemplate:
     spec:
       backoffLimit: 0
