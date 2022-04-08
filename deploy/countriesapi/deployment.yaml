@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: countriesapi-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/shared/countriesapi"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: countriesapi-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+#https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-6-adding-health-checks-with-liveness-readiness-and-startup-probes/
+#https://dzone.com/articles/health-checks-with-aspnet-core-and-kubernetes
+#https://medium.com/codex/kubernetes-deployment-rolling-updates-and-rollbacks-explained-e3efa6557368
+metadata:
+  name: countriesapi
+  labels:
+    app: countriesapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: countriesapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: countriesapi
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+    spec:
+      volumes:
+        - name: countriesapi-storage
+          persistentVolumeClaim:
+            claimName: countriesapi-claim
+      containers:
+      - name: countriesapi
+        image: registry:5000/countriesapi:latest
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef: 
+            name: countriesapi-secret
+        - configMapRef:
+            name: countriesapi-configmap
+        - configMapRef:
+            name: common-configmap
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 443
+          name: https
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "16m"
+          #limits:
+          #  memory: "128Mi"
+          #  cpu: "512m"
+        volumeMounts:
+          - mountPath: "/data"
+            name: countriesapi-storage
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: countriesapi-configmap
+data:
+  #NATS__Url: nats://nats.nats.svc:4222
+  #NATS__Servers__0: nats://nats.nats.svc:4222
