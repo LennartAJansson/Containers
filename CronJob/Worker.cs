@@ -27,7 +27,7 @@
         {
             logger.LogInformation($"{info.SemanticVersion} ({info.Description})");
             IEnumerable<Country>? countries = await TranslateCountries(await GetCountriesFromApi());
-            await service.CreateCountriesAsync(countries);
+            await service.UpsertCountriesAsync(countries);
         }
 
         private async Task<IEnumerable<CountryFromApi>?> GetCountriesFromApi()

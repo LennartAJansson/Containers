@@ -2,6 +2,7 @@
 
 using Countries.Model;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using System.Collections.Generic;
@@ -18,20 +19,45 @@ public class CountriesService : ICountriesService
         this.context = context;
     }
 
-    public async Task<IEnumerable<Country>> CreateCountriesAsync(IEnumerable<Country> countries)
+    public async Task<IEnumerable<Country>> UpsertCountriesAsync(IEnumerable<Country> countries)
     {
-        await context.Countries.AddRangeAsync(countries);
+        await context.Countries.UpsertRange(countries)
+            .On(c => c.CountryId)
+            //.WhenMatched(c => c)
+            .RunAsync();
+
         await context.SaveChangesAsync();
+
+        foreach (Country country in countries)
+        {
+            await UpsertPrefixes(country.Prefixes);
+        }
 
         return countries;
     }
 
-    public async Task<Country> CreateCountryAsync(Country country)
+    public async Task<Country> UpsertCountryAsync(Country country)
     {
-        await context.Countries.AddAsync(country);
+        await context.Countries.Upsert(country)
+            .On(c => c.CountryId)
+            //.WhenMatched(c => c)
+            .RunAsync();
+
         await context.SaveChangesAsync();
 
+        await UpsertPrefixes(country.Prefixes);
+
         return country;
+    }
+
+    private async Task UpsertPrefixes(IEnumerable<PhonePrefix> prefixes)
+    {
+        await context.PhonePrefixes.UpsertRange(prefixes)
+            .On(p => p.Prefix)
+            .WhenMatched(p => new PhonePrefix { CountryId = p.CountryId, Prefix = p.Prefix })
+            .RunAsync();
+
+        await context.SaveChangesAsync();
     }
 
     public Task<IEnumerable<Country>> GetCountriesAsync()

@@ -4,8 +4,8 @@ using Countries.Model;
 
 public interface ICountriesService
 {
-    Task<Country> CreateCountryAsync(Country country);
-    Task<IEnumerable<Country>> CreateCountriesAsync(IEnumerable<Country> countries);
+    Task<Country> UpsertCountryAsync(Country country);
+    Task<IEnumerable<Country>> UpsertCountriesAsync(IEnumerable<Country> countries);
 
     Task<Country?> GetCountryByIdAsync(int countryId);
     Task<Country?> GetCountryByCodeAsync(string code);
