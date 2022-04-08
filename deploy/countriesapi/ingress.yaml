@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: workloadsapi
+  name: countriesapi
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - host: "workloadsapi.local"
+  - host: "countriesapi.local"
     http:
       paths:
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: workloadsapi
+            name: countriesapi
             port:
               number: 80
