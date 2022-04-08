@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.3" />
-    <!--<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />-->
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
@@ -28,9 +27,9 @@
     </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\Workloads.Model\Workloads.Model.csproj" />
+    <ProjectReference Include="..\Countries.Model\Countries.Model.csproj" />
   </ItemGroup>
 
 </Project>

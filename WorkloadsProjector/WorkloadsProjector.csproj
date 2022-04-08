@@ -16,12 +16,12 @@
 
   <ItemGroup>
     <PackageReference Include="CloudNative.CloudEvents.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-    <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.2" />
-    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="5.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
+    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

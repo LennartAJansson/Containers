@@ -6,8 +6,6 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["CronJob/CronJob.csproj", "CronJob/"]
-COPY ["Countries.Db/Countries.Db.csproj", "Countries.Db/"]
-COPY ["Countries.Model/Countries.Model.csproj", "Countries.Model/"]
 COPY ["Common/Common.csproj", "Common/"]
 RUN dotnet restore "CronJob/CronJob.csproj"
 COPY . .
