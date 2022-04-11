@@ -47,6 +47,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Countries API");
+    //    c.RoutePrefix = string.Empty;
+    c.ConfigObject.AdditionalItems.Add("syntaxHighlight", false);
+    c.ConfigObject.AdditionalItems["syntaxHighlight"] = new Dictionary<string, object>
+    {
+        ["activated"] = false
+    };
+});
 
 app.UseHttpsRedirection();
 

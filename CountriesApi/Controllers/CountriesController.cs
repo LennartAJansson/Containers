@@ -32,30 +32,28 @@ namespace CountriesApi.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetByIso()
+        [HttpPost]
+        public async Task<IActionResult> GetByIso([FromBody] CountryByIsoCountryRequest request)
         {
-            CountryByIsoRequest? request = new CountryByIsoRequest();
             logger.LogDebug("Received {type}", request.GetType().Name);
 
             CountryResponse response = await mediator.Send(request);
 
             return Ok(response);
         }
-        [HttpGet]
-        public async Task<IActionResult> GetByCode2()
+
+        [HttpPost]
+        public async Task<IActionResult> GetByCode2([FromBody] CountryByCountryCode2Request request)
         {
-            CountryByCode2Request? request = new CountryByCode2Request();
             logger.LogDebug("Received {type}", request.GetType().Name);
 
             CountryResponse response = await mediator.Send(request);
 
             return Ok(response);
         }
-        [HttpGet]
-        public async Task<IActionResult> GetByCode3()
+        [HttpPost]
+        public async Task<IActionResult> GetByCode3([FromBody] CountryByCountryCode3Request request)
         {
-            CountryByCode3Request? request = new CountryByCode3Request();
             logger.LogDebug("Received {type}", request.GetType().Name);
 
             CountryResponse response = await mediator.Send(request);

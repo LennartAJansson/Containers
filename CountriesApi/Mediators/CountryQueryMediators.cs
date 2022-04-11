@@ -3,6 +3,9 @@
     using Countries.Model;
 
     using CountriesApi.Contracts;
+    using CountriesApi.Extensions;
+
+    using Dapper;
 
     using MediatR;
 
@@ -10,13 +13,15 @@
 
     using MySql.Data.MySqlClient;
 
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
+    //TODO Implement Mediators with Dapper
     public class CountryQueryMediators : SqlQueryMediatorBase, IRequestHandler<CountriesRequest, IEnumerable<CountryResponse>>,
-        IRequestHandler<CountryByIsoRequest, CountryResponse>,
-        IRequestHandler<CountryByCode2Request, CountryResponse>,
-        IRequestHandler<CountryByCode3Request, CountryResponse>
+        IRequestHandler<CountryByIsoCountryRequest, CountryResponse>,
+        IRequestHandler<CountryByCountryCode2Request, CountryResponse>,
+        IRequestHandler<CountryByCountryCode3Request, CountryResponse>
     {
         private readonly ILogger<CountryQueryMediators> logger;
 
@@ -26,60 +31,80 @@
             this.logger = logger;
         }
 
-        public Task<IEnumerable<CountryResponse>> Handle(CountriesRequest request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CountryResponse> Handle(CountryByIsoRequest request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CountryResponse> Handle(CountryByCode2Request request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CountryResponse> Handle(CountryByCode3Request request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CountryResponse>> Handle(CountriesRequest request, CancellationToken cancellationToken)
         {
             logger.LogDebug("");
-            using (MySqlConnection connection = new MySqlConnection(connectionStrings.CountriesDb))
-            {
-                connection.Open();
+            using MySqlConnection connection = new MySqlConnection(connectionStrings.CountriesDb);
+            connection.Open();
 
-                //IEnumerable<Assignment> assignments = await connection.QueryAsync<Workload, Assignment, Person, Assignment>(
-                //    QueryStrings.SelectAllJoinedWhereAssignment,
-                //    (w, a, p) =>
-                //    {
-                //        w.Assignment = a;
-                //        w.Person = p;
-                //        a.Workloads.Add(w);
-                //        p.Workloads.Add(w);
-                //        return a;
-                //    }, new { p1 = request.AssignmentId }, splitOn: "AssignmentId, PersonId");
+            IEnumerable<Country> countries = await connection.QueryAsync<PhonePrefix, Country, Country>(
+                QueryStrings.SelectAllCountries,
+                (p, c) =>
+                {
+                    p.CountryId = c.CountryId;
+                    p.Country = c;
+                    c.Prefixes.Add(p);
+                    return c;
+                }, splitOn: "CountryId");
 
-                //Assignment? assignment = assignments.FirstOrDefault();
+            return countries.Select(c => c.ToCountryResponse());
+        }
 
-                //if (assignment == null)
-                //{
-                //    return null;
-                //}
-                //else
-                //{
-                //    return new QueryAssignmentResponse(assignment.AssignmentId,
-                //        assignment.CustomerName!,
-                //        assignment.Description!,
-                //        assignment.Workloads.Select(w =>
-                //        new QueryWorkloadResponse(w.WorkloadId,
-                //            w.Start,
-                //            w.Stop,
-                //            w.Person!.ToUnJoinedQueryPersonResponse(),
-                //            w.Assignment!.ToUnJoinedQueryAssignmentResponse())));
-                //}
+        public async Task<CountryResponse> Handle(CountryByIsoCountryRequest request, CancellationToken cancellationToken)
+        {
+            logger.LogDebug("");
+            using MySqlConnection connection = new MySqlConnection(connectionStrings.CountriesDb);
+            connection.Open();
 
-                return Task.FromResult(new CountryResponse());
-            }
+            IEnumerable<Country> countries = await connection.QueryAsync<PhonePrefix, Country, Country>(
+                QueryStrings.SelectCountryByIso,
+                (p, c) =>
+                {
+                    p.CountryId = c.CountryId;
+                    p.Country = c;
+                    c.Prefixes.Add(p);
+                    return c;
+                }, new { p1 = request.IsoCountry }, splitOn: "CountryId");
+
+            return countries.FirstOrDefault().ToCountryResponse();
+        }
+
+        public async Task<CountryResponse> Handle(CountryByCountryCode2Request request, CancellationToken cancellationToken)
+        {
+            logger.LogDebug("");
+            using MySqlConnection connection = new MySqlConnection(connectionStrings.CountriesDb);
+            connection.Open();
+
+            IEnumerable<Country> countries = await connection.QueryAsync<PhonePrefix, Country, Country>(
+                QueryStrings.SelectCountryByCode2,
+                (p, c) =>
+                {
+                    p.CountryId = c.CountryId;
+                    p.Country = c;
+                    c.Prefixes.Add(p);
+                    return c;
+                }, new { p1 = request.CountryCode2 }, splitOn: "CountryId");
+
+            return countries.FirstOrDefault().ToCountryResponse();
+        }
+
+        public async Task<CountryResponse> Handle(CountryByCountryCode3Request request, CancellationToken cancellationToken)
+        {
+            logger.LogDebug("");
+            using MySqlConnection connection = new MySqlConnection(connectionStrings.CountriesDb);
+            connection.Open();
+
+            IEnumerable<Country> countries = await connection.QueryAsync<PhonePrefix, Country, Country>(
+                QueryStrings.SelectCountryByCode3,
+                (p, c) =>
+                {
+                    p.CountryId = c.CountryId;
+                    p.Country = c;
+                    c.Prefixes.Add(p);
+                    return c;
+                }, new { p1 = request.CountryCode3 }, splitOn: "CountryId");
+
+            return countries.FirstOrDefault().ToCountryResponse();
         }
     }
 }
