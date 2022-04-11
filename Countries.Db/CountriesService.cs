@@ -23,14 +23,14 @@ public class CountriesService : ICountriesService
     {
         await context.Countries.UpsertRange(countries)
             .On(c => c.CountryId)
-            //.WhenMatched(c => c)
+            .NoUpdate()
             .RunAsync();
 
         await context.SaveChangesAsync();
 
         foreach (Country country in countries)
         {
-            await UpsertPrefixes(country.Prefixes);
+            await UpsertPrefixes(country.CountryId, country.Prefixes);
         }
 
         return countries;
@@ -40,22 +40,33 @@ public class CountriesService : ICountriesService
     {
         await context.Countries.Upsert(country)
             .On(c => c.CountryId)
-            //.WhenMatched(c => c)
+            .NoUpdate() //TODO Handle update of Country as well
             .RunAsync();
 
         await context.SaveChangesAsync();
 
-        await UpsertPrefixes(country.Prefixes);
+        await UpsertPrefixes(country.CountryId, country.Prefixes);
 
         return country;
     }
 
-    private async Task UpsertPrefixes(IEnumerable<PhonePrefix> prefixes)
+    private async Task UpsertPrefixes(int countryId, IEnumerable<PhonePrefix> prefixes)
     {
-        await context.PhonePrefixes.UpsertRange(prefixes)
-            .On(p => p.Prefix)
-            .WhenMatched(p => new PhonePrefix { CountryId = p.CountryId, Prefix = p.Prefix })
-            .RunAsync();
+        IQueryable<PhonePrefix>? actualPrefixes = context.PhonePrefixes.Where(p => p.CountryId == countryId);
+        foreach (PhonePrefix? prefix in prefixes)
+        {
+            if (!actualPrefixes.Any(p => p.Prefix == prefix.Prefix))
+            {
+                context.PhonePrefixes.Add(prefix);
+            }
+        }
+        foreach (PhonePrefix? prefix in actualPrefixes)
+        {
+            if (!prefixes.Any(p => p.Prefix == prefix.Prefix))
+            {
+                context.PhonePrefixes.Remove(prefix);
+            }
+        }
 
         await context.SaveChangesAsync();
     }
