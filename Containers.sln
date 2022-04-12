@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NATS.Extensions.DependencyI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Various docs", "7. Various docs", "{72BF22B4-6E32-4CC6-812A-C123E9406C20}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		Links.md = Links.md
 		Nats.md = Nats.md
 		Readme.md = Readme.md
