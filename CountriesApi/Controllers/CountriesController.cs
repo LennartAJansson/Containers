@@ -14,13 +14,11 @@ namespace CountriesApi.Controllers
 
         private readonly ILogger<CountriesController> logger;
         private readonly IMediator mediator;
-        private readonly CountryDictionary dictionary;
 
-        public CountriesController(ILogger<CountriesController> logger, IMediator mediator, CountryDictionary dictionary)
+        public CountriesController(ILogger<CountriesController> logger, IMediator mediator)
         {
             this.logger = logger;
             this.mediator = mediator;
-            this.dictionary = dictionary;
         }
 
         [HttpGet]
@@ -66,9 +64,21 @@ namespace CountriesApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPrefixes()
         {
-
-            return Ok(dictionary);
+            IEnumerable<PhonePrefixWithCountriesResponse>? result = await mediator.Send(new PhonePrefixDictionaryAllRequest());
+            return Ok(result);
         }
 
+        [HttpGet("{phoneNumber}")]
+        public async Task<IActionResult> GetPrefixForPhoneNumber(string phoneNumber)
+        {
+            PhonePrefixWithCountriesResponse? result = await mediator.Send(new PhonePrefixDictionaryRequest(phoneNumber));
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public Task<ActionResult> RefreshCountryInformation()
+        {
+            return Task.FromResult(Ok() as ActionResult);
+        }
     }
 }

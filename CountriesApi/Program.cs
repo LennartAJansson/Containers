@@ -10,7 +10,6 @@ using MediatR;
 using Microsoft.OpenApi.Models;
 
 using System.Reflection;
-using System.Text.Json.Serialization;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
@@ -19,16 +18,16 @@ ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddCountriesDb(builder.Configuration);
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
 
-builder.Services.AddSingleton<CountryDictionary>();
+builder.Services.AddSingleton<PhonePrefixDictionary>();
 
 builder.Services.AddMediatR(Assembly.GetAssembly(typeof(Program)) ?? throw new NullReferenceException());
 builder.Services.Configure<ConnectionStrings>(c => builder.Configuration.GetSection("ConnectionStrings").Bind(c));
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    });
+builder.Services.AddControllers();
+//.AddJsonOptions(options =>
+//{
+//    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+//});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

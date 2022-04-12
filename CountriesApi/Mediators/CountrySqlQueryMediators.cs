@@ -17,15 +17,14 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    //TODO Implement Mediators with Dapper
-    public class CountryQueryMediators : SqlQueryMediatorBase, IRequestHandler<CountriesRequest, IEnumerable<CountryResponse>>,
+    public class CountrySqlQueryMediators : SqlQueryMediatorBase, IRequestHandler<CountriesRequest, IEnumerable<CountryResponse>>,
         IRequestHandler<CountryByIsoCountryRequest, CountryResponse>,
         IRequestHandler<CountryByCountryCode2Request, CountryResponse>,
         IRequestHandler<CountryByCountryCode3Request, CountryResponse>
     {
-        private readonly ILogger<CountryQueryMediators> logger;
+        private readonly ILogger<CountrySqlQueryMediators> logger;
 
-        public CountryQueryMediators(ILogger<CountryQueryMediators> logger, IOptions<ConnectionStrings> options)
+        public CountrySqlQueryMediators(ILogger<CountrySqlQueryMediators> logger, IOptions<ConnectionStrings> options)
         : base(options.Value)
         {
             this.logger = logger;
