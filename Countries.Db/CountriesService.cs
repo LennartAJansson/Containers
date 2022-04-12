@@ -85,4 +85,9 @@ public class CountriesService : ICountriesService
     {
         return Task.FromResult(context.Countries.FirstOrDefault(c => c.CountryId == countryId));
     }
+
+    public Task<IEnumerable<PhonePrefix>> GetPrefixesAsync()
+    {
+        return Task.FromResult(context.PhonePrefixes.Include("Country").AsEnumerable());
+    }
 }

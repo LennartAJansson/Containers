@@ -14,11 +14,13 @@ namespace CountriesApi.Controllers
 
         private readonly ILogger<CountriesController> logger;
         private readonly IMediator mediator;
+        private readonly CountryDictionary dictionary;
 
-        public CountriesController(ILogger<CountriesController> logger, IMediator mediator)
+        public CountriesController(ILogger<CountriesController> logger, IMediator mediator, CountryDictionary dictionary)
         {
             this.logger = logger;
             this.mediator = mediator;
+            this.dictionary = dictionary;
         }
 
         [HttpGet]
@@ -60,5 +62,13 @@ namespace CountriesApi.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPrefixes()
+        {
+
+            return Ok(dictionary);
+        }
+
     }
 }

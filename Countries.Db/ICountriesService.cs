@@ -10,4 +10,5 @@ public interface ICountriesService
     Task<Country?> GetCountryByIdAsync(int countryId);
     Task<Country?> GetCountryByCodeAsync(string code);
     Task<IEnumerable<Country>> GetCountriesAsync();
+    Task<IEnumerable<PhonePrefix>> GetPrefixesAsync();
 }
