@@ -1,4 +1,4 @@
-﻿using WorkloadsApi.Health;
+﻿using Common.Health;
 
 public class Worker : BackgroundService
 {

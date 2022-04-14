@@ -24,7 +24,7 @@ namespace CountriesApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            CountriesRequest? request = new CountriesRequest();
+            CountriesRequest request = new CountriesRequest();
             logger.LogDebug("Received {type}", request.GetType().Name);
 
             IEnumerable<CountryResponse> response = await mediator.Send(request);
@@ -64,14 +64,14 @@ namespace CountriesApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPrefixes()
         {
-            IEnumerable<PhonePrefixWithCountriesResponse>? result = await mediator.Send(new PhonePrefixDictionaryAllRequest());
+            IEnumerable<PhonePrefixWithCountriesResponse> result = await mediator.Send(new PhonePrefixDictionaryAllRequest());
             return Ok(result);
         }
 
         [HttpGet("{phoneNumber}")]
         public async Task<IActionResult> GetPrefixForPhoneNumber(string phoneNumber)
         {
-            PhonePrefixWithCountriesResponse? result = await mediator.Send(new PhonePrefixDictionaryRequest(phoneNumber));
+            PhonePrefixWithCountriesResponse result = await mediator.Send(new PhonePrefixDictionaryRequest(phoneNumber));
             return Ok(result);
         }
 

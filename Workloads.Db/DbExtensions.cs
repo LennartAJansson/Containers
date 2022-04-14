@@ -11,7 +11,7 @@ public static class DbExtensions
 {
     public static IServiceCollection AddWorkloadsDb(this IServiceCollection services, IConfiguration configuration)
     {
-        MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));//5.6.51
+        MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(5, 6, 51));//5.6.51
 
         services.Configure<ConnectionStrings>(c => configuration.GetSection("ConnectionStrings").Bind(c));
         ConnectionStrings connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();

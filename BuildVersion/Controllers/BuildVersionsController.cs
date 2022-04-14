@@ -20,10 +20,16 @@ namespace BuildVersion.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get() => Ok(context.BuildVersions.ToList());
+        public IActionResult Get()
+        {
+            return Ok(context.BuildVersions.ToList());
+        }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) => Ok(context.BuildVersions.SingleOrDefault(bv => bv.Id == id));
+        public IActionResult GetById(int id)
+        {
+            return Ok(context.BuildVersions.SingleOrDefault(bv => bv.Id == id));
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] BuildVersion buildVersion)
@@ -45,7 +51,7 @@ namespace BuildVersion.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            BuildVersion? buildVersion = context.BuildVersions.Find(id);
+            BuildVersion buildVersion = context.BuildVersions.Find(id);
             if (buildVersion != null)
             {
                 context.BuildVersions.Remove(buildVersion);

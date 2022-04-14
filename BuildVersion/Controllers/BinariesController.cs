@@ -21,12 +21,22 @@ namespace BuildVersion.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get() => Ok(context.Binaries.Include("BuildVersion").ToList());
+        public IActionResult Get()
+        {
+            return Ok(context.Binaries.Include("BuildVersion").ToList());
+        }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) => Ok(context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.Id == id));
+        public IActionResult GetById(int id)
+        {
+            return Ok(context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.Id == id));
+        }
+
         [HttpGet("{name}")]
-        public IActionResult GetByName(string name) => Ok(context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.ProjectFile == name));
+        public IActionResult GetByName(string name)
+        {
+            return Ok(context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.ProjectFile == name));
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] Binary binary)
@@ -56,7 +66,7 @@ namespace BuildVersion.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Binary? binary = context.Binaries.Find(id);
+            Binary binary = context.Binaries.Find(id);
             if (binary != null)
             {
                 context.Binaries.Remove(binary);
@@ -73,7 +83,7 @@ namespace BuildVersion.Controllers
 
             if (binary != null)
             {
-                BuildVersion? buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
+                BuildVersion buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
                 if (buildVersion != null)
                 {
                     buildVersion.Major++;
@@ -91,7 +101,7 @@ namespace BuildVersion.Controllers
 
             if (binary != null)
             {
-                BuildVersion? buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
+                BuildVersion buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
                 if (buildVersion != null)
                 {
                     buildVersion.Minor++;
@@ -109,7 +119,7 @@ namespace BuildVersion.Controllers
 
             if (binary != null)
             {
-                BuildVersion? buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
+                BuildVersion buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
                 if (buildVersion != null)
                 {
                     buildVersion.Build++;
@@ -127,7 +137,7 @@ namespace BuildVersion.Controllers
 
             if (binary != null)
             {
-                BuildVersion? buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
+                BuildVersion buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
                 if (buildVersion != null)
                 {
                     buildVersion.Revision++;
@@ -145,7 +155,7 @@ namespace BuildVersion.Controllers
 
             if (binary != null)
             {
-                BuildVersion? buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
+                BuildVersion buildVersion = context.BuildVersions.SingleOrDefault(bv => bv.Id == binary.BuildVersionId);
                 if (buildVersion != null)
                 {
                     buildVersion.SemanticVersionPre = semverpre;
@@ -160,11 +170,11 @@ namespace BuildVersion.Controllers
             //TODO Doesn't work initially when name is not found
             logger.LogInformation("Trying to get {name}", name);
 
-            Binary? binary = context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.ProjectFile == name);
+            Binary binary = context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.ProjectFile == name);
 
             if (binary == null)
             {
-                BuildVersion? buildVersion = new BuildVersion { Major = 0, Minor = 1, Build = 0, Revision = 0, SemanticVersionPre = "dev" };
+                BuildVersion buildVersion = new BuildVersion { Major = 0, Minor = 1, Build = 0, Revision = 0, SemanticVersionPre = "dev" };
                 binary = new Binary
                 {
                     ProjectFile = name,

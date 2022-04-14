@@ -26,20 +26,20 @@
         public async Task ExecuteAsync()
         {
             logger.LogInformation($"{info.SemanticVersion} ({info.Description})");
-            IEnumerable<Country>? countries = await TranslateCountries(await GetCountriesFromApi());
+            IEnumerable<Country> countries = await TranslateCountries(await GetCountriesFromApi());
             await service.UpsertCountriesAsync(countries);
         }
 
-        private async Task<IEnumerable<CountryFromApi>?> GetCountriesFromApi()
+        private async Task<IEnumerable<CountryFromApi>> GetCountriesFromApi()
         {
-            IEnumerable<CountryFromApi>? result = await client.GetCountries();
+            IEnumerable<CountryFromApi> result = await client.GetCountries();
 
             return result;
         }
 
-        private Task<IEnumerable<Country>> TranslateCountries(IEnumerable<CountryFromApi>? countriesFromApi)
+        private Task<IEnumerable<Country>> TranslateCountries(IEnumerable<CountryFromApi> countriesFromApi)
         {
-            IEnumerable<Country>? countries = countriesFromApi.Where(c =>
+            IEnumerable<Country> countries = countriesFromApi.Where(c =>
                 !string.IsNullOrWhiteSpace(c.IsoCountry) &&
                 !string.IsNullOrWhiteSpace(c.PhonePrefix.Prefix) &&
                 c.PhonePrefix.Suffixes != null

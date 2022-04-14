@@ -1,4 +1,4 @@
-﻿namespace BuildVersion.Health
+﻿namespace Common.Health
 {
     public class WorkerWitness
     {

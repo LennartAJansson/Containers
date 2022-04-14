@@ -1,6 +1,7 @@
-﻿namespace WorkloadsApi.Health;
+﻿namespace Common.Health;
 
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 
 internal class ApiHealthCheck : IHealthCheck
 {

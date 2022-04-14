@@ -8,7 +8,7 @@ public class WorkloadsDbContextFactory : IDesignTimeDbContextFactory<WorkloadsDb
 
     public WorkloadsDbContext CreateDbContext(string[] args)
     {
-        MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
+        MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
 
         DbContextOptionsBuilder<WorkloadsDbContext> optionsBuilder = new DbContextOptionsBuilder<WorkloadsDbContext>();
         optionsBuilder.UseMySql(connectionString, serverVersion)

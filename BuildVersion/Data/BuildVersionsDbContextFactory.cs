@@ -10,7 +10,7 @@
 
         public BuildVersionsDb CreateDbContext(string[] args)
         {
-            MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
+            MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
 
             DbContextOptionsBuilder<BuildVersionsDb> optionsBuilder = new DbContextOptionsBuilder<BuildVersionsDb>();
             optionsBuilder.UseMySql(connectionString, serverVersion)

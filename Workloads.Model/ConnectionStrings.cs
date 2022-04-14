@@ -2,5 +2,5 @@
 
 public class ConnectionStrings
 {
-    public string? WorkloadsDb { get; set; }
+    public string WorkloadsDb { get; set; }
 }

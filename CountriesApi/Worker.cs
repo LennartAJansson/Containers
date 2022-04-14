@@ -1,4 +1,4 @@
-﻿using CountriesApi.Health;
+﻿using Common.Health;
 
 public class Worker : BackgroundService
 {

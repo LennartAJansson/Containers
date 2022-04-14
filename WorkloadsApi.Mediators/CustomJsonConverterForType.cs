@@ -8,7 +8,7 @@
         //WARNING! This is a breach in NET security recommendations regarding (de)serializing types
         public override Type Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? assemblyQualifiedName = reader.GetString();
+            string assemblyQualifiedName = reader.GetString();
             return Type.GetType(assemblyQualifiedName!)!;
         }
 

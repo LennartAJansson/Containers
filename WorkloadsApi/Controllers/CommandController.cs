@@ -17,7 +17,9 @@ public class CommandController : MetricsControllerBase
 
     public CommandController(ILogger<CommandController> logger, IMediator mediator)
         : base(mediator)
-        => this.logger = logger;
+    {
+        this.logger = logger;
+    }
 
     //People
     [HttpPost]
@@ -25,7 +27,7 @@ public class CommandController : MetricsControllerBase
     {
         logger.LogDebug("Received {type}", request.GetType().Name);
         DateTime startDateTime = DateTime.Now;
-        CommandPersonResponse? result = await mediator.Send(request);
+        CommandPersonResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -40,7 +42,7 @@ public class CommandController : MetricsControllerBase
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandPersonResponse? result = await mediator.Send(request);
+        CommandPersonResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -52,11 +54,11 @@ public class CommandController : MetricsControllerBase
     [HttpDelete("{personId}")]
     public async Task<IActionResult> DeletePersonAsync(Guid personId)
     {
-        CommandDeletePerson? request = new CommandDeletePerson(personId);
+        CommandDeletePerson request = new CommandDeletePerson(personId);
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandPersonResponse? result = await mediator.Send(request);
+        CommandPersonResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -72,7 +74,7 @@ public class CommandController : MetricsControllerBase
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandAssignmentResponse? result = await mediator.Send(request);
+        CommandAssignmentResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -87,7 +89,7 @@ public class CommandController : MetricsControllerBase
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandAssignmentResponse? result = await mediator.Send(request);
+        CommandAssignmentResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -99,11 +101,11 @@ public class CommandController : MetricsControllerBase
     [HttpDelete("{assignmentId}")]
     public async Task<IActionResult> DeleteAssignmentAsync(Guid assignmentId)
     {
-        CommandDeleteAssignment? request = new CommandDeleteAssignment(assignmentId);
+        CommandDeleteAssignment request = new CommandDeleteAssignment(assignmentId);
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandAssignmentResponse? result = await mediator.Send(request);
+        CommandAssignmentResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -119,7 +121,7 @@ public class CommandController : MetricsControllerBase
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandWorkloadResponse? result = await mediator.Send(request);
+        CommandWorkloadResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -134,7 +136,7 @@ public class CommandController : MetricsControllerBase
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandWorkloadResponse? result = await mediator.Send(request);
+        CommandWorkloadResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
@@ -146,11 +148,11 @@ public class CommandController : MetricsControllerBase
     [HttpDelete("{workloadId}")]
     public async Task<IActionResult> DeleteWorkloadAsync(Guid workloadId)
     {
-        CommandDeleteWorkload? request = new CommandDeleteWorkload(workloadId);
+        CommandDeleteWorkload request = new CommandDeleteWorkload(workloadId);
         logger.LogDebug("Received {type}", request.GetType().Name);
 
         DateTime startDateTime = DateTime.Now;
-        CommandWorkloadResponse? result = await mediator.Send(request);
+        CommandWorkloadResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
         RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);

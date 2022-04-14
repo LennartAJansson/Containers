@@ -1,4 +1,5 @@
 using Common;
+using Common.Health;
 
 using Microsoft.OpenApi.Models;
 
@@ -8,10 +9,9 @@ using Prometheus;
 
 using Workloads.Model;
 
-using WorkloadsApi.Health;
 using WorkloadsApi.Mediators;
 
-WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
@@ -55,7 +55,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath, true);
 });
 
-WebApplication? app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

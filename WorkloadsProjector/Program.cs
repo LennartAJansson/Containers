@@ -1,9 +1,9 @@
 using Common;
+using Common.Health;
 
 using NATS.Extensions.DependencyInjection;
 
 using WorkloadsProjector;
-using WorkloadsProjector.Health;
 using WorkloadsProjector.Mediators;
 
 IHost host = Host.CreateDefaultBuilder(args)

@@ -1,10 +1,10 @@
 using Common;
+using Common.Health;
 
 using Countries.Db;
 using Countries.Model;
 
 using CountriesApi;
-using CountriesApi.Health;
 
 using MediatR;
 
@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 
 using System.Reflection;
 
-WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath, true);
 });
 
-WebApplication? app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
