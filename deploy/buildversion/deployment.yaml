@@ -55,35 +55,43 @@ spec:
       - name: buildversion
         image: registry:5000/buildversion:latest
         imagePullPolicy: Always
-        #env:
-        #- name: NATS__Url
-        #  value: nats://nats.nats.svc:4222
-        #- name: NATS__Servers__0
-        #  value: nats://nats.nats.svc:4222
+        envFrom:
+        #- secretRef: 
+        #    name: buildversion-secret
+        - configMapRef:
+            name: buildversion-configmap
+        - configMapRef:
+            name: common-configmap
         ports:
         - containerPort: 80
           name: http
-        #- containerPort: 443
-        #  name: https
-        #livenessProbe:
-        #  httpGet:
-        #    path: /healthz
-        #    port: http
-        #  initialDelaySeconds: 10
-        #  timeoutSeconds: 5
-        #readinessProbe:
-        #  httpGet:
-        #    path: /healthz
-        #    port: http
-        #  initialDelaySeconds: 10
-        #  timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
         resources:
           requests:
             memory: "32Mi"
             cpu: "16m"
-          #limits:
-          #  memory: "128Mi"
-          #  cpu: "512m"
+          limits:
+            memory: "128Mi"
+            cpu: "512m"
         volumeMounts:
           - mountPath: "/data"
             name: buildversion-storage
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: buildversion-configmap
+data:
+  DOTNET_ENVIRONMENT: "Production"
+  ASPNETCORE_ENVIRONMENT: "Production"

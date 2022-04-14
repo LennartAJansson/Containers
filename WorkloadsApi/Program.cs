@@ -16,12 +16,12 @@ WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
 
+builder.Services.AddHealth();
+
 // Add services to the container.
 builder.Services.AddHostedService<Worker>();
 builder.Services.AddApiMediators();
 builder.Services.Configure<ConnectionStrings>(c => builder.Configuration.GetSection("ConnectionStrings").Bind(c));
-
-builder.Services.AddHealth();
 
 builder.Services.Configure<NatsProducer>(options => builder.Configuration.GetSection("NATS").Bind(options));
 builder.Services.AddNatsClient(options =>

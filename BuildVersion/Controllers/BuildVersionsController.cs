@@ -2,6 +2,8 @@
 
 namespace BuildVersion.Controllers
 {
+    using BuildVersion.Data;
+
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]/[action]")]

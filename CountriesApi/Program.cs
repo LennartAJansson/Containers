@@ -4,6 +4,7 @@ using Countries.Db;
 using Countries.Model;
 
 using CountriesApi;
+using CountriesApi.Health;
 
 using MediatR;
 
@@ -13,10 +14,13 @@ using System.Reflection;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
-builder.Services.AddCountriesDb(builder.Configuration);
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
+
+builder.Services.AddHealth();
+
+// Add services to the container.
+builder.Services.AddCountriesDb(builder.Configuration);
 
 builder.Services.AddSingleton<PhonePrefixDictionary>();
 
@@ -50,12 +54,12 @@ if (app.Environment.IsDevelopment())
 {
 }
 
+
+app.UseHealth();
+
 app.UseSwagger();
-//app.UseSwaggerUI();
 app.UseSwaggerUI(c =>
 {
-    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Countries API");
-    //    c.RoutePrefix = string.Empty;
     c.ConfigObject.AdditionalItems.Add("syntaxHighlight", false);
     c.ConfigObject.AdditionalItems["syntaxHighlight"] = new Dictionary<string, object>
     {

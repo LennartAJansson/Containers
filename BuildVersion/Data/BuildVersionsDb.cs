@@ -1,5 +1,6 @@
-﻿namespace BuildVersion
+﻿namespace BuildVersion.Data
 {
+
     using Microsoft.EntityFrameworkCore;
 
     public class BuildVersionsDb : DbContext

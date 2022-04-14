@@ -1,4 +1,4 @@
-﻿namespace BuildVersion
+﻿namespace BuildVersion.Data
 {
     public class BuildVersion
     {

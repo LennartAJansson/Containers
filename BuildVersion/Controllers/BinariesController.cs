@@ -2,6 +2,7 @@
 
 namespace BuildVersion.Controllers
 {
+    using BuildVersion.Data;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;

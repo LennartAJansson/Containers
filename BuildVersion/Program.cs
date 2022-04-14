@@ -1,4 +1,5 @@
-using BuildVersion;
+using BuildVersion.Data;
+using BuildVersion.Health;
 
 using Common;
 
@@ -10,6 +11,8 @@ WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
+
+builder.Services.AddHealth();
 
 // Add services to the container.
 MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
@@ -41,6 +44,9 @@ app.Services.GetRequiredService<BuildVersionsDb>().EnsureDbExists();
 if (app.Environment.IsDevelopment())
 {
 }
+
+app.UseHealth();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
