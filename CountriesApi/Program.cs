@@ -18,6 +18,7 @@ ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
 
 builder.Services.AddHealth();
+builder.Services.AddHostedService<Worker>();
 
 // Add services to the container.
 builder.Services.AddCountriesDb(builder.Configuration);

@@ -13,6 +13,7 @@ ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
 
 builder.Services.AddHealth();
+builder.Services.AddHostedService<Worker>();
 
 // Add services to the container.
 MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));

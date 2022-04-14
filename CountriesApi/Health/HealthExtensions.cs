@@ -7,14 +7,14 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    //using Prometheus;
+    using Prometheus;
 
     public static class HealthExtensions
     {
         public static IServiceCollection AddHealth(this IServiceCollection services)
         {
             services.AddSingleton(sp => new WorkerWitness());
-            services.AddHealthChecks().AddCheck<ApiHealthCheck>("Api Health Check");//.ForwardToPrometheus();
+            services.AddHealthChecks().AddCheck<ApiHealthCheck>("Api Health Check").ForwardToPrometheus();
 
             return services;
         }
