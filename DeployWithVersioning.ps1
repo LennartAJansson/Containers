@@ -1,12 +1,12 @@
 #Assumes you have the project buildversion running on your localhost on port 9000
 #
-$alive = curl.exe -s "http://buildversion.local:8081/Ping" -H "accept: text/plain"
-if($alive -ne "pong!")
-{
-	"You need to do an initial deploy of BuildVersion API"
-	"Please run InitBuildVersion.ps1"
-	return
-}
+#$alive = curl.exe -s "http://buildversion.local:8081/Ping" -H "accept: text/plain"
+#if($alive -ne "pong!")
+#{
+#	"You need to do an initial deploy of BuildVersion API"
+#	"Please run InitBuildVersion.ps1"
+#	return
+#}
 
 foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob", "countriesapi"))
 {
