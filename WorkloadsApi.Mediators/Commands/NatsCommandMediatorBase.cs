@@ -9,7 +9,7 @@
     {
         protected readonly IConnection connection;
         protected readonly NatsProducer natsProducer;
-        protected readonly IJetStream? jetStream = null;
+        protected readonly IJetStream jetStream = null;
         public NatsCommandMediatorBase(IConnection connection, NatsProducer natsProducer)
         {
             this.connection = connection;

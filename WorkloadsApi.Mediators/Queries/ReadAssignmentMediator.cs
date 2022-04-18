@@ -1,8 +1,5 @@
 ﻿namespace WorkloadsApi.Mediators.Queries
 {
-    using System.Threading;
-    using System.Threading.Tasks;
-
     using Dapper;
 
     using MediatR;
@@ -12,18 +9,23 @@
 
     using MySql.Data.MySqlClient;
 
+    using System.Threading;
+    using System.Threading.Tasks;
+
     using Workloads.Contract;
     using Workloads.Model;
 
-    public class ReadAssignmentMediator : SqlQueryMediatorBase, IRequestHandler<QueryAssignment, QueryAssignmentResponse?>
+    public class ReadAssignmentMediator : SqlQueryMediatorBase, IRequestHandler<QueryAssignment, QueryAssignmentResponse>
     {
         private readonly ILogger<ReadAssignmentMediator> logger;
 
         public ReadAssignmentMediator(ILogger<ReadAssignmentMediator> logger, IOptions<ConnectionStrings> options)
             : base(options.Value)
-            => this.logger = logger;
+        {
+            this.logger = logger;
+        }
 
-        public async Task<QueryAssignmentResponse?> Handle(QueryAssignment request, CancellationToken cancellationToken)
+        public async Task<QueryAssignmentResponse> Handle(QueryAssignment request, CancellationToken cancellationToken)
         {
             logger.LogDebug("");
             using (MySqlConnection connection = new MySqlConnection(connectionStrings.WorkloadsDb))
@@ -41,7 +43,7 @@
                         return a;
                     }, new { p1 = request.AssignmentId }, splitOn: "AssignmentId, PersonId");
 
-                Assignment? assignment = assignments.FirstOrDefault();
+                Assignment assignment = assignments.FirstOrDefault();
 
                 if (assignment == null)
                 {

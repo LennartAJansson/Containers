@@ -22,14 +22,14 @@
 
         public Task<PhonePrefixWithCountriesResponse> Handle(PhonePrefixDictionaryRequest request, CancellationToken cancellationToken)
         {
-            PhonePrefixWithCountriesResponse? result = phonePrefixes.GetPrefix(Convert.ToInt64(request.phoneNumber)).ToPrefixWithCountriesResponse();
+            PhonePrefixWithCountriesResponse result = phonePrefixes.GetPrefix(Convert.ToInt64(request.phoneNumber)).ToPrefixWithCountriesResponse();
             return Task.FromResult(result);
         }
 
 
         public Task<IEnumerable<PhonePrefixWithCountriesResponse>> Handle(PhonePrefixDictionaryAllRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<PhonePrefixWithCountriesResponse>? result = phonePrefixes.Select(p => p.Value.ToPrefixWithCountriesResponse());
+            IEnumerable<PhonePrefixWithCountriesResponse> result = phonePrefixes.Select(p => p.Value.ToPrefixWithCountriesResponse());
             return Task.FromResult(result);
         }
     }

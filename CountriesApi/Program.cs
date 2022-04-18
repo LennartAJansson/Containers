@@ -1,4 +1,5 @@
 using Common;
+using Common.Health;
 
 using Countries.Db;
 using Countries.Model;
@@ -11,12 +12,16 @@ using Microsoft.OpenApi.Models;
 
 using System.Reflection;
 
-WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
+builder.Services.AddSingleton<ApplicationInfo>(appInfo);
+
+builder.Services.AddHealth();
+builder.Services.AddHostedService<Worker>();
 
 // Add services to the container.
-ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddCountriesDb(builder.Configuration);
-builder.Services.AddSingleton<ApplicationInfo>(appInfo);
 
 builder.Services.AddSingleton<PhonePrefixDictionary>();
 
@@ -43,19 +48,19 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath, true);
 });
 
-WebApplication? app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 }
 
+
+app.UseHealth();
+
 app.UseSwagger();
-//app.UseSwaggerUI();
 app.UseSwaggerUI(c =>
 {
-    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Countries API");
-    //    c.RoutePrefix = string.Empty;
     c.ConfigObject.AdditionalItems.Add("syntaxHighlight", false);
     c.ConfigObject.AdditionalItems["syntaxHighlight"] = new Dictionary<string, object>
     {

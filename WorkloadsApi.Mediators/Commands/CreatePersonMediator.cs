@@ -1,10 +1,5 @@
 ﻿namespace WorkloadsApi.Mediators.Commands;
 
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-
 using CloudNative.CloudEvents;
 
 using MediatR;
@@ -16,6 +11,11 @@ using NATS.Client;
 using NATS.Client.JetStream;
 using NATS.Extensions.DependencyInjection;
 
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Workloads.Contract;
 
 public class CreatePersonMediator : NatsCommandMediatorBase, IRequestHandler<CommandCreatePerson, CommandPersonResponse>
@@ -24,7 +24,9 @@ public class CreatePersonMediator : NatsCommandMediatorBase, IRequestHandler<Com
 
     public CreatePersonMediator(ILogger<CreatePersonMediator> logger, IConnection connection, IOptions<NatsProducer> options)
         : base(connection, options.Value)
-        => this.logger = logger;
+    {
+        this.logger = logger;
+    }
 
     public async Task<CommandPersonResponse> Handle(CommandCreatePerson request, CancellationToken cancellationToken)
     {
@@ -42,7 +44,7 @@ public class CreatePersonMediator : NatsCommandMediatorBase, IRequestHandler<Com
             Subject = natsProducer.Subject //TODO Add evt.Id/parsedRequest.PersonId to Subject?
         };
 
-        JsonSerializerOptions? options = new JsonSerializerOptions();
+        JsonSerializerOptions options = new JsonSerializerOptions();
         options.Converters.Add(new CustomJsonConverterForType());
 
         byte[] data = JsonSerializer.SerializeToUtf8Bytes(evt, options);

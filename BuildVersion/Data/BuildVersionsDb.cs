@@ -1,20 +1,23 @@
-﻿namespace BuildVersion
+﻿namespace BuildVersion.Data
 {
+
     using Microsoft.EntityFrameworkCore;
 
     public class BuildVersionsDb : DbContext
     {
-        public DbSet<Binary>? Binaries { get; set; }
-        public DbSet<BuildVersion>? BuildVersions { get; set; }
+        public DbSet<Binary> Binaries { get; set; }
+        public DbSet<BuildVersion> BuildVersions { get; set; }
 
         public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-        private ILogger<BuildVersionsDb>? logger;
+        private ILogger<BuildVersionsDb> logger;
         public BuildVersionsDb(DbContextOptions<BuildVersionsDb> options)
             : base(options)
         { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.Entity<Binary>().HasIndex("ProjectFile");
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Binary>().HasIndex("ProjectFile");
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

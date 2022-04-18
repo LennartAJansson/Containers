@@ -11,7 +11,7 @@
 
         public PhonePrefixDictionary(IMediator mediator)
         {
-            foreach (PhonePrefix? prefix in mediator.Send(new PrefixesRequest()).Result)
+            foreach (PhonePrefix prefix in mediator.Send(new PrefixesRequest()).Result)
             {
                 long p = Convert.ToInt64(prefix.Prefix);
                 if (ContainsKey(p))

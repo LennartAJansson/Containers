@@ -2,29 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>f37c5fcd-e360-43a9-856f-fe82125ca3f4</UserSecretsId>
   </PropertyGroup>
   
   <PropertyGroup>
     <!--https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/-->
-    <VersionPrefix>2.0</VersionPrefix><!--Format: major.minor.patch[.build]-->
-    <VersionSuffix>alpha</VersionSuffix><!--Format: Alphanumberic (+ hyphen) string: [0-9A-Za-z-]*-->
+    <VersionPrefix>1.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
     <Description>Fucking awesome version!</Description>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <!--<Version></Version>--><!--VersionPrefix-VersionSuffix-->
-    <!--<AssemblyVersion>1.0.0.0</AssemblyVersion>--><!--Format: major.minor.patch.build-->
-    <!--<FileVersion>1.0.0.0</FileVersion>--><!--Format: major.minor.patch.build-->
-    <!--<InformationalVersion>This is a prerelease package</InformationalVersion>-->
-    <!--<PackageVersion></PackageVersion>-->
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0" />
-    <!--<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />-->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
     
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />

@@ -1,9 +1,8 @@
 namespace WorkloadsProjector
 {
-    using System.Text;
-    using System.Text.Json;
-
     using CloudNative.CloudEvents;
+
+    using Common.Health;
 
     using MediatR;
 
@@ -15,6 +14,9 @@ namespace WorkloadsProjector
     using NATS.Extensions.DependencyInjection;
 
     using Prometheus;
+
+    using System.Text;
+    using System.Text.Json;
 
     using Workloads.Contract;
 
@@ -39,8 +41,8 @@ namespace WorkloadsProjector
         private readonly IConnection connection;
         private readonly IMediator mediator;
         private readonly WorkerWitness witness;
-        private IJetStream? jetStream = null;
-        private IJetStreamPushAsyncSubscription? subscription = null;
+        private IJetStream jetStream = null;
+        private IJetStreamPushAsyncSubscription subscription = null;
 
         public Worker(ILogger<Worker> logger, IOptions<NatsConsumer> options, IConnection connection, IMediator mediator, WorkerWitness witness)
         {
@@ -80,7 +82,7 @@ namespace WorkloadsProjector
             }
         }
 
-        private void MessageArrived(object? sender, MsgHandlerEventArgs args)
+        private void MessageArrived(object sender, MsgHandlerEventArgs args)
         {
             DateTime startDateTime = DateTime.Now;
 
@@ -88,7 +90,7 @@ namespace WorkloadsProjector
 
             msg.Ack();
 
-            CloudEvent? evt = JsonSerializer.Deserialize<CloudEvent>(Encoding.UTF8.GetString(msg!.Data!));
+            CloudEvent evt = JsonSerializer.Deserialize<CloudEvent>(Encoding.UTF8.GetString(msg!.Data!));
 
             logger.LogDebug("Received message {data} on subject {subject}, stream {stream}, seqno {seqno}.",
                             Encoding.UTF8.GetString(msg.Data), natsConsumer.Subject, msg.MetaData.Stream, msg.MetaData.StreamSequence);
@@ -98,40 +100,40 @@ namespace WorkloadsProjector
             switch (evt!.Type)
             {
                 case "Workloads.Contract.CommandCreatePersonWithId":
-                    CommandCreatePersonWithId? personToCreate = JsonSerializer.Deserialize<CommandCreatePersonWithId>(evt.Data!.ToString()!);
+                    CommandCreatePersonWithId personToCreate = JsonSerializer.Deserialize<CommandCreatePersonWithId>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(personToCreate!));
                     break;
                 case "Workloads.Contract.CommandUpdatePerson":
-                    CommandUpdatePerson? personToUpdate = JsonSerializer.Deserialize<CommandUpdatePerson>(evt.Data!.ToString()!);
+                    CommandUpdatePerson personToUpdate = JsonSerializer.Deserialize<CommandUpdatePerson>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(personToUpdate!));
                     break;
                 case "Workloads.Contract.CommandDeletePerson":
-                    CommandDeletePerson? personToDelete = JsonSerializer.Deserialize<CommandDeletePerson>(evt.Data!.ToString()!);
+                    CommandDeletePerson personToDelete = JsonSerializer.Deserialize<CommandDeletePerson>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(personToDelete!));
                     break;
                 case "Workloads.Contract.CommandCreateAssignmentWithId":
-                    CommandCreateAssignmentWithId? assignmentToCreate = JsonSerializer.Deserialize<CommandCreateAssignmentWithId>(evt.Data!.ToString()!);
+                    CommandCreateAssignmentWithId assignmentToCreate = JsonSerializer.Deserialize<CommandCreateAssignmentWithId>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(assignmentToCreate!));
                     break;
                 case "Workloads.Contract.CommandUpdateAssignment":
-                    CommandUpdateAssignment? assignmentToUpdate = JsonSerializer.Deserialize<CommandUpdateAssignment>(evt.Data!.ToString()!);
+                    CommandUpdateAssignment assignmentToUpdate = JsonSerializer.Deserialize<CommandUpdateAssignment>(evt.Data!.ToString()!);
                     mediator.Send(assignmentToUpdate!);
                     status = JsonSerializer.Serialize(mediator.Send(assignmentToUpdate!));
                     break;
                 case "Workloads.Contract.CommandDeleteAssignment":
-                    CommandDeleteAssignment? assignmentToDelete = JsonSerializer.Deserialize<CommandDeleteAssignment>(evt.Data!.ToString()!);
+                    CommandDeleteAssignment assignmentToDelete = JsonSerializer.Deserialize<CommandDeleteAssignment>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(assignmentToDelete!));
                     break;
                 case "Workloads.Contract.CommandCreateWorkloadWithId":
-                    CommandCreateWorkloadWithId? workloadToCreate = JsonSerializer.Deserialize<CommandCreateWorkloadWithId>(evt.Data!.ToString()!);
+                    CommandCreateWorkloadWithId workloadToCreate = JsonSerializer.Deserialize<CommandCreateWorkloadWithId>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(workloadToCreate!));
                     break;
                 case "Workloads.Contract.CommandUpdateWorkload":
-                    CommandUpdateWorkload? workloadToUpdate = JsonSerializer.Deserialize<CommandUpdateWorkload>(evt.Data!.ToString()!);
+                    CommandUpdateWorkload workloadToUpdate = JsonSerializer.Deserialize<CommandUpdateWorkload>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(workloadToUpdate!));
                     break;
                 case "Workloads.Contract.CommandDeleteWorkload":
-                    CommandDeleteWorkload? workloadToDelete = JsonSerializer.Deserialize<CommandDeleteWorkload>(evt.Data!.ToString()!);
+                    CommandDeleteWorkload workloadToDelete = JsonSerializer.Deserialize<CommandDeleteWorkload>(evt.Data!.ToString()!);
                     status = JsonSerializer.Serialize(mediator.Send(workloadToDelete!));
                     break;
             }

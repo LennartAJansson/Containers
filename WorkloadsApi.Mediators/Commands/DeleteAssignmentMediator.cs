@@ -1,10 +1,5 @@
 ﻿namespace WorkloadsApi.Mediators.Commands;
 
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-
 using CloudNative.CloudEvents;
 
 using MediatR;
@@ -16,6 +11,11 @@ using NATS.Client;
 using NATS.Client.JetStream;
 using NATS.Extensions.DependencyInjection;
 
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Workloads.Contract;
 
 public class DeleteAssignmentMediator : NatsCommandMediatorBase, IRequestHandler<CommandDeleteAssignment, CommandAssignmentResponse>
@@ -24,7 +24,9 @@ public class DeleteAssignmentMediator : NatsCommandMediatorBase, IRequestHandler
 
     public DeleteAssignmentMediator(ILogger<DeleteAssignmentMediator> logger, IConnection connection, IOptions<NatsProducer> options)
         : base(connection, options.Value)
-        => this.logger = logger;
+    {
+        this.logger = logger;
+    }
 
     public async Task<CommandAssignmentResponse> Handle(CommandDeleteAssignment request, CancellationToken cancellationToken)
     {
@@ -40,7 +42,7 @@ public class DeleteAssignmentMediator : NatsCommandMediatorBase, IRequestHandler
             Subject = natsProducer.Subject //TODO Add evt.Id/request.AssignmentId to Subject?
         };
 
-        JsonSerializerOptions? options = new JsonSerializerOptions();
+        JsonSerializerOptions options = new JsonSerializerOptions();
         options.Converters.Add(new CustomJsonConverterForType());
 
         byte[] data = JsonSerializer.SerializeToUtf8Bytes(evt, options);

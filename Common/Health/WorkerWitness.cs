@@ -1,4 +1,4 @@
-﻿namespace WorkloadsApi.Health
+﻿namespace Common.Health
 {
     public class WorkerWitness
     {

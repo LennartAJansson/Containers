@@ -1,18 +1,22 @@
-using BuildVersion;
+using BuildVersion.Data;
 
 using Common;
+using Common.Health;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 
-WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
 
+builder.Services.AddHealth();
+builder.Services.AddHostedService<Worker>();
+
 // Add services to the container.
-MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
+MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
 builder.Services.AddDbContext<BuildVersionsDb>(options =>
             options.UseMySql(builder.Configuration.GetConnectionString("buildversionsdb"), serverVersion)
                 .EnableSensitiveDataLogging()
@@ -34,13 +38,16 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath, true);
 });
 
-WebApplication? app = builder.Build();
+WebApplication app = builder.Build();
 app.Services.GetRequiredService<BuildVersionsDb>().EnsureDbExists();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 }
+
+app.UseHealth();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 

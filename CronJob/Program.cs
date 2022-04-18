@@ -10,7 +10,7 @@ using Refit;
 
 internal class Program
 {
-    private static IHost? host;
+    private static IHost host;
 
     private static async Task Main(string[] args)
     {
@@ -18,12 +18,12 @@ internal class Program
 
         await host.StartAsync();
 
-        using IServiceScope? scope = host.Services.CreateScope();
+        using IServiceScope scope = host.Services.CreateScope();
 
         host.UpdateDb();
 
-        IServiceProvider? provider = scope.ServiceProvider;
-        ILogger<Program>? logger = provider.GetRequiredService<ILogger<Program>>();
+        IServiceProvider provider = scope.ServiceProvider;
+        ILogger<Program> logger = provider.GetRequiredService<ILogger<Program>>();
         logger.LogInformation("This is my CronJob!");
         await provider.GetRequiredService<Worker>().ExecuteAsync();
 

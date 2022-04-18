@@ -1,8 +1,8 @@
 ﻿namespace Workloads.Db
 {
-    using System.Threading.Tasks;
-
     using Microsoft.Extensions.Logging;
+
+    using System.Threading.Tasks;
 
     using Workloads.Model;
 
@@ -76,7 +76,7 @@
 
         public async Task<Assignment> DeleteAssignmentAsync(Guid assignmentId)
         {
-            Assignment? assignment = await context.Assignments.FindAsync(assignmentId);
+            Assignment assignment = await context.Assignments.FindAsync(assignmentId);
             context.Assignments.Remove(assignment);
             await context.SaveChangesAsync();
             return assignment;
@@ -84,7 +84,7 @@
 
         public async Task<Person> DeletePersonAsync(Guid personId)
         {
-            Person? person = await context.People.FindAsync(personId);
+            Person person = await context.People.FindAsync(personId);
             context.People.Remove(person);
             await context.SaveChangesAsync();
             return person;
@@ -92,7 +92,7 @@
 
         public async Task<Workload> DeleteWorkloadAsync(Guid workloadId)
         {
-            Workload? workload = await context.Workloads.FindAsync(workloadId);
+            Workload workload = await context.Workloads.FindAsync(workloadId);
             context.Workloads.Remove(workload);
             await context.SaveChangesAsync();
             return workload;
