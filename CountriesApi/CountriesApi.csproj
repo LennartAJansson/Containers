@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common.AspNet\Common.AspNet.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Countries.Db\Countries.Db.csproj" />
     <ProjectReference Include="..\Countries.Model\Countries.Model.csproj" />

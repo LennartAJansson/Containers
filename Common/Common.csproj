@@ -6,8 +6,5 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
-    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>

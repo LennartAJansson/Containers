@@ -1,5 +1,5 @@
 using Common;
-using Common.Health;
+using Common.AspNet.Health;
 
 using Microsoft.OpenApi.Models;
 
@@ -50,9 +50,9 @@ builder.Services.AddSwaggerGen(options =>
         Version = $"v{appInfo.SemanticVersion}",
         Description = $"<i>Branch/Commit: {appInfo.Description}</i>"
     });
-    string xmlFile = $"{appInfo.ExecutingAssembly.GetName().Name}.xml";
-    string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    options.IncludeXmlComments(xmlPath, true);
+    //string xmlFile = $"{appInfo.ExecutingAssembly.GetName().Name}.xml";
+    //string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    //options.IncludeXmlComments(xmlPath, true);
 });
 
 WebApplication app = builder.Build();

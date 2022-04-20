@@ -1,5 +1,5 @@
 using Common;
-using Common.Health;
+using Common.AspNet.Health;
 
 using NATS.Extensions.DependencyInjection;
 

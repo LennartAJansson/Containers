@@ -1,4 +1,4 @@
-﻿namespace Common.Health
+﻿namespace Common.AspNet.Health
 {
 
     using Microsoft.AspNetCore.Builder;

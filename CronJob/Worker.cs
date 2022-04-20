@@ -42,8 +42,7 @@
             IEnumerable<Country> countries = countriesFromApi.Where(c =>
                 !string.IsNullOrWhiteSpace(c.IsoCountry) &&
                 !string.IsNullOrWhiteSpace(c.PhonePrefix.Prefix) &&
-                c.PhonePrefix.Suffixes != null
-                )
+                c.PhonePrefix.Suffixes != null)
                 .Select(a =>
                 {
                     int cId = Convert.ToInt32(a.IsoCountry);

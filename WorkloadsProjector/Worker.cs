@@ -2,7 +2,7 @@ namespace WorkloadsProjector
 {
     using CloudNative.CloudEvents;
 
-    using Common.Health;
+    using Common.AspNet.Health;
 
     using MediatR;
 

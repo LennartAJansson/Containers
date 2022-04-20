@@ -1,6 +1,6 @@
 ﻿namespace BuildVersion.Data
 {
-    public class Binary
+    public class Binary : BaseLoggedEntity
     {
         public int Id { get; set; }
         public string ProjectFile { get; set; } = "";

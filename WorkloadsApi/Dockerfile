@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["WorkloadsApi/WorkloadsApi.csproj", "WorkloadsApi/"]
 COPY ["Common/Common.csproj", "Common/"]
+COPY ["Common.AspNet/Common.AspNet.csproj", "Common.AspNet/"]
 COPY ["NATS.Extensions.DependencyInjection/NATS.Extensions.DependencyInjection.csproj", "NATS.Extensions.DependencyInjection/"]
 COPY ["Workloads.Contract/Workloads.Contract.csproj", "Workloads.Contract/"]
 COPY ["WorkloadsApi.Mediators/WorkloadsApi.Mediators.csproj", "WorkloadsApi.Mediators/"]

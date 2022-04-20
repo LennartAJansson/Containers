@@ -1,6 +1,6 @@
 ﻿namespace BuildVersion.Data
 {
-    public class BuildVersion
+    public class BuildVersion : BaseLoggedEntity
     {
         private int major;
         private int minor;

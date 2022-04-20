@@ -8,6 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["BuildVersion/BuildVersion.csproj", "BuildVersion/"]
 COPY ["Common/Common.csproj", "Common/"]
+COPY ["Common.AspNet/Common.AspNet.csproj", "Common.AspNet/"]
 RUN dotnet restore "BuildVersion/BuildVersion.csproj"
 COPY . .
 WORKDIR "/src/BuildVersion"

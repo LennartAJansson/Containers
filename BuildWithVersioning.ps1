@@ -8,7 +8,7 @@ if($alive -ne "pong!")
 	return
 }
 
-foreach($name in @("workloadsapi", "workloadsprojector", "buildversion", "cronjob", "countriesapi"))
+foreach($name in @("buildversion", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi"))
 {
 	$branch = git rev-parse --abbrev-ref HEAD
 	$commit = git log -1 --pretty=format:"%H"

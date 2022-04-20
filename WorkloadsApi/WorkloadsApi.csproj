@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Common.AspNet\Common.AspNet.csproj" />
     <ProjectReference Include="..\Workloads.Contract\Workloads.Contract.csproj" />
     <ProjectReference Include="..\WorkloadsApi.Mediators\WorkloadsApi.Mediators.csproj" />
     <ProjectReference Include="..\NATS.Extensions.DependencyInjection\NATS.Extensions.DependencyInjection.csproj" />

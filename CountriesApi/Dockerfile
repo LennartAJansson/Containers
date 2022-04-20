@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["CountriesApi/CountriesApi.csproj", "CountriesApi/"]
 COPY ["Common/Common.csproj", "Common/"]
+COPY ["Common.AspNet/Common.AspNet.csproj", "Common.AspNet/"]
 COPY ["Countries.Model/Countries.Model.csproj", "Countries.Model/"]
 RUN dotnet restore "CountriesApi/CountriesApi.csproj"
 COPY . .

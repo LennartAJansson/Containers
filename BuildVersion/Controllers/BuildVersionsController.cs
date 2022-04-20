@@ -22,35 +22,62 @@ namespace BuildVersion.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(context.BuildVersions.ToList());
+            logger.LogDebug("Get all BuildVersion");
+
+            List<BuildVersion> result = context.BuildVersions.ToList();
+
+            return (result != null && result.Count != 0) ? Ok(result) : BadRequest();
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok(context.BuildVersions.SingleOrDefault(bv => bv.Id == id));
+            logger.LogDebug("Get BuildVersion by id");
+
+            BuildVersion result = context.BuildVersions.SingleOrDefault(bv => bv.Id == id);
+
+            return result != null ? Ok(result) : BadRequest();
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] BuildVersion buildVersion)
         {
-            logger.LogDebug("");
-            context.BuildVersions.Add(buildVersion);
-            context.SaveChanges();
-            return Ok(buildVersion);
+            logger.LogDebug("Post BuildVersion");
+
+            try
+            {
+                context.BuildVersions.Add(buildVersion);
+                context.SaveChanges();
+                return Ok(buildVersion);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
         public IActionResult Put([FromBody] BuildVersion buildVersion)
         {
-            context.BuildVersions.Update(buildVersion);
-            context.SaveChanges();
-            return Ok(buildVersion);
+            logger.LogDebug("Put BuildVersion");
+
+            try
+            {
+                context.BuildVersions.Update(buildVersion);
+                context.SaveChanges();
+                return Ok(buildVersion);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            logger.LogDebug("Delete BuildVersion by id");
+
             BuildVersion buildVersion = context.BuildVersions.Find(id);
             if (buildVersion != null)
             {
@@ -58,6 +85,7 @@ namespace BuildVersion.Controllers
                 context.SaveChanges();
                 return Ok(buildVersion);
             }
+
             return BadRequest();
         }
     }
