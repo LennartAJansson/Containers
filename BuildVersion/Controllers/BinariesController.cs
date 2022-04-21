@@ -45,7 +45,7 @@ namespace BuildVersion.Controllers
         {
             logger.LogDebug("Get Binary by name");
 
-            Binary result = context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.ProjectFile.ToUpper() == name.ToLower());
+            Binary result = context.Binaries.Include("BuildVersion").SingleOrDefault(b => b.ProjectFile.ToLower() == name.ToLower());
 
             return result != null ? Ok(result) : BadRequest();
         }

@@ -1,0 +1,2 @@
+kubectl create secret generic workloadsprojector-secret --output json --dry-run=client --from-file=./secrets |
+    C:/Apps/kubeseal/kubeseal -n "workloadsprojector" --controller-namespace kube-system --format yaml > "secret.yaml"

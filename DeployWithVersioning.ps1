@@ -11,7 +11,7 @@ if($alive -ne "pong!")
 foreach($name in @("buildversion", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi"))
 {
 	$buildVersion = $null
-	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/$name" | ConvertFrom-Json
+	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/${name}" | ConvertFrom-Json
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 
 	if([string]::IsNullOrEmpty($semanticVersion)) 
@@ -26,6 +26,11 @@ foreach($name in @("buildversion", "workloadsapi", "workloadsprojector", "cronjo
 
 	cd ./deploy/${name}
 	kustomize edit set image "${env:registryhost}/${name}:${semanticVersion}"
+	if(Test-Path -Path ./secrets/*)
+	{
+		"Creating secrets"
+		kubectl create secret generic ${name}-secret --output json --dry-run=client --from-file=./secrets |
+			C:/Apps/kubeseal/kubeseal -n "${name}" --controller-namespace kube-system --format yaml > "secret.yaml"	}
 	cd ../..
 	kubectl apply -k ./deploy/${name}
 	

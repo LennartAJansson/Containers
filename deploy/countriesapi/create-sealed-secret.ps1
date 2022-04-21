@@ -1,0 +1,2 @@
+kubectl create secret generic countriesapi-secret --output json --dry-run=client --from-file=./secrets |
+    C:/Apps/kubeseal/kubeseal -n "countriesapi" --controller-namespace kube-system --format yaml > "secret.yaml"
