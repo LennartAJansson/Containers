@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using Common;
 using Common.AspNet.Health;
 
@@ -9,8 +11,6 @@ using CountriesApi;
 using MediatR;
 
 using Microsoft.OpenApi.Models;
-
-using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -35,18 +35,19 @@ builder.Services.AddControllers();
 //});
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Countries API",
-        Version = $"v{appInfo.SemanticVersion}",
-        Description = $"<i>Branch/Commit: {appInfo.Description}</i>"
-    });
-    //string xmlFile = $"{appInfo.ExecutingAssembly.GetName().Name}.xml";
-    //string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    //options.IncludeXmlComments(xmlPath, true);
-});
+    Title = "Countries API",
+    Version = $"v{appInfo.SemanticVersion}",
+    Description = $"<i>Branch/Commit: {appInfo.Description}</i>"
+}));
+
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
+      builder => builder
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowAnyOrigin()
+        .AllowCredentials()));
 
 WebApplication app = builder.Build();
 
@@ -55,6 +56,7 @@ if (app.Environment.IsDevelopment())
 {
 }
 
+app.UseCors("Cors");
 
 app.UseHealth();
 
