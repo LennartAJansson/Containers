@@ -224,6 +224,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sealedsecrets", "sealedsecr
 		deploy\sealedsecrets\kustomization.yaml = deploy\sealedsecrets\kustomization.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "spa-demo", "spa-demo", "{D2B7CF77-1BF5-45A8-951F-8567385850AA}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\spa-demo\deployment.yaml = deploy\spa-demo\deployment.yaml
+		deploy\spa-demo\ingress.yaml = deploy\spa-demo\ingress.yaml
+		deploy\spa-demo\kustomization.yaml = deploy\spa-demo\kustomization.yaml
+		deploy\spa-demo\namespace.yaml = deploy\spa-demo\namespace.yaml
+		deploy\spa-demo\service.yaml = deploy\spa-demo\service.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -334,6 +343,7 @@ Global
 		{98B46CC1-776E-46F9-8AC1-440BE5BDD9BA} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
 		{DF68F02F-E4CA-402C-9A54-56DAE49035AB} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{8AE80F4D-415C-4211-AA7F-32429DDC07BF} = {58195862-762D-493A-961D-1291BE9DD2A9}
+		{D2B7CF77-1BF5-45A8-951F-8567385850AA} = {58195862-762D-493A-961D-1291BE9DD2A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
