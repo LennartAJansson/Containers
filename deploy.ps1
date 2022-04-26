@@ -5,7 +5,7 @@ if($alive -eq "pong!")
 	return
 }
 
-foreach($name in @("buildversion", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi", "spa-demo"))
+foreach($name in @("buildversion", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi", "countries", "spa-demo"))
 {
 	$semanticVersion = "latest"
 	"Current deploy: ${name}:${semanticVersion}"
