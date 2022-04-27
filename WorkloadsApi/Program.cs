@@ -54,8 +54,8 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
       builder => builder
         .AllowAnyMethod()
         .AllowAnyHeader()
-        .AllowAnyOrigin()
-        .AllowCredentials()));
+        .AllowAnyOrigin()));
+//        .AllowCredentials()) ;
 
 WebApplication app = builder.Build();
 

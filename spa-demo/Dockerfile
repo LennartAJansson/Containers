@@ -1,7 +1,7 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
 FROM node:18.0 as build-stage
 WORKDIR /app
-COPY package*.json /app/
+#COPY package*.json /app/
 COPY ./spa-demo/. .
 RUN npm install
 ARG configuration=production

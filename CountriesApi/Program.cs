@@ -1,5 +1,3 @@
-using System.Reflection;
-
 using Common;
 using Common.AspNet.Health;
 
@@ -11,6 +9,8 @@ using CountriesApi;
 using MediatR;
 
 using Microsoft.OpenApi.Models;
+
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -46,8 +46,8 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
       builder => builder
         .AllowAnyMethod()
         .AllowAnyHeader()
-        .AllowAnyOrigin()
-        .AllowCredentials()));
+        .AllowAnyOrigin()));
+//        .AllowCredentials()) ;
 
 WebApplication app = builder.Build();
 
