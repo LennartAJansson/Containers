@@ -36,26 +36,29 @@ namespace CountriesApi.Controllers
         public async Task<IActionResult> GetByIso(string iso)
         {
             CountryByIsoCountryRequest request = new CountryByIsoCountryRequest(iso);
-            logger.LogDebug("Received {type}", request.GetType().Name);
+            logger.LogDebug("Requested {type}", request.GetType().Name);
 
             CountryResponse response = await mediator.Send(request);
 
             return Ok(response);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetByCode2([FromBody] CountryByCountryCode2Request request)
+        [HttpGet("{code}")]
+        public async Task<IActionResult> GetByCode2(string code)
         {
-            logger.LogDebug("Received {type}", request.GetType().Name);
+            CountryByCountryCode2Request request = new CountryByCountryCode2Request(code);
+            logger.LogDebug("Requested {type}", request.GetType().Name);
 
             CountryResponse response = await mediator.Send(request);
 
             return Ok(response);
         }
-        [HttpPost]
-        public async Task<IActionResult> GetByCode3([FromBody] CountryByCountryCode3Request request)
+
+        [HttpGet("{code}")]
+        public async Task<IActionResult> GetByCode3(string code)
         {
-            logger.LogDebug("Received {type}", request.GetType().Name);
+            CountryByCountryCode3Request request = new CountryByCountryCode3Request(code);
+            logger.LogDebug("Requested {type}", request.GetType().Name);
 
             CountryResponse response = await mediator.Send(request);
 
@@ -65,14 +68,22 @@ namespace CountriesApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPrefixes()
         {
-            IEnumerable<PhonePrefixWithCountriesResponse> result = await mediator.Send(new PhonePrefixDictionaryAllRequest());
+            PhonePrefixDictionaryAllRequest request = new PhonePrefixDictionaryAllRequest();
+            logger.LogDebug("Requested {type}", request.GetType().Name);
+
+            IEnumerable<PhonePrefixWithCountriesResponse> result = await mediator.Send(request);
+
             return Ok(result);
         }
 
         [HttpGet("{phoneNumber}")]
         public async Task<IActionResult> GetPrefixForPhoneNumber(string phoneNumber)
         {
-            PhonePrefixWithCountriesResponse result = await mediator.Send(new PhonePrefixDictionaryRequest(phoneNumber));
+            PhonePrefixDictionaryRequest request = new PhonePrefixDictionaryRequest(phoneNumber);
+            logger.LogDebug("Requested {type}", request.GetType().Name);
+
+            PhonePrefixWithCountriesResponse result = await mediator.Send(request);
+
             return Ok(result);
         }
 
