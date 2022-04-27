@@ -1,0 +1,18 @@
+<h3>Get configuration from JSON file</h3>
+<div>
+  <button type="button" (click)="showConfig()">getConfig</button>
+  <button type="button" (click)="showConfigResponse()">getConfigResponse</button>
+  <!-- <span *ngIf="config"> -->
+    <p>countryCode2 is "{{config?.countryCode2}}"</p>
+    <p>countryCode3 is "{{config?.countryCode3}}"</p>
+    <p>countryName is "{{config?.countryName}}"</p>
+    <p>isoCountry is "{{config?.isoCountry}}"</p>
+    <div *ngIf="headers">
+      Response headers:
+      <ul>
+        <li *ngFor="let header of headers">{{header}}</li>
+      </ul>
+    </div>
+  <!-- </span> -->
+</div>
+<!-- <p *ngIf="error" class="error">{{error | json}}</p> -->

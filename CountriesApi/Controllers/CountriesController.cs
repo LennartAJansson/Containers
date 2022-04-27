@@ -32,9 +32,10 @@ namespace CountriesApi.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetByIso([FromBody] CountryByIsoCountryRequest request)
+        [HttpGet("{iso}")]
+        public async Task<IActionResult> GetByIso(string iso)
         {
+            CountryByIsoCountryRequest request = new CountryByIsoCountryRequest(iso);
             logger.LogDebug("Received {type}", request.GetType().Name);
 
             CountryResponse response = await mediator.Send(request);

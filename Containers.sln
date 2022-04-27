@@ -242,6 +242,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "countries", "countries", "{
 		deploy\countries\service.yaml = deploy\countries\service.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Countries Frontend", "Countries Frontend", "{0773F12B-C030-45C2-81CE-B886C4F4A34E}"
+	ProjectSection(SolutionItems) = preProject
+		Countries\Dockerfile = Countries\Dockerfile
+		Countries\nginx-custom.conf = Countries\nginx-custom.conf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SPA-Demo Frontend", "SPA-Demo Frontend", "{249AA19F-2B39-4CE5-8427-2DC58384E8FF}"
+	ProjectSection(SolutionItems) = preProject
+		spa-demo\Dockerfile = spa-demo\Dockerfile
+		spa-demo\nginx-custom.conf = spa-demo\nginx-custom.conf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -354,6 +366,8 @@ Global
 		{8AE80F4D-415C-4211-AA7F-32429DDC07BF} = {58195862-762D-493A-961D-1291BE9DD2A9}
 		{D2B7CF77-1BF5-45A8-951F-8567385850AA} = {58195862-762D-493A-961D-1291BE9DD2A9}
 		{DAD42756-DD80-4790-8682-0B6BCACFF6E4} = {58195862-762D-493A-961D-1291BE9DD2A9}
+		{0773F12B-C030-45C2-81CE-B886C4F4A34E} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
+		{249AA19F-2B39-4CE5-8427-2DC58384E8FF} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
