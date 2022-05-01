@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ConfigComponent} from './config/config.component';
+import { CountriesComponent } from '../app/components/Countries/Countries.component';
 
-const routes: Routes = [{ path: 'app-config', component: ConfigComponent }];
+const routes: Routes = [
+  { path: 'app-countries', component: CountriesComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

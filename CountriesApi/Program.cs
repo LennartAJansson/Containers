@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using Common;
 using Common.AspNet.Health;
 
@@ -10,11 +12,9 @@ using MediatR;
 
 using Microsoft.OpenApi.Models;
 
-using System.Reflection;
-
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-ApplicationInfo appInfo = new ApplicationInfo(typeof(Program));
+ApplicationInfo appInfo = new(typeof(Program));
 builder.Services.AddSingleton<ApplicationInfo>(appInfo);
 
 builder.Services.AddHealth();
@@ -42,12 +42,12 @@ builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiIn
     Description = $"<i>Branch/Commit: {appInfo.Description}</i>"
 }));
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
-      builder => builder
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowAnyOrigin()));
-//        .AllowCredentials()) ;
+builder.Services.AddCors(options =>
+    options.AddPolicy("CorsPolicy", policy =>
+        policy.AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin()));
+//          .AllowCredentials()) ;
 
 WebApplication app = builder.Build();
 
@@ -55,8 +55,6 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 }
-
-app.UseCors("Cors");
 
 app.UseHealth();
 
@@ -71,6 +69,8 @@ app.UseSwaggerUI(c =>
 });
 
 //app.UseHttpsRedirection();
+
+app.UseCors("Cors");
 
 app.UseAuthorization();
 
