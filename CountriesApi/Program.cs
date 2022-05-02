@@ -28,6 +28,12 @@ builder.Services.AddSingleton<PhonePrefixDictionary>();
 builder.Services.AddMediatR(Assembly.GetAssembly(typeof(Program)) ?? throw new NullReferenceException());
 builder.Services.Configure<ConnectionStrings>(c => builder.Configuration.GetSection("ConnectionStrings").Bind(c));
 
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(policy =>
+        policy.AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin()));
+
 builder.Services.AddControllers();
 //.AddJsonOptions(options =>
 //{
@@ -41,13 +47,6 @@ builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiIn
     Version = $"v{appInfo.SemanticVersion}",
     Description = $"<i>Branch/Commit: {appInfo.Description}</i>"
 }));
-
-builder.Services.AddCors(options =>
-    options.AddPolicy("CorsPolicy", policy =>
-        policy.AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowAnyOrigin()));
-//          .AllowCredentials()) ;
 
 WebApplication app = builder.Build();
 
@@ -70,7 +69,7 @@ app.UseSwaggerUI(c =>
 
 //app.UseHttpsRedirection();
 
-app.UseCors("Cors");
+app.UseCors();
 
 app.UseAuthorization();
 

@@ -23,22 +23,9 @@ import {
   HttpHeaders,
   HttpResponse,
   HttpResponseBase,
-  HttpContext,
 } from '@angular/common/http';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
-
-export interface Country {
-  isoCountry: string;
-  countryCode2: string;
-  countryCode3: string;
-  countryName: string;
-  phonePrefixes: Prefix[];
-}
-
-export interface Prefix {
-  prefix: string;
-}
 
 @Injectable()
 export class CountriesClient {
@@ -52,22 +39,22 @@ export class CountriesClient {
     @Optional() @Inject(API_BASE_URL) baseUrl?: string
   ) {
     this.http = http;
-    //this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
-    this.baseUrl = 'http://countriesapi.local:8081';
+    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
   }
 
   /**
    * @return Success
    */
-  getAll(httpContext?: HttpContext): Observable<void> {
+  getAll(): Observable<CountryResponse[]> {
     let url_ = this.baseUrl + '/Countries/GetAll';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({}),
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
     };
 
     return this.http
@@ -83,14 +70,21 @@ export class CountriesClient {
             try {
               return this.processGetAll(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
+              return _observableThrow(e) as any as Observable<
+                CountryResponse[]
+              >;
             }
-          } else return _observableThrow(response_) as any as Observable<void>;
+          } else
+            return _observableThrow(response_) as any as Observable<
+              CountryResponse[]
+            >;
         })
       );
   }
 
-  protected processGetAll(response: HttpResponseBase): Observable<void> {
+  protected processGetAll(
+    response: HttpResponseBase
+  ): Observable<CountryResponse[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -108,7 +102,35 @@ export class CountriesClient {
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CountryResponse[]);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          result404 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as ProblemDetails);
+          return throwException(
+            'Not Found',
+            status,
+            _responseText,
+            _headers,
+            result404
+          );
         })
       );
     } else if (status !== 200 && status !== 204) {
@@ -129,7 +151,7 @@ export class CountriesClient {
   /**
    * @return Success
    */
-  getByIso(iso: string, httpContext?: HttpContext): Observable<void> {
+  getByIso(iso: string): Observable<CountryResponse> {
     let url_ = this.baseUrl + '/Countries/GetByIso/{iso}';
     if (iso === undefined || iso === null)
       throw new Error("The parameter 'iso' must be defined.");
@@ -139,8 +161,9 @@ export class CountriesClient {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({}),
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
     };
 
     return this.http
@@ -156,14 +179,19 @@ export class CountriesClient {
             try {
               return this.processGetByIso(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
+              return _observableThrow(e) as any as Observable<CountryResponse>;
             }
-          } else return _observableThrow(response_) as any as Observable<void>;
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<CountryResponse>;
         })
       );
   }
 
-  protected processGetByIso(response: HttpResponseBase): Observable<void> {
+  protected processGetByIso(
+    response: HttpResponseBase
+  ): Observable<CountryResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -181,7 +209,35 @@ export class CountriesClient {
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CountryResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          result404 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as ProblemDetails);
+          return throwException(
+            'Not Found',
+            status,
+            _responseText,
+            _headers,
+            result404
+          );
         })
       );
     } else if (status !== 200 && status !== 204) {
@@ -202,7 +258,7 @@ export class CountriesClient {
   /**
    * @return Success
    */
-  getByCode2(code: string, httpContext?: HttpContext): Observable<void> {
+  getByCode2(code: string): Observable<CountryResponse> {
     let url_ = this.baseUrl + '/Countries/GetByCode2/{code}';
     if (code === undefined || code === null)
       throw new Error("The parameter 'code' must be defined.");
@@ -212,8 +268,9 @@ export class CountriesClient {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({}),
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
     };
 
     return this.http
@@ -229,14 +286,19 @@ export class CountriesClient {
             try {
               return this.processGetByCode2(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
+              return _observableThrow(e) as any as Observable<CountryResponse>;
             }
-          } else return _observableThrow(response_) as any as Observable<void>;
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<CountryResponse>;
         })
       );
   }
 
-  protected processGetByCode2(response: HttpResponseBase): Observable<void> {
+  protected processGetByCode2(
+    response: HttpResponseBase
+  ): Observable<CountryResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -254,7 +316,35 @@ export class CountriesClient {
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CountryResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          result404 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as ProblemDetails);
+          return throwException(
+            'Not Found',
+            status,
+            _responseText,
+            _headers,
+            result404
+          );
         })
       );
     } else if (status !== 200 && status !== 204) {
@@ -275,7 +365,7 @@ export class CountriesClient {
   /**
    * @return Success
    */
-  getByCode3(code: string, httpContext?: HttpContext): Observable<void> {
+  getByCode3(code: string): Observable<CountryResponse> {
     let url_ = this.baseUrl + '/Countries/GetByCode3/{code}';
     if (code === undefined || code === null)
       throw new Error("The parameter 'code' must be defined.");
@@ -285,8 +375,9 @@ export class CountriesClient {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({}),
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
     };
 
     return this.http
@@ -302,14 +393,19 @@ export class CountriesClient {
             try {
               return this.processGetByCode3(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
+              return _observableThrow(e) as any as Observable<CountryResponse>;
             }
-          } else return _observableThrow(response_) as any as Observable<void>;
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<CountryResponse>;
         })
       );
   }
 
-  protected processGetByCode3(response: HttpResponseBase): Observable<void> {
+  protected processGetByCode3(
+    response: HttpResponseBase
+  ): Observable<CountryResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -327,7 +423,35 @@ export class CountriesClient {
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CountryResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          result404 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as ProblemDetails);
+          return throwException(
+            'Not Found',
+            status,
+            _responseText,
+            _headers,
+            result404
+          );
         })
       );
     } else if (status !== 200 && status !== 204) {
@@ -348,15 +472,16 @@ export class CountriesClient {
   /**
    * @return Success
    */
-  getPrefixes(httpContext?: HttpContext): Observable<void> {
+  getPrefixes(): Observable<PhonePrefixWithCountriesResponse[]> {
     let url_ = this.baseUrl + '/Countries/GetPrefixes';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({}),
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
     };
 
     return this.http
@@ -372,14 +497,21 @@ export class CountriesClient {
             try {
               return this.processGetPrefixes(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
+              return _observableThrow(e) as any as Observable<
+                PhonePrefixWithCountriesResponse[]
+              >;
             }
-          } else return _observableThrow(response_) as any as Observable<void>;
+          } else
+            return _observableThrow(response_) as any as Observable<
+              PhonePrefixWithCountriesResponse[]
+            >;
         })
       );
   }
 
-  protected processGetPrefixes(response: HttpResponseBase): Observable<void> {
+  protected processGetPrefixes(
+    response: HttpResponseBase
+  ): Observable<PhonePrefixWithCountriesResponse[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -397,7 +529,35 @@ export class CountriesClient {
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as PhonePrefixWithCountriesResponse[]);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          result404 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as ProblemDetails);
+          return throwException(
+            'Not Found',
+            status,
+            _responseText,
+            _headers,
+            result404
+          );
         })
       );
     } else if (status !== 200 && status !== 204) {
@@ -419,9 +579,8 @@ export class CountriesClient {
    * @return Success
    */
   getPrefixForPhoneNumber(
-    phoneNumber: string,
-    httpContext?: HttpContext
-  ): Observable<void> {
+    phoneNumber: string
+  ): Observable<PhonePrefixWithCountriesResponse> {
     let url_ =
       this.baseUrl + '/Countries/GetPrefixForPhoneNumber/{phoneNumber}';
     if (phoneNumber === undefined || phoneNumber === null)
@@ -432,8 +591,9 @@ export class CountriesClient {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({}),
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
     };
 
     return this.http
@@ -449,16 +609,21 @@ export class CountriesClient {
             try {
               return this.processGetPrefixForPhoneNumber(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
+              return _observableThrow(
+                e
+              ) as any as Observable<PhonePrefixWithCountriesResponse>;
             }
-          } else return _observableThrow(response_) as any as Observable<void>;
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<PhonePrefixWithCountriesResponse>;
         })
       );
   }
 
   protected processGetPrefixForPhoneNumber(
     response: HttpResponseBase
-  ): Observable<void> {
+  ): Observable<PhonePrefixWithCountriesResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -476,7 +641,35 @@ export class CountriesClient {
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as PhonePrefixWithCountriesResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          result404 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as ProblemDetails);
+          return throwException(
+            'Not Found',
+            status,
+            _responseText,
+            _headers,
+            result404
+          );
         })
       );
     } else if (status !== 200 && status !== 204) {
@@ -493,78 +686,38 @@ export class CountriesClient {
     }
     return _observableOf(null as any);
   }
+}
 
-  /**
-   * @return Success
-   */
-  refreshCountryInformation(httpContext?: HttpContext): Observable<void> {
-    let url_ = this.baseUrl + '/Countries/RefreshCountryInformation';
-    url_ = url_.replace(/[?&]$/, '');
+export interface CountryResponse {
+  isoCountry?: string | undefined;
+  countryCode2?: string | undefined;
+  countryCode3?: string | undefined;
+  countryName?: string | undefined;
+  phonePrefixes?: PrefixResponse[] | undefined;
+}
 
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({}),
-    };
+export interface CountryWithoutPrefixResponse {
+  isoCountry?: string | undefined;
+  countryCode2?: string | undefined;
+  countryCode3?: string | undefined;
+  countryName?: string | undefined;
+}
 
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processRefreshCountryInformation(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processRefreshCountryInformation(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
+export interface PhonePrefixWithCountriesResponse {
+  prefix?: string | undefined;
+  countries?: CountryWithoutPrefixResponse[] | undefined;
+}
 
-  protected processRefreshCountryInformation(
-    response: HttpResponseBase
-  ): Observable<void> {
-    const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-        ? (response as any).error
-        : undefined;
+export interface PrefixResponse {
+  prefix?: string | undefined;
+}
 
-    let _headers: any = {};
-    if (response.headers) {
-      for (let key of response.headers.keys()) {
-        _headers[key] = response.headers.get(key);
-      }
-    }
-    if (status === 200) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          return _observableOf(null as any);
-        })
-      );
-    } else if (status !== 200 && status !== 204) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          return throwException(
-            'An unexpected server error occurred.',
-            status,
-            _responseText,
-            _headers
-          );
-        })
-      );
-    }
-    return _observableOf(null as any);
-  }
+export interface ProblemDetails {
+  type?: string | undefined;
+  title?: string | undefined;
+  status?: number | undefined;
+  detail?: string | undefined;
+  instance?: string | undefined;
 }
 
 export class ApiException extends Error {
