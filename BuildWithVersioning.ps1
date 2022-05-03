@@ -1,27 +1,27 @@
-#Assumes you have the project buildversion running on your localhost on port 9000
+#Assumes you have the project buildversionsapi running on your localhost on port 9000
 #
-$alive = curl.exe -s "http://buildversion.local:8081/Ping" -H "accept:text/plain"
+$alive = curl.exe -s "http://buildversionsapi.local:8081/Ping" -H "accept:text/plain"
 if($alive -ne "pong!")
 {
-	"You need to do an initial deploy of BuildVersion API"
+	"You need to do an initial deploy of BuildVersionsApi"
 	"Please run InitBuildVersion.ps1"
 	return
 }
 
-foreach($name in @(<#"buildversion", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi",#> "countries"))
+foreach($name in @("buildversionsapi", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi", "countries"))
 {
 	$branch = git rev-parse --abbrev-ref HEAD
 	$commit = git log -1 --pretty=format:"%H"
 	$description = "${branch}: ${commit}"
 	$buildVersion = $null
-	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/RevisionInc/$name" | ConvertFrom-Json
+	$buildVersion = curl.exe -s "http://buildversionsapi.local:8081/api/Binaries/RevisionInc/$name" | ConvertFrom-Json
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 	
 	if([string]::IsNullOrEmpty($semanticVersion) -or [string]::IsNullOrEmpty($description)) 
 	{
-		"Could not connect to git repo or buildversion api"
+		"Could not connect to git repo or buildversionsapi"
 		"Please check that you are in the correct folder and that"
-		"BuildVersion API is working correctly in your Kubernetes"
+		"BuildVersionsApi is working correctly in your Kubernetes"
 		return
 	}
 	

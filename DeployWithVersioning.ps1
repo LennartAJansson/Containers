@@ -1,23 +1,23 @@
-#Assumes you have the project buildversion running on your localhost on port 9000
+#Assumes you have the project buildversionsapi running on your localhost on port 9000
 #
-$alive = curl.exe -s "http://buildversion.local:8081/Ping" -H "accept: text/plain"
+$alive = curl.exe -s "http://buildversionsapi.local:8081/Ping" -H "accept: text/plain"
 if($alive -ne "pong!")
 {
-	"You need to do an initial deploy of BuildVersion API"
+	"You need to do an initial deploy of BuildVersionsApi"
 	"Please run InitBuildVersion.ps1"
 	return
 }
 
-foreach($name in @(<#"buildversion", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi",#> "countries"))
+foreach($name in @("buildversionsapi", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi", "countries"))
 {
 	$buildVersion = $null
-	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/${name}" | ConvertFrom-Json
+	$buildVersion = curl.exe -s "http://buildversionsapi.local:8081/api/Binaries/GetByName/${name}" | ConvertFrom-Json
 	$semanticVersion = $buildVersion.buildVersion.semanticVersion
 
 	if([string]::IsNullOrEmpty($semanticVersion)) 
 	{
-		"Could not connect to buildversion api"
-		"Please check that BuildVersion API is working correctly in your Kubernetes"
+		"Could not connect to buildversionsapi"
+		"Please check that BuildVersionsApi is working correctly in your Kubernetes"
 		return
 	}
 

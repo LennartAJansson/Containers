@@ -1,4 +1,4 @@
-﻿namespace BuildVersion.Data
+﻿namespace BuildVersionsApi.Data
 {
     using System.ComponentModel.DataAnnotations.Schema;
 

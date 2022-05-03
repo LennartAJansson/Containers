@@ -1,8 +1,9 @@
 ﻿// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace BuildVersion.Controllers
+namespace BuildVersionsApi.Controllers
 {
-    using BuildVersion.Data;
+
+    using BuildVersionsApi.Data;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace BuildVersion.Controllers
 
             List<Binary> result = context.Binaries.Include("BuildVersion").ToList();
 
-            return (result != null && result.Count != 0) ? Ok(result) : BadRequest();
+            return result != null && result.Count != 0 ? Ok(result) : BadRequest();
         }
 
         [HttpGet("{id}")]

@@ -1,6 +1,6 @@
 ﻿// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace BuildVersion.Controllers
+namespace BuildVersionsApi.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +9,6 @@ namespace BuildVersion.Controllers
     public class PingController : ControllerBase
     {
         [HttpGet]
-        public string Ping()
-        {
-            return "pong!";
-        }
+        public string Ping() => "pong!";
     }
 }

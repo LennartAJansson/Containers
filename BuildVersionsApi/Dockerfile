@@ -6,20 +6,20 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["BuildVersion/BuildVersion.csproj", "BuildVersion/"]
+COPY ["BuildVersionsApi/BuildVersionsApi.csproj", "BuildVersionsApi/"]
 COPY ["Common/Common.csproj", "Common/"]
 COPY ["Common.AspNet/Common.AspNet.csproj", "Common.AspNet/"]
-RUN dotnet restore "BuildVersion/BuildVersion.csproj"
+RUN dotnet restore "BuildVersionsApi/BuildVersionsApi.csproj"
 COPY . .
-WORKDIR "/src/BuildVersion"
-RUN dotnet build "BuildVersion.csproj" -c Release -o /app/build
+WORKDIR "/src/BuildVersionsApi"
+RUN dotnet build "BuildVersionsApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
 ARG Version
 ARG Description
-RUN dotnet publish "BuildVersion.csproj" -p:Version="$Version" -p:Description="$Description" -c Release -o /app/publish
+RUN dotnet publish "BuildVersionsApi.csproj" -p:Version="$Version" -p:Description="$Description" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "BuildVersion.dll"]
+ENTRYPOINT ["dotnet", "BuildVersionsApi.dll"]

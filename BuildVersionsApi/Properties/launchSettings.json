@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "BuildVersion": {
+    "BuildVersionsApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

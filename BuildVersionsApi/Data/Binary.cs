@@ -1,4 +1,4 @@
-﻿namespace BuildVersion.Data
+﻿namespace BuildVersionsApi.Data
 {
     public class Binary : BaseLoggedEntity
     {
