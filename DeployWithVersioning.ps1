@@ -8,7 +8,7 @@ if($alive -ne "pong!")
 	return
 }
 
-foreach($name in @(<#"buildversion", "workloadsapi", "workloadsprojector", "cronjob",#> "countriesapi", "countries"))
+foreach($name in @(<#"buildversion", "workloadsapi", "workloadsprojector", "cronjob", "countriesapi",#> "countries"))
 {
 	$buildVersion = $null
 	$buildVersion = curl.exe -s "http://buildversion.local:8081/api/Binaries/GetByName/${name}" | ConvertFrom-Json
