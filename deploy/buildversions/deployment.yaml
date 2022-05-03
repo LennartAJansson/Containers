@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: buildversions-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/shared/buildversions"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: buildversions-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+#https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-6-adding-health-checks-with-liveness-readiness-and-startup-probes/
+#https://dzone.com/articles/health-checks-with-aspnet-core-and-kubernetes
+
+metadata:
+  name: buildversions
+  labels:
+    app: buildversions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: buildversions
+  template:
+    metadata:
+      labels:
+        app: buildversions
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+    spec:
+      volumes:
+        - name: buildversions-storage
+          persistentVolumeClaim:
+            claimName: buildversions-claim
+      containers:
+      - name: buildversions
+        image: registry:5000/buildversions:v1
+        imagePullPolicy: Always
+        envFrom:
+        #- secretRef: 
+        #    name: buildversions-secret
+        - configMapRef:
+            name: buildversions-configmap
+        - configMapRef:
+            name: common-configmap
+        ports:
+        - containerPort: 80
+          name: http
+#        livenessProbe:
+#          httpGet:
+#            path: /healthz
+#            port: http
+#          initialDelaySeconds: 10
+#          timeoutSeconds: 5
+#        readinessProbe:
+#          httpGet:
+#            path: /healthz
+#            port: http
+#          initialDelaySeconds: 10
+#          timeoutSeconds: 5
+#        resources:
+#          requests:
+#            memory: "32Mi"
+#            cpu: "16m"
+#          limits:
+#            memory: "128Mi"
+#            cpu: "512m"
+        volumeMounts:
+          - mountPath: "/data"
+            name: buildversions-storage
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: buildversions-configmap
+data:
+  DOTNET_ENVIRONMENT: "Production"
+  ASPNETCORE_ENVIRONMENT: "Production"

@@ -158,15 +158,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Build and Deploy version
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E52D0448-6644-4BE9-B509-7AE7E493627F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildversion", "buildversion", "{128540BF-A1CF-4EFF-A634-446D25EF7C31}"
-	ProjectSection(SolutionItems) = preProject
-		deploy\buildversion\deployment.yaml = deploy\buildversion\deployment.yaml
-		deploy\buildversion\ingress.yaml = deploy\buildversion\ingress.yaml
-		deploy\buildversion\kustomization.yaml = deploy\buildversion\kustomization.yaml
-		deploy\buildversion\namespace.yaml = deploy\buildversion\namespace.yaml
-		deploy\buildversion\service.yaml = deploy\buildversion\service.yaml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cronjob", "cronjob", "{9ED934C9-0390-4B7E-B4D8-78DD5445B5E4}"
 	ProjectSection(SolutionItems) = preProject
 		deploy\cronjob\cronjob.yaml = deploy\cronjob\cronjob.yaml
@@ -253,6 +244,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildversionsapi", "buildve
 		deploy\buildversionsapi\service.yaml = deploy\buildversionsapi\service.yaml
 	EndProjectSection
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "BuildVersions", "BuildVersions\BuildVersions.esproj", "{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildversions", "buildversions", "{371B5D83-8A73-4236-9E33-02A7ABCBBF18}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\buildversions\deployment.yaml = deploy\buildversions\deployment.yaml
+		deploy\buildversions\ingress.yaml = deploy\buildversions\ingress.yaml
+		deploy\buildversions\kustomization.yaml = deploy\buildversions\kustomization.yaml
+		deploy\buildversions\namespace.yaml = deploy\buildversions\namespace.yaml
+		deploy\buildversions\service.yaml = deploy\buildversions\service.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -329,6 +331,12 @@ Global
 		{688FE872-3B84-40A7-A003-A5A4130C841A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{688FE872-3B84-40A7-A003-A5A4130C841A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{688FE872-3B84-40A7-A003-A5A4130C841A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -355,7 +363,6 @@ Global
 		{912EEF6C-33D5-489A-B161-69D51450ADB9} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{C0A8FB02-EB7C-4546-986B-585A204EEFE3} = {58195862-762D-493A-961D-1291BE9DD2A9}
 		{E52D0448-6644-4BE9-B509-7AE7E493627F} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
-		{128540BF-A1CF-4EFF-A634-446D25EF7C31} = {E52D0448-6644-4BE9-B509-7AE7E493627F}
 		{9ED934C9-0390-4B7E-B4D8-78DD5445B5E4} = {58195862-762D-493A-961D-1291BE9DD2A9}
 		{5026CB04-4BBD-481D-9E30-79E134D6C22A} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{EA1F8500-F622-4285-9826-3638118DBC77} = {D428CE4C-2DA8-47F2-BEB7-9D77E865B70D}
@@ -373,6 +380,8 @@ Global
 		{BB6A406F-A5B3-4EB5-B183-79F1F7B80C8F} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 		{688FE872-3B84-40A7-A003-A5A4130C841A} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
 		{D21183CB-D6D8-4ABA-AF5D-1477A9B4BAA7} = {E52D0448-6644-4BE9-B509-7AE7E493627F}
+		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
+		{371B5D83-8A73-4236-9E33-02A7ABCBBF18} = {E52D0448-6644-4BE9-B509-7AE7E493627F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
