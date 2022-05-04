@@ -6,6 +6,7 @@ namespace BuildVersionsApi.Controllers
     using BuildVersionsApi.Data;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -20,35 +21,41 @@ namespace BuildVersionsApi.Controllers
             this.context = context;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BuildVersion>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetBuildVersions()
         {
             logger.LogDebug("Get all BuildVersion");
 
-            List<BuildVersion> result = context.BuildVersions.ToList();
+            IEnumerable<BuildVersion> result = context.BuildVersions!.Include(x => x.Binary);
 
-            return result != null && result.Count != 0 ? Ok(result) : BadRequest();
+            return result != null && result.Any() ? Ok(result) : NotFound();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BuildVersion))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetBuildVersionById(int id)
         {
             logger.LogDebug("Get BuildVersion by id");
 
-            BuildVersion result = context.BuildVersions.SingleOrDefault(bv => bv.Id == id);
+            BuildVersion? result = context.BuildVersions!.Include(x => x.Binary).SingleOrDefault(bv => bv.Id == id);
 
-            return result != null ? Ok(result) : BadRequest();
+            return result != null ? Ok(result) : NotFound();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BuildVersion))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
-        public IActionResult Post([FromBody] BuildVersion buildVersion)
+        public IActionResult PostBuildVersion([FromBody] BuildVersion buildVersion)
         {
             logger.LogDebug("Post BuildVersion");
 
             try
             {
-                context.BuildVersions.Add(buildVersion);
-                context.SaveChanges();
+                _ = context.BuildVersions!.Add(buildVersion);
+                _ = context.SaveChanges();
                 return Ok(buildVersion);
             }
             catch (Exception ex)
@@ -57,15 +64,17 @@ namespace BuildVersionsApi.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BuildVersion))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut]
-        public IActionResult Put([FromBody] BuildVersion buildVersion)
+        public IActionResult PutBuildVersion([FromBody] BuildVersion buildVersion)
         {
             logger.LogDebug("Put BuildVersion");
 
             try
             {
-                context.BuildVersions.Update(buildVersion);
-                context.SaveChanges();
+                _ = context.BuildVersions!.Update(buildVersion);
+                _ = context.SaveChanges();
                 return Ok(buildVersion);
             }
             catch (Exception ex)
@@ -74,20 +83,22 @@ namespace BuildVersionsApi.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BuildVersion))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteBuildVersion(int id)
         {
             logger.LogDebug("Delete BuildVersion by id");
 
-            BuildVersion buildVersion = context.BuildVersions.Find(id);
+            BuildVersion? buildVersion = context.BuildVersions!.Include(x => x.Binary).SingleOrDefault(bv => bv.Id == id);
             if (buildVersion != null)
             {
-                context.BuildVersions.Remove(buildVersion);
-                context.SaveChanges();
+                _ = context.BuildVersions!.Remove(buildVersion);
+                _ = context.SaveChanges();
                 return Ok(buildVersion);
             }
 
-            return BadRequest();
+            return NotFound();
         }
     }
 }

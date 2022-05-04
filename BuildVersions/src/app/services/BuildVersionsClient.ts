@@ -29,7 +29,7 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    get(): Observable<void> {
+    getBinaries(): Observable<Binary[]> {
         let url_ = this.baseUrl + "/api/Binaries/Get";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -40,21 +40,27 @@ export class BuildVersionsClient {
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGet(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
+        return this.http
+            .request("get", url_, options_)
+            .pipe(_observableMergeMap((response_ : any) => {
+                return this.processGet(response_);
+            })
+        )
+        .pipe(
+            _observableCatch((response_: any) => {
+                if (response_ instanceof HttpResponseBase) {
+                    try {
+                        return this.processGet(response_ as any);
+                    } catch (e) {
+                        return _observableThrow(e) as any as Observable<Binary[]>;
+                    }
+                } else
+                    return _observableThrow(response_) as any as Observable<void>;
+            })
+        );
     }
 
-    protected processGet(response: HttpResponseBase): Observable<void> {
+    protected processGetBinary(response: HttpResponseBase): Observable<Binary[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

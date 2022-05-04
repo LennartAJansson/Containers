@@ -1,7 +1,7 @@
 $name = "buildversion"
 $description = "Initial version"
-$version = "1.0.0"
-$semanticVersion = "latest"
+$version = "0.0.0.1"
+$semanticVersion = "0.0.0.1"
 
 "Current build: " + $name
 docker build -f .\${name}\Dockerfile --force-rm -t ${name} --build-arg Version="${version}" --build-arg Description="${description}" .

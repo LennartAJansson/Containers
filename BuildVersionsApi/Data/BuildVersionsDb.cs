@@ -1,30 +1,28 @@
 ﻿namespace BuildVersionsApi.Data
 {
 
-    using Microsoft.EntityFrameworkCore;
-
     using System;
+    using System.Threading;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class BuildVersionsDb : DbContext
     {
-        public DbSet<LogEntry> LogEntry { get; set; }
-        public DbSet<Binary> Binaries { get; set; }
-        public DbSet<BuildVersion> BuildVersions { get; set; }
+        public DbSet<Binary>? Binaries { get; set; }
+        public DbSet<BuildVersion>? BuildVersions { get; set; }
 
         public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-        private ILogger<BuildVersionsDb> logger;
+        private ILogger<BuildVersionsDb>? logger;
+
         public BuildVersionsDb(DbContextOptions<BuildVersionsDb> options)
             : base(options)
         { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Binary>().HasIndex("ProjectFile");
-        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.Entity<Binary>().HasIndex("ProjectFile");
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLoggerFactory(loggerFactory);
+            _ = optionsBuilder.UseLoggerFactory(loggerFactory);
             logger = loggerFactory.CreateLogger<BuildVersionsDb>();
         }
 
@@ -48,21 +46,38 @@
         {
             PreSaveChanges();
 
-            int result = base.SaveChanges();
+            return base.SaveChanges();
+        }
 
-            PostSaveChanges();
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            PreSaveChanges();
 
-            return result;
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            PreSaveChanges();
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            PreSaveChanges();
+
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         private void PreSaveChanges()
         {
-            foreach (BaseLoggedEntity history in ChangeTracker
+            foreach (BaseLoggedEntity? history in ChangeTracker
                 .Entries()
                 .Where(e => e.Entity is BaseLoggedEntity)
                 .Select(e => e.Entity as BaseLoggedEntity))
             {
-                history.Changed = DateTime.Now;
+                history!.Changed = DateTime.Now;
                 if (history.Created == DateTime.MinValue)
                 {
                     history.Created = DateTime.Now;
@@ -113,17 +128,6 @@
             //    }
 
             //}
-        }
-
-        private void PostSaveChanges()
-        {
-            foreach (BaseLoggedEntity history in ChangeTracker
-                .Entries()
-                .Where(e => e.Entity is BaseLoggedEntity)
-                .Select(e => e.Entity as BaseLoggedEntity))
-            {
-                history.IsDirty = false;
-            }
         }
     }
 }

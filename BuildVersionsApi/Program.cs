@@ -1,4 +1,6 @@
 
+using System.Text.Json.Serialization;
+
 using BuildVersionsApi.Data;
 
 using Common;
@@ -24,7 +26,9 @@ builder.Services.AddDbContext<BuildVersionsDb>(options =>
                 .EnableDetailedErrors(),
             ServiceLifetime.Transient, ServiceLifetime.Transient);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo
@@ -34,7 +38,7 @@ builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiIn
     Description = $"<i>Branch/Commit: {appInfo.Description}</i>"
 }));
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
+builder.Services.AddCors(options => options.AddDefaultPolicy(
       builder => builder
         .AllowAnyMethod()
         .AllowAnyHeader()
@@ -49,7 +53,6 @@ if (app.Environment.IsDevelopment())
 {
 }
 
-app.UseCors("Cors");
 
 app.UseHealth();
 
@@ -57,6 +60,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 //app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

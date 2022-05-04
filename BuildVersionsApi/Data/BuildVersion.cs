@@ -1,6 +1,6 @@
 ﻿namespace BuildVersionsApi.Data
 {
-    public class BuildVersion : BaseLoggedEntity
+    public class BuildVersion// : BaseLoggedEntity
     {
         private int major;
         private int minor;
@@ -48,10 +48,12 @@
             }
         }
         public int Revision { get; set; }
-        public Version Version => new Version(Major, Minor, Build, Revision);
+        public Version Version => new(Major, Minor, Build, Revision);
         public string Release => $"{Major}.{Minor}";
         public string SemanticVersion => SemanticVersionPre == string.Empty ? $"{Major}.{Minor}.{Build}" : $"{Major}.{Minor}.{Build}-{SemanticVersionPre}.{Revision}";
         public string SemanticRelease => SemanticVersionPre == string.Empty ? $"{Major}.{Minor}" : $"{Major}.{Minor}-{SemanticVersionPre}.{Build}.{Revision}";
         public string SemanticVersionPre { get; set; } = "";
+
+        public Binary? Binary { get; set; }
     }
 }
