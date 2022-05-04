@@ -1,1 +1,16 @@
-<p>list works!</p>
+<div class="content">
+  <table>
+    <thead>
+      <th width="160">project</th>
+      <th width="120">semVer</th>
+      <th width="120">semRel</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of versions">
+        <td>{{ v.projectFile }}</td>
+        <td>{{ v.buildVersion?.semanticVersion }}</td>
+        <td>{{ v.buildVersion?.semanticRelease }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

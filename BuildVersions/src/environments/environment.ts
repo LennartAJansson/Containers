@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'https://localhost:9000',
+  url: 'http://buildversionsapi.local:8081',
+  // url: 'https://localhost:9000',
 };
 
 /*

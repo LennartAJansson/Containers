@@ -1,4 +1,4 @@
-$name = "buildversion"
+$name = "buildversionsapi"
 $description = "Initial version"
 $version = "0.0.0.1"
 $semanticVersion = "0.0.0.1"

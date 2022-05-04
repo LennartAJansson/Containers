@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { async, Observable } from 'rxjs';
 import {
   BuildVersion,
+  Binary,
   BuildVersionsClient,
 } from '../services/BuildVersionsClient';
 
@@ -11,11 +12,15 @@ import {
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  public versions?: Observable<BuildVersion[]>;
+  public versionsObs?: Observable<Binary[]>;
+  public versions?: Binary[];
 
   constructor(private client: BuildVersionsClient) {}
 
   ngOnInit(): void {
-    this.versions = this.client.get();
+    this.versionsObs = this.client.getBinaries();
+    this.versionsObs.pipe().subscribe((obj) => {
+      return (this.versions = obj);
+    });
   }
 }

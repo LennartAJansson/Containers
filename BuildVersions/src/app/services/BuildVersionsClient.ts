@@ -30,37 +30,32 @@ export class BuildVersionsClient {
      * @return Success
      */
     getBinaries(): Observable<Binary[]> {
-        let url_ = this.baseUrl + "/api/Binaries/Get";
+        let url_ = this.baseUrl + "/api/Binaries/GetBinaries";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
-        return this.http
-            .request("get", url_, options_)
-            .pipe(_observableMergeMap((response_ : any) => {
-                return this.processGet(response_);
-            })
-        )
-        .pipe(
-            _observableCatch((response_: any) => {
-                if (response_ instanceof HttpResponseBase) {
-                    try {
-                        return this.processGet(response_ as any);
-                    } catch (e) {
-                        return _observableThrow(e) as any as Observable<Binary[]>;
-                    }
-                } else
-                    return _observableThrow(response_) as any as Observable<void>;
-            })
-        );
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBinaries(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBinaries(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Binary[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Binary[]>;
+        }));
     }
 
-    protected processGetBinary(response: HttpResponseBase): Observable<Binary[]> {
+    protected processGetBinaries(response: HttpResponseBase): Observable<Binary[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -69,7 +64,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary[];
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -82,8 +85,8 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    getById(id: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Binaries/GetById/{id}";
+    getBinaryById(id: number): Observable<Binary> {
+        let url_ = this.baseUrl + "/api/Binaries/GetBinaryById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -93,24 +96,25 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetById(response_);
+            return this.processGetBinaryById(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetById(response_ as any);
+                    return this.processGetBinaryById(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processGetById(response: HttpResponseBase): Observable<void> {
+    protected processGetBinaryById(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -119,7 +123,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -132,8 +144,8 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    getByName(name: string): Observable<void> {
-        let url_ = this.baseUrl + "/api/Binaries/GetByName/{name}";
+    getBinaryByName(name: string): Observable<Binary> {
+        let url_ = this.baseUrl + "/api/Binaries/GetBinaryByName/{name}";
         if (name === undefined || name === null)
             throw new Error("The parameter 'name' must be defined.");
         url_ = url_.replace("{name}", encodeURIComponent("" + name));
@@ -143,24 +155,25 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetByName(response_);
+            return this.processGetBinaryByName(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetByName(response_ as any);
+                    return this.processGetBinaryByName(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processGetByName(response: HttpResponseBase): Observable<void> {
+    protected processGetBinaryByName(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -169,7 +182,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -183,8 +204,8 @@ export class BuildVersionsClient {
      * @param body (optional) 
      * @return Success
      */
-    post(body: Binary | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/Binaries/Post";
+    postBinary(body: Binary | undefined): Observable<Binary> {
+        let url_ = this.baseUrl + "/api/Binaries/PostBinary";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -195,24 +216,25 @@ export class BuildVersionsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPost(response_);
+            return this.processPostBinary(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPost(response_ as any);
+                    return this.processPostBinary(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processPost(response: HttpResponseBase): Observable<void> {
+    protected processPostBinary(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -221,7 +243,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -235,8 +265,8 @@ export class BuildVersionsClient {
      * @param body (optional) 
      * @return Success
      */
-    putById(body: Binary | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/Binaries/PutById";
+    putBinaryById(body: Binary | undefined): Observable<Binary> {
+        let url_ = this.baseUrl + "/api/Binaries/PutBinaryById";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -247,24 +277,25 @@ export class BuildVersionsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPutById(response_);
+            return this.processPutBinaryById(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPutById(response_ as any);
+                    return this.processPutBinaryById(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processPutById(response: HttpResponseBase): Observable<void> {
+    protected processPutBinaryById(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -273,7 +304,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -286,8 +325,8 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    delete(id: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/Binaries/Delete/{id}";
+    deleteBinary(id: number): Observable<Binary> {
+        let url_ = this.baseUrl + "/api/Binaries/DeleteBinary/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -297,24 +336,25 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
+            return this.processDeleteBinary(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDelete(response_ as any);
+                    return this.processDeleteBinary(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processDelete(response: HttpResponseBase): Observable<void> {
+    protected processDeleteBinary(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -323,7 +363,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -336,7 +384,7 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    majorInc(name: string): Observable<void> {
+    majorInc(name: string): Observable<Binary> {
         let url_ = this.baseUrl + "/api/Binaries/MajorInc/{name}";
         if (name === undefined || name === null)
             throw new Error("The parameter 'name' must be defined.");
@@ -347,6 +395,7 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
@@ -357,14 +406,14 @@ export class BuildVersionsClient {
                 try {
                     return this.processMajorInc(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processMajorInc(response: HttpResponseBase): Observable<void> {
+    protected processMajorInc(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -373,7 +422,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -386,7 +443,7 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    minorInc(name: string): Observable<void> {
+    minorInc(name: string): Observable<Binary> {
         let url_ = this.baseUrl + "/api/Binaries/MinorInc/{name}";
         if (name === undefined || name === null)
             throw new Error("The parameter 'name' must be defined.");
@@ -397,6 +454,7 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
@@ -407,14 +465,14 @@ export class BuildVersionsClient {
                 try {
                     return this.processMinorInc(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processMinorInc(response: HttpResponseBase): Observable<void> {
+    protected processMinorInc(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -423,7 +481,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -436,7 +502,7 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    buildInc(name: string): Observable<void> {
+    buildInc(name: string): Observable<Binary> {
         let url_ = this.baseUrl + "/api/Binaries/BuildInc/{name}";
         if (name === undefined || name === null)
             throw new Error("The parameter 'name' must be defined.");
@@ -447,6 +513,7 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
@@ -457,14 +524,14 @@ export class BuildVersionsClient {
                 try {
                     return this.processBuildInc(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processBuildInc(response: HttpResponseBase): Observable<void> {
+    protected processBuildInc(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -473,7 +540,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -486,7 +561,7 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    revisionInc(name: string): Observable<void> {
+    revisionInc(name: string): Observable<Binary> {
         let url_ = this.baseUrl + "/api/Binaries/RevisionInc/{name}";
         if (name === undefined || name === null)
             throw new Error("The parameter 'name' must be defined.");
@@ -497,6 +572,7 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
@@ -507,14 +583,14 @@ export class BuildVersionsClient {
                 try {
                     return this.processRevisionInc(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processRevisionInc(response: HttpResponseBase): Observable<void> {
+    protected processRevisionInc(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -523,7 +599,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -537,7 +621,7 @@ export class BuildVersionsClient {
      * @param semverpre (optional) 
      * @return Success
      */
-    setSemVerPre(name: string, semverpre: string | undefined): Observable<void> {
+    setSemVerPre(name: string, semverpre: string | undefined): Observable<Binary> {
         let url_ = this.baseUrl + "/api/Binaries/SetSemVerPre/{name}?";
         if (name === undefined || name === null)
             throw new Error("The parameter 'name' must be defined.");
@@ -552,6 +636,7 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
@@ -562,14 +647,14 @@ export class BuildVersionsClient {
                 try {
                     return this.processSetSemVerPre(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<Binary>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<Binary>;
         }));
     }
 
-    protected processSetSemVerPre(response: HttpResponseBase): Observable<void> {
+    protected processSetSemVerPre(response: HttpResponseBase): Observable<Binary> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -578,7 +663,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Binary;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -591,32 +684,33 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    get2(): Observable<void> {
-        let url_ = this.baseUrl + "/api/BuildVersions/Get";
+    getBuildVersions(): Observable<BuildVersion[]> {
+        let url_ = this.baseUrl + "/api/BuildVersions/GetBuildVersions";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet2(response_);
+            return this.processGetBuildVersions(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet2(response_ as any);
+                    return this.processGetBuildVersions(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<BuildVersion[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<BuildVersion[]>;
         }));
     }
 
-    protected processGet2(response: HttpResponseBase): Observable<void> {
+    protected processGetBuildVersions(response: HttpResponseBase): Observable<BuildVersion[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -625,7 +719,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildVersion[];
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -638,8 +740,8 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    getById2(id: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/BuildVersions/GetById/{id}";
+    getBuildVersionById(id: number): Observable<BuildVersion> {
+        let url_ = this.baseUrl + "/api/BuildVersions/GetBuildVersionById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -649,24 +751,25 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetById2(response_);
+            return this.processGetBuildVersionById(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetById2(response_ as any);
+                    return this.processGetBuildVersionById(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<BuildVersion>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<BuildVersion>;
         }));
     }
 
-    protected processGetById2(response: HttpResponseBase): Observable<void> {
+    protected processGetBuildVersionById(response: HttpResponseBase): Observable<BuildVersion> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -675,7 +778,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildVersion;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -689,8 +800,8 @@ export class BuildVersionsClient {
      * @param body (optional) 
      * @return Success
      */
-    post2(body: BuildVersion | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/BuildVersions/Post";
+    postBuildVersion(body: BuildVersion | undefined): Observable<BuildVersion> {
+        let url_ = this.baseUrl + "/api/BuildVersions/PostBuildVersion";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -701,24 +812,25 @@ export class BuildVersionsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPost2(response_);
+            return this.processPostBuildVersion(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPost2(response_ as any);
+                    return this.processPostBuildVersion(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<BuildVersion>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<BuildVersion>;
         }));
     }
 
-    protected processPost2(response: HttpResponseBase): Observable<void> {
+    protected processPostBuildVersion(response: HttpResponseBase): Observable<BuildVersion> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -727,7 +839,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildVersion;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -741,8 +861,8 @@ export class BuildVersionsClient {
      * @param body (optional) 
      * @return Success
      */
-    put(body: BuildVersion | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/BuildVersions/Put";
+    putBuildVersion(body: BuildVersion | undefined): Observable<BuildVersion> {
+        let url_ = this.baseUrl + "/api/BuildVersions/PutBuildVersion";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -753,24 +873,25 @@ export class BuildVersionsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPut(response_);
+            return this.processPutBuildVersion(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPut(response_ as any);
+                    return this.processPutBuildVersion(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<BuildVersion>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<BuildVersion>;
         }));
     }
 
-    protected processPut(response: HttpResponseBase): Observable<void> {
+    protected processPutBuildVersion(response: HttpResponseBase): Observable<BuildVersion> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -779,7 +900,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildVersion;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -792,8 +921,8 @@ export class BuildVersionsClient {
     /**
      * @return Success
      */
-    delete2(id: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/BuildVersions/Delete/{id}";
+    deleteBuildVersion(id: number): Observable<BuildVersion> {
+        let url_ = this.baseUrl + "/api/BuildVersions/DeleteBuildVersion/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -803,24 +932,25 @@ export class BuildVersionsClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete2(response_);
+            return this.processDeleteBuildVersion(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDelete2(response_ as any);
+                    return this.processDeleteBuildVersion(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<BuildVersion>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<BuildVersion>;
         }));
     }
 
-    protected processDelete2(response: HttpResponseBase): Observable<void> {
+    protected processDeleteBuildVersion(response: HttpResponseBase): Observable<BuildVersion> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -829,7 +959,15 @@ export class BuildVersionsClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildVersion;
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Not Found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -891,9 +1029,6 @@ export class BuildVersionsClient {
 }
 
 export interface Binary {
-    isDirty?: boolean;
-    created?: Date;
-    changed?: Date;
     id?: number;
     projectFile?: string | undefined;
     buildVersionId?: number;
@@ -901,9 +1036,6 @@ export interface Binary {
 }
 
 export interface BuildVersion {
-    isDirty?: boolean;
-    created?: Date;
-    changed?: Date;
     id?: number;
     major?: number;
     minor?: number;
@@ -914,6 +1046,15 @@ export interface BuildVersion {
     readonly semanticVersion?: string | undefined;
     readonly semanticRelease?: string | undefined;
     semanticVersionPre?: string | undefined;
+    binary?: Binary;
+}
+
+export interface ProblemDetails {
+    type?: string | undefined;
+    title?: string | undefined;
+    status?: number | undefined;
+    detail?: string | undefined;
+    instance?: string | undefined;
 }
 
 export interface Version {
