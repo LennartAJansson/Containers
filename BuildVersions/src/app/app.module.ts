@@ -12,10 +12,11 @@ import {
   BuildVersionsClient,
   API_BASE_URL,
 } from './services/BuildVersionsClient';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, NavMenuComponent, HomeComponent, ListComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule],
   providers: [
     { provide: API_BASE_URL, useValue: environment.url },
     BuildVersionsClient,

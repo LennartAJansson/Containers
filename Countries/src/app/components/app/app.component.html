@@ -1,3 +1,4 @@
+<body>
 <div class="content">
   <table>
     <thead>
@@ -6,7 +7,7 @@
       <th>Name</th>
     </thead>
     <tbody>
-      <tr *ngFor="let country of countries | async">
+      <tr *ngFor="let country of countries">
         <td>{{ country.isoCountry }}</td>
         <td>{{ country.countryCode3 }}/{{ country.countryCode2 }}</td>
         <td>{{ country.countryName }}</td>
@@ -14,3 +15,4 @@
     </tbody>
   </table>
 </div>
+</body>

@@ -50,8 +50,7 @@ builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiIn
 }));
 
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
-      builder => builder
+builder.Services.AddCors(options => options.AddDefaultPolicy(builder => builder
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowAnyOrigin()));
@@ -64,7 +63,7 @@ if (app.Environment.IsDevelopment())
 {
 }
 
-app.UseCors("Cors");
+app.UseCors();
 
 app.UseHealth();
 

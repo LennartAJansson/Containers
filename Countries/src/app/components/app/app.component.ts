@@ -17,11 +17,15 @@ import {
 })
 export class AppComponent implements OnInit {
   title = 'Countries';
-  public countries?: Observable<CountryResponse[]>;
+  public countriesObservable?: Observable<CountryResponse[]>;
+  public countries?: CountryResponse[];
 
   constructor(private client: CountriesClient) {}
 
   ngOnInit(): void {
-    this.countries = this.client.getAll();
+    this.countriesObservable = this.client.getAll();
+    this.countriesObservable.pipe().subscribe((obj) => {
+      return (this.countries = obj);
+    });
   }
 }
