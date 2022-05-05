@@ -255,6 +255,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildversions", "buildversi
 		deploy\buildversions\service.yaml = deploy\buildversions\service.yaml
 	EndProjectSection
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Workloads", "Workloads\Workloads.esproj", "{0C8616F3-79C1-4932-8972-2B9D16C4A89F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -337,6 +339,12 @@ Global
 		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0C8616F3-79C1-4932-8972-2B9D16C4A89F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C8616F3-79C1-4932-8972-2B9D16C4A89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C8616F3-79C1-4932-8972-2B9D16C4A89F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0C8616F3-79C1-4932-8972-2B9D16C4A89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C8616F3-79C1-4932-8972-2B9D16C4A89F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C8616F3-79C1-4932-8972-2B9D16C4A89F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -382,6 +390,7 @@ Global
 		{D21183CB-D6D8-4ABA-AF5D-1477A9B4BAA7} = {E52D0448-6644-4BE9-B509-7AE7E493627F}
 		{379BA5D2-6A40-44AD-8A2C-1A70ADC206E0} = {5EE279DB-2CBB-46C1-9A3C-5D3C2AE898D3}
 		{371B5D83-8A73-4236-9E33-02A7ABCBBF18} = {E52D0448-6644-4BE9-B509-7AE7E493627F}
+		{0C8616F3-79C1-4932-8972-2B9D16C4A89F} = {8029553E-4C8D-4199-9B85-A26C16CB21DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DF9C8EC-3C43-4580-B91E-CACC52A17F9C}
