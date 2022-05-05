@@ -21,7 +21,8 @@ public class CommandController : MetricsControllerBase
         this.logger = logger;
     }
 
-    //People
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandPersonResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPost]
     public async Task<IActionResult> CreatePersonAsync([FromBody] CommandCreatePerson request)
     {
@@ -36,6 +37,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandPersonResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut]
     public async Task<IActionResult> UpdatePersonAsync([FromBody] CommandUpdatePerson request)
     {
@@ -51,6 +54,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandPersonResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{personId}")]
     public async Task<IActionResult> DeletePersonAsync(Guid personId)
     {
@@ -67,7 +72,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
-    //Assignments
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandAssignmentResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPost]
     public async Task<IActionResult> CreateAssignmentAsync([FromBody] CommandCreateAssignment request)
     {
@@ -83,6 +89,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandAssignmentResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut]
     public async Task<IActionResult> UpdateAssignmentAsync([FromBody] CommandUpdateAssignment request)
     {
@@ -98,6 +106,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandAssignmentResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{assignmentId}")]
     public async Task<IActionResult> DeleteAssignmentAsync(Guid assignmentId)
     {
@@ -114,7 +124,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
-    //Workloads
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandWorkloadResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPost]
     public async Task<IActionResult> CreateWorkloadAsync([FromBody] CommandCreateWorkload request)
     {
@@ -130,6 +141,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandWorkloadResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut]
     public async Task<IActionResult> UpdateWorkloadAsync([FromBody] CommandUpdateWorkload request)
     {
@@ -145,6 +158,8 @@ public class CommandController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandWorkloadResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{workloadId}")]
     public async Task<IActionResult> DeleteWorkloadAsync(Guid workloadId)
     {

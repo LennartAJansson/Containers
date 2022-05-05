@@ -19,7 +19,8 @@ public class QueryController : MetricsControllerBase
         this.logger = logger;
     }
 
-    //People
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<QueryPersonResponse>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
     public async Task<IActionResult> GetPeopleAsync()
     {
@@ -36,6 +37,8 @@ public class QueryController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QueryPersonResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{personId}")]
     public async Task<IActionResult> GetPersonAsync(Guid personId)
     {
@@ -52,7 +55,8 @@ public class QueryController : MetricsControllerBase
         return Ok(result);
     }
 
-    //Assignments
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<QueryAssignmentResponse>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
     public async Task<IActionResult> GetAssignmentsAsync()
     {
@@ -69,6 +73,8 @@ public class QueryController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QueryAssignmentResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{assignmentId}")]
     public async Task<IActionResult> GetAssignmentAsync(Guid assignmentId)
     {
@@ -85,7 +91,8 @@ public class QueryController : MetricsControllerBase
         return Ok(result);
     }
 
-    //Workloads
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<QueryWorkloadResponse>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
     public async Task<IActionResult> GetWorkloadsAsync()
     {
@@ -102,6 +109,8 @@ public class QueryController : MetricsControllerBase
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QueryWorkloadResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{workloadId}")]
     public async Task<IActionResult> GetWorkloadAsync(Guid workloadId)
     {
