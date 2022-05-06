@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 using Prometheus;
 
-public class MetricsControllerBase : ControllerBase
+public class MetricsControllerBase<T> : ControllerBase
 {
+    protected readonly ILogger<T> logger;
+
     private static Gauge requestExecuteTime = Metrics.CreateGauge("workloadsapi_controllers_executiontime", "Counts total execution time for handling requests",
         new GaugeConfiguration
         {
@@ -21,9 +23,18 @@ public class MetricsControllerBase : ControllerBase
         });
     protected IMediator mediator;
 
-    public MetricsControllerBase(IMediator mediator) => this.mediator = mediator;
+    public MetricsControllerBase(ILogger<T> logger, IMediator mediator)
+    {
+        this.logger = logger;
+        this.mediator = mediator;
+    }
+
+    protected void SetMetrics(double ms)
+    {
+        RequestExecuteTime.Labels(Request.Path).Set(ms);
+        Counter.Labels(Request.Path).Inc();
+    }
 
     protected static Gauge RequestExecuteTime { get => requestExecuteTime; set => requestExecuteTime = value; }
     protected static Counter Counter { get => counter; set => counter = value; }
-
 }

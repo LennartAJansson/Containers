@@ -5,34 +5,27 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using Prometheus;
-
 using Workloads.Contract;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class CommandController : MetricsControllerBase
+public class CommandController : MetricsControllerBase<CommandController>
 {
-    private readonly ILogger<CommandController> logger;
-
     public CommandController(ILogger<CommandController> logger, IMediator mediator)
-        : base(mediator)
-    {
-        this.logger = logger;
-    }
+        : base(logger, mediator)
+    { }
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommandPersonResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPost]
     public async Task<IActionResult> CreatePersonAsync([FromBody] CommandCreatePerson request)
     {
-        logger.LogDebug("Received {type}", request.GetType().Name);
+        logger.LogInformation("Received {name}", request.GetType().Name);
         DateTime startDateTime = DateTime.Now;
         CommandPersonResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -48,8 +41,7 @@ public class CommandController : MetricsControllerBase
         CommandPersonResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -66,8 +58,7 @@ public class CommandController : MetricsControllerBase
         CommandPersonResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -83,8 +74,7 @@ public class CommandController : MetricsControllerBase
         CommandAssignmentResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -100,8 +90,7 @@ public class CommandController : MetricsControllerBase
         CommandAssignmentResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -118,8 +107,7 @@ public class CommandController : MetricsControllerBase
         CommandAssignmentResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -135,8 +123,7 @@ public class CommandController : MetricsControllerBase
         CommandWorkloadResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -152,8 +139,7 @@ public class CommandController : MetricsControllerBase
         CommandWorkloadResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -170,8 +156,7 @@ public class CommandController : MetricsControllerBase
         CommandWorkloadResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }

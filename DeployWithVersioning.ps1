@@ -36,6 +36,7 @@ foreach($name in @("buildversionsapi", "workloadsapi", "workloadsprojector", "cr
 	
 	if([string]::IsNullOrEmpty($env:AGENT_NAME))
 	{
+		git checkout deploy/${name}/secret.yaml
 		git checkout deploy/${name}/kustomization.yaml
 	}
 

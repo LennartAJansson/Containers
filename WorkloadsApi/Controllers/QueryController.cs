@@ -9,15 +9,11 @@ using Workloads.Contract;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class QueryController : MetricsControllerBase
+public class QueryController : MetricsControllerBase<QueryController>
 {
-    private readonly ILogger<QueryController> logger;
-
     public QueryController(ILogger<QueryController> logger, IMediator mediator)
-        : base(mediator)
-    {
-        this.logger = logger;
-    }
+        : base(logger, mediator)
+    { }
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<QueryPersonResponse>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -31,8 +27,7 @@ public class QueryController : MetricsControllerBase
         IEnumerable<QueryPersonResponse> result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -49,8 +44,7 @@ public class QueryController : MetricsControllerBase
         QueryPersonResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -67,8 +61,7 @@ public class QueryController : MetricsControllerBase
         IEnumerable<QueryAssignmentResponse> result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -85,8 +78,7 @@ public class QueryController : MetricsControllerBase
         QueryAssignmentResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -103,8 +95,7 @@ public class QueryController : MetricsControllerBase
         IEnumerable<QueryWorkloadResponse> result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
@@ -121,8 +112,7 @@ public class QueryController : MetricsControllerBase
         QueryWorkloadResponse result = await mediator.Send(request);
         DateTime endDateTime = DateTime.Now;
 
-        RequestExecuteTime.Labels(Request.Path).Set((endDateTime - startDateTime).TotalMilliseconds);
-        Counter.Labels(Request.Path).Inc();
+        SetMetrics((endDateTime - startDateTime).TotalMilliseconds);
 
         return Ok(result);
     }
