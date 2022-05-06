@@ -9,7 +9,7 @@ public class CountriesDbContextFactory : IDesignTimeDbContextFactory<CountriesDb
 
     public CountriesDbContext CreateDbContext(string[] args)
     {
-        MySqlServerVersion? serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
+        MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(5, 6, 51));
 
         DbContextOptionsBuilder<CountriesDbContext> optionsBuilder = new DbContextOptionsBuilder<CountriesDbContext>();
         optionsBuilder.UseMySql(connectionString, serverVersion)

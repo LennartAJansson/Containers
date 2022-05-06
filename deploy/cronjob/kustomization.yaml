@@ -4,6 +4,3 @@ namespace: cronjob
 resources:
 - cronjob.yaml
 - namespace.yaml
-images:
-- name: registry:5000/cronjob
-  newTag: 1.2.0-dev.2

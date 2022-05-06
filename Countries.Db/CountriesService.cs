@@ -52,15 +52,15 @@ public class CountriesService : ICountriesService
 
     private async Task UpsertPrefixes(int countryId, IEnumerable<PhonePrefix> prefixes)
     {
-        IQueryable<PhonePrefix>? actualPrefixes = context.PhonePrefixes.Where(p => p.CountryId == countryId);
-        foreach (PhonePrefix? prefix in prefixes)
+        IQueryable<PhonePrefix> actualPrefixes = context.PhonePrefixes.Where(p => p.CountryId == countryId);
+        foreach (PhonePrefix prefix in prefixes)
         {
             if (!actualPrefixes.Any(p => p.Prefix == prefix.Prefix))
             {
                 context.PhonePrefixes.Add(prefix);
             }
         }
-        foreach (PhonePrefix? prefix in actualPrefixes)
+        foreach (PhonePrefix prefix in actualPrefixes)
         {
             if (!prefixes.Any(p => p.Prefix == prefix.Prefix))
             {
@@ -76,12 +76,12 @@ public class CountriesService : ICountriesService
         return Task.FromResult(context.Countries.AsEnumerable());
     }
 
-    public Task<Country?> GetCountryByCodeAsync(string code)
+    public Task<Country> GetCountryByCodeAsync(string code)
     {
         return Task.FromResult(context.Countries.FirstOrDefault(c => c.CountryCode2 == code));
     }
 
-    public Task<Country?> GetCountryByIdAsync(int countryId)
+    public Task<Country> GetCountryByIdAsync(int countryId)
     {
         return Task.FromResult(context.Countries.FirstOrDefault(c => c.CountryId == countryId));
     }

@@ -3,10 +3,10 @@ kind: CronJob
 metadata:
   name: cronjob
 spec:
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 1
-  concurrencyPolicy: Forbid
-  schedule: "0 * * * *"
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  concurrencyPolicy: Allow
+  schedule: "*/10 * * * *"
   #https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
   jobTemplate:
     spec:

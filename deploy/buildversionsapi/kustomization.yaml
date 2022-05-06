@@ -7,6 +7,3 @@ resources:
 - service.yaml
 - deployment.yaml
 - ../common
-images:
-- name: registry:5000/buildversionsapi
-  newTag: 0.1.0-dev.7
