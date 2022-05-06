@@ -1,0 +1,20 @@
+<div class="content">
+  <table>
+    <thead>
+      <th width="240" align="left">StartDate</th>
+      <th width="240" align="left">EndDate</th>
+      <th width="160" align="left">Customer</th>
+      <th width="160" align="left">Description</th>
+      <th width="160" align="left">Person</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let w of workloads">
+        <td width="240">{{ w.start}}</td>
+        <td width="240">{{ w.stop }}</td>
+        <td width="160">{{ w.assignment?.customerName }}</td>
+        <td width="160">{{ w.assignment?.description }}</td>
+        <td width="160">{{ w.person?.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

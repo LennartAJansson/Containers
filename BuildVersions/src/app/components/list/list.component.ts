@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { async, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   BuildVersion,
   Binary,
   BuildVersionsClient,
-} from '../services/BuildVersionsClient';
+} from '../../services/BuildVersionsClient';
 
 @Component({
   selector: 'app-list',
@@ -12,14 +12,14 @@ import {
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  public versionsObs?: Observable<Binary[]>;
+  public versionsObservable?: Observable<Binary[]>;
   public versions?: Binary[];
 
   constructor(private client: BuildVersionsClient) {}
 
   ngOnInit(): void {
-    this.versionsObs = this.client.getBinaries();
-    this.versionsObs.pipe().subscribe((obj) => {
+    this.versionsObservable = this.client.getBinaries();
+    this.versionsObservable.pipe().subscribe((obj) => {
       return (this.versions = obj);
     });
   }

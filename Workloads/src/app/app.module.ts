@@ -5,8 +5,9 @@ import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
-// import { NavMenuComponent } from './nav-menu/nav-menu.component';
-// import { HomeComponent } from './home/home.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { HomeComponent } from './components/home/home.component';
+import { ListComponent } from './components/list/list.component';
 import {
   WorkloadsClient,
   API_BASE_URL,
@@ -15,7 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
-    AppComponent, //NavMenuComponent, HomeComponent
+    AppComponent, NavMenuComponent, HomeComponent, ListComponent
   ],
   imports: [
     BrowserModule,
