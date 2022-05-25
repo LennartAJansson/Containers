@@ -1,4 +1,4 @@
-<div class="content">
+<!-- <div class="content">
   <table>
     <thead>
       <th width="160">project</th>
@@ -13,4 +13,23 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->
+<!--https://v5.material.angular.io/components/table/overviewk-->
+<mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+  <ng-container matColumnDef="projectFile">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">projectFile</mat-header-cell>
+      <mat-cell *matCellDef="let version">{{version.projectFile}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="semanticVersion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">semanticVersion</mat-header-cell>
+      <!-- <mat-cell *matCellDef="let version">{{version.buildVersion!.semanticVersion}}</mat-cell> -->
+      <mat-cell *matCellDef="let version">{{version.semanticVersion}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="semanticRelease">
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">semanticRelease</mat-header-cell>
+      <!-- <mat-cell *matCellDef="let version">{{version.buildVersion!.semanticRelease}}</mat-cell> -->
+      <mat-cell *matCellDef="let version">{{version.semanticRelease}}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
